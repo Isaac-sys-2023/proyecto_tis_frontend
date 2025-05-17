@@ -1,0 +1,122 @@
+/* Navbar */
+.navbar {
+    background-color: #1e57a5;
+    padding: 5px 5px;
+    color: white;
+    display: flex;
+    justify-content: center;
+}
+
+/* Contenedor principal */
+.navbar-container {
+    width: 100%;
+    max-width: 1500px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+
+/* Sección del logo */
+.logo-container {
+    display: flex;
+    align-items: center;
+}
+
+.logo {
+    height: 150px;
+    margin-right: 50px;
+}
+
+.title-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.title {
+    font-size: 40px;
+    margin: 0;
+}
+
+.subtitle {
+    font-size: 16px;
+    margin: 0;
+}
+
+/* Menú de navegación */
+.nav-links {
+    display: flex;
+    list-style: none;
+    gap: 20px;
+}
+
+.nav-links li a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.nav-links li a:hover {
+    text-decoration: underline;
+}
+
+/* Botón Iniciar Sesión */
+.login-container {
+    margin-left: auto;
+}
+
+.login-button {
+    background-color: white;
+    color: #1e57a5;
+    border: none;
+    padding: 8px 15px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.login-button:hover {
+    background-color: #f0f0f0;
+}
+
+/* Contenido principal */
+.content {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.content h2 {
+    font-size: 28px;
+    color: #1e57a5;
+    font-style: italic;
+}
+
+/* Contenedor de Beneficios */
+.benefits-container {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 20px;
+}
+
+.benefit {
+    text-align: center;
+    background-color: #1e57a5;
+    padding: 15px;
+    border-radius: 10px;
+    width: 150px;
+}
+
+.benefit img {
+    width: 80px;
+    height: 80px;
+}
+
+.benefit p {
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+}

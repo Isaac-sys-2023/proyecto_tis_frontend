@@ -1,0 +1,152 @@
+.contenedor-colegio {
+    margin: auto;
+    padding: 20px 0 20px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 75%;
+}
+
+.title-tabla {
+    width: 100%;
+    font-size: 20px;
+    margin-bottom: 0;
+    background-color: #007290;
+    color: white;
+    text-align: center;
+    border-radius: 5px;
+    padding: 20px;
+}
+
+.tabla {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 30px;
+    background-color: white;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+/* Centrar los botones de paginación */
+.pagination {
+    width: 100%;
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+.tabla td,
+.tabla th {
+    border: 1px solid black;
+    padding: 10px;
+    text-align: center;
+}
+
+tr {
+    background-color: #D9D9D9;
+}
+
+/* .actions{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+} */
+/* tr:nth-child(even) {
+    background-color: #e0e0e0;
+} */
+
+.no-data {
+    width: 100%;
+    text-align: center;
+}
+
+/* Estilos para los botones */
+.pagination button {
+    border: none;
+    background-color: #F5EFEF;
+    color: black;
+    cursor: pointer;
+    border-radius: 5px;
+    border: 1px solid black;
+}
+.pagination button:hover {
+    background-color: #D6CFCF;
+}
+.pagination button:disabled {
+    color: gray;
+    border: 1px solid gray;
+    cursor: not-allowed;
+    background-color: #F5EFEF;
+}
+
+.boton-style {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #0C3E92;
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    border-radius: 10px;
+    font-size: 16px;
+    text-align: center;
+    border: none;
+    cursor: pointer;
+    transition: background 0.3s;
+    margin: 5px
+}
+
+.btn-rechazo {
+    background-color: #B0C4D8;
+    color: white;
+}
+.btn-rechazo:hover {
+    background-color: #96AEC9;
+}
+
+.btn-aceptacion {
+    background-color: #0099B3;
+}
+.btn-aceptacion:hover {
+    background-color: #007A8F;
+}
+
+/* Definir anchos de columnas */
+.col-rue {
+    width: 10%;
+}
+
+.col-nombre {
+    width: 60%;
+}
+
+.col-nombre-estudiante{
+    width: 40%;
+}
+
+.col-area {
+    width: 30%;
+}
+
+.col-accion {
+    text-align: center;
+}
+
+/*Botones de control*/
+.control{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px;
+    width: 100%;
+}
+
+

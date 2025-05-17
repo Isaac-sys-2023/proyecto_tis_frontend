@@ -1,0 +1,133 @@
+/* Fondo general de la página */
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #cfe7ef; /* tono celeste suave */
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* Ocupa toda la pantalla con padding cómodo */
+.contenedor-orden {
+  min-height: 100vh;
+  width: 100%;
+  padding: 60px 20px;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+/* Caja principal sin fondo blanco */
+.seccion-container {
+  background-color: #a9c3d8; /* azul grisáceo suave */
+  padding: 40px;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 900px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Título */
+.seccion-container h1 {
+  font-size: 28px;
+  color: #005f75;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+/* Tabla */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: transparent;
+}
+
+th {
+  text-align: left;
+  padding-bottom: 10px;
+  font-size: 16px;
+  color: #222;
+}
+
+td {
+  padding: 10px 0;
+}
+
+input {
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid #ccc;
+  padding: 5px 0;
+  background: transparent;
+  font-size: 15px;
+  color: #222;
+}
+
+input:read-only {
+  cursor: default;
+}
+
+/* Monto total */
+.total {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.total label {
+  font-weight: bold;
+  color: #222;
+}
+
+.total input {
+  border-bottom: 2px solid #007b9e;
+  font-weight: bold;
+  color: #007b9e;
+}
+
+/* Botones */
+.botones {
+  display: flex;
+  justify-content: flex-end;
+  gap: 20px;
+  margin-top: 30px;
+}
+
+.btn-descargar,
+.btn-cancelar {
+  background-color: #007b9e;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.btn-descargar:hover,
+.btn-cancelar:hover {
+  background-color: #005f75;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .contenedor-orden {
+    padding: 20px;
+  }
+
+  .botones {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .btn-descargar,
+  .btn-cancelar {
+    width: 100%;
+  }
+}
+
+
+
+ 

@@ -1,0 +1,48 @@
+.container-tipo{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    /* background-color: aqua; */
+}
+
+.title-tipo{
+    width: 100%;
+    text-align: center;
+    padding: 20px 20px 0 20px;
+    margin: 0;
+    color: black;
+    font-size: 40px;
+}
+
+.buttons-tipo{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 10px;
+}
+
+.button-tipo{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.button-tipo h1{
+    color: black;
+    margin-bottom: 0;
+}
+
+.image-button{
+    margin: 0 15px;
+    background-color: white;
+    border: 5px solid black;
+}
+
+.image-button img{
+    user-select: none;
+    -webkit-user-drag: none;
+    pointer-events: none;
+    width: 300px;
+}

@@ -1,0 +1,87 @@
+.container-detalleConv {
+    text-align: center;
+
+    margin: auto;
+    padding: 20px 0 20px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 75%;
+  }
+  
+  .title-detalleConv {
+    width: 100%;
+    font-size: 20px;
+    margin-bottom: 0;
+    background-color: #007290;
+    color: white;
+    text-align: center;
+    border-radius: 1px;
+    padding: 20px;
+  }
+  
+  .convocatoria-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    background: white;
+    padding: 10px;
+  }
+  
+  .convocatoria-table th, .convocatoria-table td {
+    border: 1px solid black;
+    padding: 10px;
+    text-align: center;
+  }
+  
+  .convocatoria-table th {
+    background: lightgray;
+  }
+  
+  .estado {
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-weight: bold;
+  }
+  
+  .rojo {
+    background-color: red;
+    color: white;
+  }
+  
+  .verde {
+    background-color: green;
+    color: white;
+  }
+  
+  .btn {
+    padding: 8px 12px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    font-weight: 500;
+    margin: 5px;
+  }
+  
+  .editar {
+    background-color: #B0C4D8;
+    color: white;
+  }
+  
+  .eliminar {
+    background-color: #5B728A;
+    color: white;
+  }
+  
+  .agregar {
+    background-color: #0099B3;
+    color: white;
+    margin-top: 10px;
+  }
+
+  .text-button{
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+  }

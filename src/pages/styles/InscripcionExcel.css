@@ -1,0 +1,51 @@
+.excel-container {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 0;
+    background: white;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.excel-title {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.excel-title h2 {
+    /* background-color: aqua; */
+    margin: 0 0 20px 0;
+    text-align: center;
+}
+
+.excel-previa {
+    /* background-color: aqua; */
+    padding: 20px;
+}
+
+.excel-previa h3 {
+    margin: 0;
+}
+
+.excel-tabla {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    background: white;
+    padding: 10px 0;
+}
+
+.excel-tabla th,
+.excel-tabla td {
+    border: 1px solid black;
+    padding: 10px;
+    text-align: center;
+}
+
+.excel-tabla th {
+    background: lightgray;
+}

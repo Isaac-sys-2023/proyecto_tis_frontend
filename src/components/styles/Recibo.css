@@ -1,0 +1,110 @@
+/* Recibo.css */
+.recibo-container {
+  max-width: 850px; /* Aumentado de 700px a 850px */
+  margin: 40px auto;
+  background-color: white;
+  padding: 30px;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+}
+
+.recibo-titulo {
+  background-color: #007b9e;
+  color: white;
+  padding: 10px 0;
+  border-radius: 8px;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.recibo-label {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 5px;
+  text-align: left;
+}
+
+.recibo-input {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.recibo-upload-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 1px solid #ccc;
+  padding: 30px;
+  background-color: #f0eeee;
+  margin-bottom: 20px;
+  border-radius: 8px;
+}
+
+.recibo-icono {
+  margin-bottom: 15px;
+}
+
+.icono-imagen {
+  width: 50px;
+  opacity: 0.5;
+}
+
+.recibo-botones {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.btn-subir,
+.btn-tomar {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  background-color: #00a0b0;
+  color: white;
+  font-weight: bold;
+  transition: 0.3s;
+  width: 150px;
+  text-align: center;
+}
+
+.btn-subir:hover,
+.btn-tomar:hover {
+  background-color: #007b9e;
+}
+
+.btn-importar {
+  margin-top: 20px;
+  background-color: #007b9e;
+  color: white;
+  border: none;
+  padding: 10px 30px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.btn-importar:hover {
+  background-color: #005f75;
+}
+
+.btn-eliminar {
+  background-color: #ff4d4d;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+
+
+
+

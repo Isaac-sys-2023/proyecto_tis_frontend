@@ -1,0 +1,76 @@
+.reporte-container {
+  width: 80%;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 15px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+.reporte-container h2 {
+  text-align: center;
+  color: #003366;
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+.reporte-container label {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 10px;
+}
+
+.reporte-container select {
+  width: 100%;
+  padding: 10px;
+  font-size: 1rem;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.reporte-tabla {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+.reporte-tabla thead th {
+  background-color: #003366;
+  color: #fff;
+  padding: 15px;
+  font-size: 1rem;
+  text-align: left;
+}
+
+.reporte-tabla tbody td {
+  padding: 15px;
+  border-bottom: 1px solid #ddd;
+  font-size: 0.95rem;
+}
+
+.reporte-tabla tbody tr:nth-child(even) {
+  background-color: #f4f4f4;
+}
+
+.reporte-tabla tbody tr:hover {
+  background-color: #eef3fa;
+}
+
+.reporte-container button {
+  display: block;
+  width: 100%;
+  padding: 15px;
+  background-color: #003366;
+  color: #fff;
+  font-size: 1rem;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.reporte-container button:hover {
+  background-color: #00509e;
+}

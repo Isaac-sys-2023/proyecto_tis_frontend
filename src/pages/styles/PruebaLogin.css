@@ -1,0 +1,40 @@
+/* Fondo general */
+.login-page {
+    background-color: #d7edf1;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: Arial, sans-serif;
+}
+
+/* Caja del login (más grande) */
+.login-box {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    padding: 40px 50px;  /* Aumentado */
+    width: 520px;        /* Aumentado */
+    text-align: center;
+}
+
+/* Título */
+.login-box h2 {
+    background-color: #007ea9;
+    color: white;
+    margin: -40px -50px 20px;  /* Ajustado al nuevo padding */
+    padding: 15px 0;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+/* Etiquetas */
+.login-box label {
+    display: block;
+    text-align: left;
+    margin-bottom: 5px;
+    color: #333;
+    font-weight: bold;
+}
+
+

@@ -1,0 +1,123 @@
+
+/* Contenedor principal */
+
+.inicio-container {
+  background-color: #DBEDEF;
+  font-family: sans-serif;
+  text-align: center;
+  padding: 0;
+  margin: 0;
+}
+
+/* Banner con imagen de fondo */
+.banner {
+  background: url("https://drea.mep.go.cr/sites/default/files/styles/publicacion_portada_1155x595/public/articles/DREA3%20Publicacion-Principal%201155x595_2.png?itok=jU7ZwRmU") no-repeat center center;
+  background-size: cover;
+  color: white;
+  padding: 100px 90px;
+}
+
+/* Títulos en el banner */
+.banner h1 {
+  font-size: 70px;
+  padding: 50px 50px;
+}
+
+
+.banner h2 {
+  font-size: 50px;
+  margin-top: 10px;
+  color: white;
+}
+
+/* Subtítulo con efecto al pasar el cursor */
+
+.subtitulo {
+  background-color: #027791;
+  color: #027791;
+  padding: 10px;
+  font-weight: bold;
+  font-style: italic;
+  font-size: 20px;
+  transition: margin-top 0.2s ease;
+}
+
+/* Cuando el mouse pasa por encima del subtítulo, se mueve hacia arriba */
+.subtitulo.move-up {
+  margin-top: -20px;
+}
+
+/* Carrusel de áreas de competencia */
+
+.carrusel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  gap: 10px;
+
+  position: relative;
+}
+
+/* Flechas de navegación */
+
+.flecha {
+  background-color: #000;
+  color: #027791;
+  border: none;
+  font-size: 30px;
+  padding: 5px 15px;
+  cursor: pointer;
+  border-radius: 50%;
+
+  z-index: 1;
+}
+
+/* Contenedor de las áreas */
+
+
+
+.areas {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  padding: 10px;
+  transition: transform 0.2s ease;
+}
+
+/* Estilo de cada tarjeta de área */
+.area-card {
+  background: #027791;
+
+}
+
+.area-card {
+  background:  #027791;
+  border-radius: 10px;
+  padding: 15px;
+  text-align: center;
+  width: 180px;
+  min-width: 180px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+
+/* Imagen dentro de cada tarjeta */
+.area-card img {
+  width: 180px;
+  height: 150px;
+
+  object-fit: contain;
+  margin-bottom: 10px;
+}
+
+
+/* Nombre de cada área dentro de la tarjeta */
+.area-card p {
+  font-weight: bold;
+}
+
+/* Estilo para el carrusel cuando se pasa el mouse sobre él (Desplaza las áreas) */
+.carrusel:hover .areas {
+  transform: translateX(-30px); /* Desplaza las áreas ligeramente hacia la izquierda */
+}

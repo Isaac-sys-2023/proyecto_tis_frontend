@@ -1,0 +1,62 @@
+/* Sección de funciones (checkboxes) */
+.funciones {
+  display: grid;
+  grid-template-columns: repeat(1, max-content);
+  gap: 0px 5px;
+  margin-bottom: 20px;
+}
+
+/* Cada checkbox alineado con su texto */
+.checkbox-item {
+  display: flex;
+  align-items: center; 
+  gap: 5px; 
+  white-space: nowrap;
+  max-width: 100%;
+}
+
+.checkbox-item label {
+  margin: 0;
+}
+
+/* Ajustes para los botones */
+.form-buttons {
+  display: flex;
+  justify-content: space-evenly; 
+  gap: 10px;
+  margin-top: 15px;
+  flex-wrap: wrap;
+}
+
+/* Estilo para los botones */
+.btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+/* Botón de registrar */
+.btn-registrar {
+  background-color: #009ecb;
+  color: white;
+}
+
+.btn-registrar:hover {
+  background-color: #007b9a;
+}
+
+/* Botón de cancelar */
+.btn-cancelar {
+  background-color: #c4d6e2;
+  color: #333;
+}
+
+.btn-cancelar:hover {
+  background-color: #a8bfcf;
+}
+
+
+
