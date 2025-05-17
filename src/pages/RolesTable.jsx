@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './styles/RolesTable.css';
 
+const apiUrl = import.meta.env.VITE_API_URL;
+
 const RolesTable = () => {
   const [roles, setRoles] = useState([]);
   const navigate = useNavigate();
@@ -23,7 +25,7 @@ const RolesTable = () => {
     // setRoles(datosValidados);
     const fetchRoles = async () => {
       try {
-        const res = await fetch("http://localhost:8000/api/roles");
+        const res = await fetch(`${apiUrl}/roles`);
         if (!res.ok) throw new Error("Error al obtener roles");
         const data = await res.json();
         setRoles(data);

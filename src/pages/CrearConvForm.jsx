@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { ConvocatoriaContext } from "../context/ConvocatoriaContext";
 
+const apiUrl = import.meta.env.VITE_API_URL;
 
 export const CrearConvForm = () => {
   const [formData, setFormData] = useState({
@@ -132,7 +133,7 @@ export const CrearConvForm = () => {
     // }
 
     try {
-      const response = await fetch('http://localhost:8000/api/solo-convocatoria', {
+      const response = await fetch(`${apiUrl}/solo-convocatoria`, {
         method: 'POST',
         body: newformData,
       });

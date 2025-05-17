@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import './styles/TablaNotificaciones.css';
 
+const apiUrl = import.meta.env.VITE_API_URL;
+
 const TablaNotificaciones = () => {
   const [usuarios, setUsuarios] = useState([]);
   const [seleccionarTodo, setSeleccionarTodo] = useState(false);
@@ -9,7 +11,7 @@ const TablaNotificaciones = () => {
 
   // Cargar convocatorias desde el backend
   useEffect(() => {
-    fetch("http://localhost:8000/api/todasconvocatorias")
+    fetch(`${apiUrl}/todasconvocatorias`)
       .then(response => response.json())
       .then(data => {
         const convocatoriasHabilitadas = data.filter(conv => (conv.habilitada === 1 && conv.eliminado === 0));
@@ -20,7 +22,7 @@ const TablaNotificaciones = () => {
 
   // Cargar tutores desde el backend
   useEffect(() => {
-    fetch('http://localhost:8000/api/tutores')
+    fetch(`${apiUrl}/tutores`)
       .then(response => response.json())
       .then(data => {
         const usuariosConSeleccion = data.map(tutor => ({
@@ -68,7 +70,7 @@ const TablaNotificaciones = () => {
   message: `Nueva convocatoria: ${convocatoria.nombre}`
   };
 
-    fetch('http://127.0.0.1:8000/api/notify-tutors', {
+    fetch(`${apiUrl}/notify-tutors`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

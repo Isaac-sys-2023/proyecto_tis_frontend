@@ -2,13 +2,15 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./styles/ListaRoles.css";
 
+const apiUrl = import.meta.env.VITE_API_URL;
+
 const ListaRoles = () => {
   const [datos, setDatos] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
     //const datosGuardados = JSON.parse(localStorage.getItem("rolesAsignados")) || [];
-    fetch("http://localhost:8000/api/convocatorias-roles")
+    fetch(`${apiUrl}/convocatorias-roles`)
       .then((res) => res.json())
       .then((data) => {
         setDatos(data);

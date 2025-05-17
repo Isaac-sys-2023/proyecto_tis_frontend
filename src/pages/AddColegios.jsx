@@ -3,6 +3,8 @@ import Header from "../layout/Header";
 import "./styles/AddColegios.css";
 import { Link, useNavigate } from "react-router-dom";
 
+const apiUrl = import.meta.env.VITE_API_URL;
+
 const AddColegios = () => {
     const [departamento, setDepartamento] = useState("");
     const [provincia, setProvincia] = useState("");
@@ -19,7 +21,7 @@ const AddColegios = () => {
     const [provincias, setProvincias] = useState([]);
 
     useEffect(() => {
-        fetch("http://localhost:8000/api/verdepartamentos")
+        fetch(`${apiUrl}/verdepartamentos`)
             .then(response => response.json())
             .then(data => setDepartamentos(data))
             .catch(error => console.error("Error al obtener colegios:", error));
@@ -30,7 +32,7 @@ const AddColegios = () => {
         setDepartamento(nuevoDepartamento);
         setProvincia("");
 
-        fetch(`http://localhost:8000/api/verprovincias/departamento/${nuevoDepartamento}`)
+        fetch(`${apiUrl}/verprovincias/departamento/${nuevoDepartamento}`)
             .then(response => response.json())
             .then(data => setProvincias(data))
             .catch(error => console.error("Error al obtener provincias:", error));
@@ -57,7 +59,7 @@ const AddColegios = () => {
         formDataToSend.append("fecha_creacion", formData.fechaCreacion);
 
         try {
-            const response = await fetch("http://localhost:8000/api/colegios", {
+            const response = await fetch(`${apiUrl}/colegios`, {
                 method: "POST",
                 body: formDataToSend,
             });

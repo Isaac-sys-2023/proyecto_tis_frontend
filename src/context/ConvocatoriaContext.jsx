@@ -60,6 +60,8 @@
 import { createContext, useState, useContext } from "react";
 import { useAuth } from "./AuthContext";
 
+const apiUrl = import.meta.env.VITE_API_URL;
+
 export const ConvocatoriaContext = createContext();
 
 export const ConvocatoriaProvider = ({ children }) => {
@@ -80,7 +82,7 @@ export const ConvocatoriaProvider = ({ children }) => {
 
     // 1) pido la lista de usuarios-roles de esta convocatoria
     const res = await fetch(
-      `http://localhost:8000/api/convocatoria/${convData.idConvocatoria}/roles`,
+      `${apiUrl}/convocatoria/${convData.idConvocatoria}/roles`,
       { headers: { Authorization: `Bearer ${token}` } }
     );
     if (!res.ok) {
@@ -99,7 +101,7 @@ export const ConvocatoriaProvider = ({ children }) => {
 
     // 3) traigo permisos de ese rol
     const rolRes = await fetch(
-      `http://localhost:8000/api/roles/${mine.role}`, 
+      `${apiUrl}/roles/${mine.role}`, 
       { headers: { Authorization: `Bearer ${token}` } }
     );
     if (!rolRes.ok) {

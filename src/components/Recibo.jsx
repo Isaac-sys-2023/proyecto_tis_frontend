@@ -4,6 +4,7 @@ import Tesseract from 'tesseract.js';
 import './styles/Recibo.css';
 import { useLocation, useNavigate } from 'react-router-dom';
 
+const apiUrl = import.meta.env.VITE_API_URL;
 
 const Recibo = () => {
   const location = useLocation();
@@ -94,7 +95,7 @@ const Recibo = () => {
 
 
     try {
-      const response = await fetch('http://localhost:8000/api/recibos', {
+      const response = await fetch(`${apiUrl}/recibos`, {
         method: 'POST',
         body: formData,
       });
@@ -108,7 +109,7 @@ const Recibo = () => {
       const { idOrdenPago, ...datos } = orden;
       datos.cancelado = true;
       try {
-        const respuesta = await fetch(`http://localhost:8000/api/ordenpago/${orden.idOrdenPago}`, {
+        const respuesta = await fetch(`${apiUrl}/ordenpago/${orden.idOrdenPago}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',

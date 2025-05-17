@@ -6,6 +6,8 @@ import "../components/styles/ImageUpload.css"
 import { Link, useNavigate, useParams, useLocation } from "react-router-dom";
 import "./styles/InscripcionExcel.css";
 
+const apiUrl = import.meta.env.VITE_API_URL;
+
 const InscripcionExcel = () => {
     const location = useLocation();
     const [estudiantes, setEstudiantes] = useState(location.state?.estudiantes || []);
@@ -29,7 +31,7 @@ const InscripcionExcel = () => {
     const [cursosDisponibles, setCursosDisponibles] = useState([]);
 
     useEffect(() => {
-        fetch("http://localhost:8000/api/vercursos")
+        fetch(`${apiUrl}/vercursos`)
             .then(res => res.json())
             .then(data => {
                 console.log("Cursos recibidos:", data); // 👀 VER QUÉ LLEGA AQUÍ
@@ -37,7 +39,7 @@ const InscripcionExcel = () => {
             })
             .catch(err => console.error("Error cargando cursos:", err));
 
-        fetch("http://localhost:8000/api/verdepartamentos")
+        fetch(`${apiUrl}/verdepartamentos`)
             .then(response => response.json())
             .then(data => setDepartamentos(data))
             .catch(error => console.error("Error al obtener departamentos:", error));
@@ -45,7 +47,7 @@ const InscripcionExcel = () => {
 
     useEffect(() => {
         if (departamentoColegio) {
-            fetch(`http://localhost:8000/api/verprovincias/departamento/${departamentoColegio}`)
+            fetch(`${apiUrl}/verprovincias/departamento/${departamentoColegio}`)
                 .then(res => res.json())
                 .then(data => setProvinciasColegio(data))
                 .catch(error => console.error("Error al obtener provincias:", error));
@@ -54,7 +56,7 @@ const InscripcionExcel = () => {
 
     useEffect(() => {
         if (departamentoColegio && provinciaColegio) {
-            fetch(`http://localhost:8000/api/departamentos/${departamentoColegio}/provincias/${provinciaColegio}/colegios`)
+            fetch(`${apiUrl}/departamentos/${departamentoColegio}/provincias/${provinciaColegio}/colegios`)
                 .then(res => res.json())
                 .then(data => setColegiosDisponibles(data))
                 .catch(error => console.error("Error al obtener colegios:", error));
@@ -136,7 +138,7 @@ const InscripcionExcel = () => {
                 }
 
                 try {
-                    const res = await fetch(`http://localhost:8000/api/convocatoria/${idConvocatoria}/curso/${encodeURIComponent(nombreCurso)}`);
+                    const res = await fetch(`${apiUrl}/convocatoria/${idConvocatoria}/curso/${encodeURIComponent(nombreCurso)}`);
 
                     const data = await res.json();
 
@@ -318,7 +320,7 @@ const InscripcionExcel = () => {
 
         if (name === "departamentoColegio") {
             setDepartamentoColegio(value);
-            fetch(`http://localhost:8000/api/verprovincias/departamento/${value}`)
+            fetch(`${apiUrl}/verprovincias/departamento/${value}`)
                 .then(response => response.json())
                 .then(data => setProvinciasColegio(data))
                 .catch(error => console.error("Error al obtener provincias:", error));
@@ -328,7 +330,7 @@ const InscripcionExcel = () => {
         if (name === "provinciaColegio") {
             setProvinciaColegio(value);
             const departamentoActual = departamentoColegio;
-            fetch(`http://localhost:8000/api/departamentos/${departamentoActual}/provincias/${value}/colegios`)
+            fetch(`${apiUrl}/departamentos/${departamentoActual}/provincias/${value}/colegios`)
                 .then(response => response.json())
                 .then(data => setColegiosDisponibles(data))
                 .catch(error => console.error("Error al obtener colegios:", error));

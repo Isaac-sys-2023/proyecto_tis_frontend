@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom';
 
 import ModalImagen from './ModalImage';
 
+const apiUrl = import.meta.env.VITE_API_URL;
+
 
 const normalizeText = (text) => {
   return text.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
@@ -23,7 +25,7 @@ const RegistroPago = () => {
       const ordenesConRecibos = await Promise.all(
         ordenes.map(async (orden) => {
           try {
-            const response = await fetch(`http://localhost:8000/api/recibos/orden/${orden.idOrdenPago}`);
+            const response = await fetch(`${apiUrl}/recibos/orden/${orden.idOrdenPago}`);
             const data = await response.json();
 
             return {
@@ -41,7 +43,7 @@ const RegistroPago = () => {
 
     const obtenerOrdenesPago = async () => {
       try {
-        const response = await fetch(`http://localhost:8000/api/buscar-ordenes`);
+        const response = await fetch(`${apiUrl}/buscar-ordenes`);
         const data = await response.json();
 
         if (data) {
@@ -152,7 +154,7 @@ const RegistroPago = () => {
           const { idOrdenPago, recibos, ...datos } = orden;
           datos.recibido = true;
 
-          const respuesta = await fetch(`http://localhost:8000/api/ordenpago/${idOrdenPago}`, {
+          const respuesta = await fetch(`${apiUrl}/ordenpago/${idOrdenPago}`, {
             method: 'PUT',
             headers: {
               'Content-Type': 'application/json',
@@ -176,7 +178,7 @@ const RegistroPago = () => {
         const ordenesConRecibos = await Promise.all(
           ordenes.map(async (orden) => {
             try {
-              const response = await fetch(`http://localhost:8000/api/recibos/orden/${orden.idOrdenPago}`);
+              const response = await fetch(`${apiUrl}/recibos/orden/${orden.idOrdenPago}`);
               const data = await response.json();
 
               return {
@@ -195,7 +197,7 @@ const RegistroPago = () => {
 
       const obtenerOrdenesPago = async () => {
         try {
-          const response = await fetch(`http://localhost:8000/api/buscar-ordenes`);
+          const response = await fetch(`${apiUrl}/buscar-ordenes`);
           const data = await response.json();
 
           if (data) {

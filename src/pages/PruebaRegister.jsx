@@ -3,6 +3,8 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import './styles/PruebaRegister.css';
 
+const apiUrl = import.meta.env.VITE_API_URL;
+
 const PruebaRegister = () => {
     const navigate = useNavigate();
 
@@ -34,7 +36,7 @@ const PruebaRegister = () => {
         setSuccessMessage('');
 
         try {
-            const response = await axios.post('http://localhost:8000/api/register', formData);
+            const response = await axios.post(`${apiUrl}/register`, formData);
             setSuccessMessage('Registro exitoso. Ahora puede iniciar sesión.');
             console.log('Usuario registrado:', response.data.user);
 

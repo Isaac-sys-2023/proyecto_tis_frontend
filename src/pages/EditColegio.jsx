@@ -3,6 +3,8 @@ import Header from "../layout/Header";
 import "./styles/AddColegios.css";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 
+const apiUrl = import.meta.env.VITE_API_URL;
+
 const EditColegios = () => {
 
     const location = useLocation();
@@ -27,7 +29,7 @@ const EditColegios = () => {
     const [provincias, setProvincias] = useState([]);
 
     useEffect(() => {
-        fetch("http://localhost:8000/api/verdepartamentos")
+        fetch(`${apiUrl}/verdepartamentos`)
             .then(response => response.json())
             .then(data => setDepartamentos(data))
             .catch(error => console.error("Error al obtener colegios:", error));
@@ -36,7 +38,7 @@ const EditColegios = () => {
     useEffect(() => {
         if (departamento) {
             // Cuando se carga el departamento, obtenemos las provincias para ese departamento
-            fetch(`http://localhost:8000/api/verprovincias/departamento/${departamento}`)
+            fetch(`${apiUrl}/verprovincias/departamento/${departamento}`)
                 .then((response) => response.json())
                 .then((data) => {
                     setProvincias(data);
@@ -55,7 +57,7 @@ const EditColegios = () => {
         setDepartamento(nuevoDepartamento);
         setProvincia("");
 
-        fetch(`http://localhost:8000/api/verprovincias/departamento/${nuevoDepartamento}`)
+        fetch(`${apiUrl}/verprovincias/departamento/${nuevoDepartamento}`)
             .then(response => response.json())
             .then(data => setProvincias(data))
             .catch(error => console.error("Error al obtener provincias:", error));
@@ -99,7 +101,7 @@ const EditColegios = () => {
 
             // if (!response.ok) throw new Error("Error al enviar datos");
 
-            const response = await fetch(`http://localhost:8000/api/colegio/${idColegio}`, {
+            const response = await fetch(`${apiUrl}/colegio/${idColegio}`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",

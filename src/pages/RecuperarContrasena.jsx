@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import './styles/RecuperarContrasena.css';
 
+const apiUrl = import.meta.env.VITE_API_URL;
+
 const RecuperarContrasena = () => {
   const [email, setEmail] = useState('');
   const [verificado, setVerificado] = useState(false);
@@ -13,7 +15,7 @@ const RecuperarContrasena = () => {
   const handleVerificar = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('http://localhost:8000/api/forgot-password', {
+      const response = await fetch(`${apiUrl}/forgot-password`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -44,7 +46,7 @@ const RecuperarContrasena = () => {
     }
 
     try {
-      const response = await fetch('http://localhost:8000/api/reset-password', {
+      const response = await fetch(`${apiUrl}/reset-password`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

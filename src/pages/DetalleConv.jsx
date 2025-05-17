@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import "./styles/DetalleConv.css";
 import { Link, useNavigate } from "react-router-dom";
 
+const apiUrl = import.meta.env.VITE_API_URL;
+
 const DetalleConv = () => {
   const [convocatorias, setConvocatorias] = useState([]);
   const navigate = useNavigate();
@@ -10,7 +12,7 @@ const DetalleConv = () => {
 
   useEffect(() => {
     //fetch("http://localhost:8000/api/todasconvocatorias")
-    fetch("http://localhost:8000/api/convocatorias/activas")
+    fetch(`${apiUrl}/convocatorias/activas`)
       .then(response => response.json())
       .then(data => setConvocatorias(data))
       .catch(error => console.error("Error al obtener colegios:", error));
@@ -22,7 +24,7 @@ const DetalleConv = () => {
 
   const handleDelete = async (id) => {
     try {
-      const res = await fetch(`http://localhost:8000/api/veridconvocatorias/${id}`);
+      const res = await fetch(`${apiUrl}/veridconvocatorias/${id}`);
       if (!res.ok) throw new Error("Error al obtener la convocatoria");
       const data = await res.json();
 
@@ -58,7 +60,7 @@ const DetalleConv = () => {
       newformData.append('eliminado', '1');
 
 
-      const response = await fetch(`http://localhost:8000/api/editconvocatorias/${id}`, {
+      const response = await fetch(`${apiUrl}/editconvocatorias/${id}`, {
         method: 'POST',
         body: newformData,
       });

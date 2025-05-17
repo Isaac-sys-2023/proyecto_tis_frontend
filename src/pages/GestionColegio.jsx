@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import "../components/styles/GestionColegios.css";
 import { Link, useNavigate } from "react-router-dom";
 
+const apiUrl = import.meta.env.VITE_API_URL;
+
 const GestionColegios = () => {
     const navigate = useNavigate();
 
@@ -10,7 +12,7 @@ const GestionColegios = () => {
     const itemsPerPage = 8;
 
     useEffect(() => {
-        fetch("http://localhost:8000/api/getcolegio")
+        fetch(`${apiUrl}/getcolegio`)
             .then(response => response.json())
             .then(data => setColegios(data))
             .catch(error => console.error("Error al obtener colegios:", error));

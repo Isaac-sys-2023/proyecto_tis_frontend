@@ -3,6 +3,7 @@ import "./styles/Categoria.css";
 import { useLocation, useNavigate } from "react-router-dom";
 
 const iconStyle = { cursor: "pointer", marginLeft: "10px" };
+const apiUrl = import.meta.env.VITE_API_URL;
 
 export default function ac() {
   const location = useLocation();
@@ -29,8 +30,8 @@ export default function ac() {
     const fetchDatos = async () => {
       try {
         const [resAreas, resCursos] = await Promise.all([
-          fetch("http://localhost:8000/api/todasAreas"),
-          fetch("http://localhost:8000/api/vercursos"),
+          fetch(`${apiUrl}/todasAreas`),
+          fetch(`${apiUrl}/vercursos`),
         ]);
 
         const dataAreas = await resAreas.json();
@@ -292,7 +293,7 @@ export default function ac() {
     };
   
     try {
-      const res = await fetch(`http://localhost:8000/api/convocatoria/${idConvocatoria}/estructura`, {
+      const res = await fetch(`${apiUrl}/convocatoria/${idConvocatoria}/estructura`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),

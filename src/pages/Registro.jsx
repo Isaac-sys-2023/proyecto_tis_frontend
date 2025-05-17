@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import "./styles/Registro.css";
 import { useNavigate } from "react-router-dom";
 
+const apiUrl = import.meta.env.VITE_API_URL;
+
 const nombreApellidoRegex = /^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/;
 const carnetRegex = /^[0-9]+$/;
 
@@ -46,12 +48,12 @@ const Registro = ({ idConvocatoria, setRegistro, estudiante, areasSeleccionadas,
     console.log(areasSeleccionadas);
     console.log(categoriasSeleccionadas);
 
-    fetch("http://localhost:8000/api/vercursos")
+    fetch(`${apiUrl}/vercursos`)
       .then(response => response.json())
       .then(data => setCursos(data))
       .catch(error => console.error("Error al obtener cursos:", error));
 
-    fetch("http://localhost:8000/api/verdepartamentos")
+    fetch(`${apiUrl}/verdepartamentos`)
       .then(response => response.json())
       .then(data => setDepartamentos(data))
       .catch(error => console.error("Error al obtener departamentos:", error));
@@ -59,7 +61,7 @@ const Registro = ({ idConvocatoria, setRegistro, estudiante, areasSeleccionadas,
 
   useEffect(() => {
     if (form.departamentoColegio) {
-      fetch(`http://localhost:8000/api/verprovincias/departamento/${form.departamentoColegio}`)
+      fetch(`${apiUrl}/verprovincias/departamento/${form.departamentoColegio}`)
         .then(res => res.json())
         .then(data => setProvinciasColegio(data))
         .catch(error => console.error("Error al obtener provincias:", error));
@@ -68,7 +70,7 @@ const Registro = ({ idConvocatoria, setRegistro, estudiante, areasSeleccionadas,
 
   useEffect(() => {
     if (form.departamentoColegio && form.provinciaColegio) {
-      fetch(`http://localhost:8000/api/departamentos/${form.departamentoColegio}/provincias/${form.provinciaColegio}/colegios`)
+      fetch(`${apiUrl}/departamentos/${form.departamentoColegio}/provincias/${form.provinciaColegio}/colegios`)
         .then(res => res.json())
         .then(data => setColegiosDisponibles(data))
         .catch(error => console.error("Error al obtener colegios:", error));
@@ -77,7 +79,7 @@ const Registro = ({ idConvocatoria, setRegistro, estudiante, areasSeleccionadas,
 
   useEffect(() => {
     if (form.departamento) {
-      fetch(`http://localhost:8000/api/verprovincias/departamento/${form.departamento}`)
+      fetch(`${apiUrl}/verprovincias/departamento/${form.departamento}`)
         .then(response => response.json())
         .then(data => setProvincias(data))
         .catch(error => console.error("Error al obtener provincias:", error));
@@ -126,7 +128,7 @@ const Registro = ({ idConvocatoria, setRegistro, estudiante, areasSeleccionadas,
     });
 
     if (name === "departamentoColegio") {
-      fetch(`http://localhost:8000/api/verprovincias/departamento/${value}`)
+      fetch(`${apiUrl}/verprovincias/departamento/${value}`)
         .then(response => response.json())
         .then(data => setProvinciasColegio(data))
         .catch(error => console.error("Error al obtener provincias:", error));
@@ -135,14 +137,14 @@ const Registro = ({ idConvocatoria, setRegistro, estudiante, areasSeleccionadas,
 
     if (name === "provinciaColegio") {
       const departamentoActual = form.departamentoColegio;
-      fetch(`http://localhost:8000/api/departamentos/${departamentoActual}/provincias/${value}/colegios`)
+      fetch(`${apiUrl}/departamentos/${departamentoActual}/provincias/${value}/colegios`)
         .then(response => response.json())
         .then(data => setColegiosDisponibles(data))
         .catch(error => console.error("Error al obtener colegios:", error));
     }
 
     if (name === "departamento") {
-      fetch(`http://localhost:8000/api/verprovincias/departamento/${value}`)
+      fetch(`${apiUrl}/verprovincias/departamento/${value}`)
         .then(response => response.json())
         .then(data => setProvincias(data))
         .catch(error => console.error("Error al obtener provincias:", error));
@@ -204,7 +206,7 @@ const Registro = ({ idConvocatoria, setRegistro, estudiante, areasSeleccionadas,
       return;
     }
 
-    fetch(`http://localhost:8000/api/convocatoria/${idConvocatoria}/curso/${cursoSeleccionado.Curso}`)
+    fetch(`${apiUrl}/convocatoria/${idConvocatoria}/curso/${cursoSeleccionado.Curso}`)
       .then(response => {
         if (!response.ok) {
           throw new Error(`Error del servidor: ${response.status}`);

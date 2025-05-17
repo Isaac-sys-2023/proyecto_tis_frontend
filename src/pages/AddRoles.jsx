@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
+const apiUrl = import.meta.env.VITE_API_URL;
+
 const AddRoles = () => {
   const [nombreRol, setNombreRol] = useState('');
   const [funciones, setFunciones] = useState([]);
@@ -35,14 +37,14 @@ const AddRoles = () => {
     const fetchPermisos = async () => {
       try {
         if (id) {
-          const res = await fetch(`http://localhost:8000/api/roles/${id}`);
+          const res = await fetch(`${apiUrl}/roles/${id}`);
           const data = await res.json();
           setNombreRol(data.name);
           setFunciones(data.permissions.map(p => p.name));
         }
 
 
-        const res = await fetch("http://localhost:8000/api/permissions");
+        const res = await fetch(`${apiUrl}/permissions`);
         if (!res.ok) throw new Error("Error al obtener permisos");
         const data = await res.json();
         setPermisosDisponibles(data);
@@ -83,7 +85,7 @@ const AddRoles = () => {
   // };
 
   const crearRol = async (nombreRol) => {
-    const res = await fetch('http://localhost:8000/api/roles', {
+    const res = await fetch(`${apiUrl}/roles`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ name: nombreRol }),
@@ -93,7 +95,7 @@ const AddRoles = () => {
   };
 
   const asignarPermisoARol = async (roleId, permiso) => {
-    await fetch(`http://localhost:8000/api/roles/${roleId}/give-permission`, {
+    await fetch(`${apiUrl}/roles/${roleId}/give-permission`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ permission: permiso }),
@@ -103,7 +105,7 @@ const AddRoles = () => {
   const actualizarRol = async (id, nombreRol, funciones) => {
     try {
       // 1. Actualizar el nombre del rol
-      const updateRoleResponse = await fetch(`http://localhost:8000/api/roles/${id}`, {
+      const updateRoleResponse = await fetch(`${apiUrl}/roles/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -116,7 +118,7 @@ const AddRoles = () => {
       }
 
       // 2. Sincronizar los permisos
-      const syncResponse = await fetch(`http://localhost:8000/api/roles/${id}/sync-permissions`, {
+      const syncResponse = await fetch(`${apiUrl}/roles/${id}/sync-permissions`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import './styles/RegistroPago.css';
 import { useNavigate } from 'react-router-dom';
 
+const apiUrl = import.meta.env.VITE_API_URL;
+
 const Historial = () => {
   const navigate = useNavigate();
 
@@ -20,7 +22,7 @@ const Historial = () => {
 
     const obtenerOrdenesPago = async () => {
       try {
-        const response = await fetch(`http://localhost:8000/api/buscar-ordenes?query=${idTutor}`);
+        const response = await fetch(`${apiUrl}/buscar-ordenes?query=${idTutor}`);
         const data = await response.json();
 
         if (data.length > 0 && data[0].ordenes_pago) {

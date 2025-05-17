@@ -3,6 +3,8 @@ import { jsPDF } from "jspdf"; // Importa jsPDF
 import "./styles/OrdenPago.css";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 
+const apiUrl = import.meta.env.VITE_API_URL;
+
 const OrdenPago = () => {
   const [mostrarDescargar, setMostrarDescargar] = useState(false);
   const [mostrarBotones, setMostrarBotones] = useState(true);
@@ -23,7 +25,7 @@ const OrdenPago = () => {
   useEffect(() => {
     const obtenerConvocatoria = async () => {
       try {
-        const respuesta = await fetch(`http://127.0.0.1:8000/api/veridconvocatorias/${idConvocatoria}`);
+        const respuesta = await fetch(`${apiUrl}/veridconvocatorias/${idConvocatoria}`);
         if (!respuesta.ok) {
           throw new Error("Error al obtener la convocatoria");
         }
@@ -141,7 +143,7 @@ const OrdenPago = () => {
 
 
       try {
-        const response = await fetch('http://localhost:8000/api/registrar-postulante', {
+        const response = await fetch(`${apiUrl}/registrar-postulante`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -197,7 +199,7 @@ const OrdenPago = () => {
 
 
     try {
-      const response = await fetch('http://localhost:8000/api/ordenpago', {
+      const response = await fetch(`${apiUrl}/ordenpago`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

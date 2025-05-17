@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import "./styles/AsignarRoles.css";
 
+const apiUrl = import.meta.env.VITE_API_URL;
+
 // Función para normalizar nombres (quitar acentos, espacios, mayúsculas)
 const normalize = (str) =>
   str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/\s+/g, "");
@@ -26,15 +28,15 @@ const AsignarRoles = () => {
   });
 
   useEffect(() => {
-    fetch("http://localhost:8000/api/todosusers")
+    fetch(`${apiUrl}/todosusers`)
       .then((res) => res.json())
       .then((data) => setPersonas(data));
 
-    fetch("http://localhost:8000/api/roles")
+    fetch(`${apiUrl}/roles`)
       .then((res) => res.json())
       .then((data) => setRoles(data));
 
-    fetch("http://localhost:8000/api/todasconvocatorias")
+    fetch(`${apiUrl}/todasconvocatorias`)
       .then(response => response.json())
       .then(data => {
         const convocatoriasHabilitadas = data.filter(conv => (conv.habilitada === 1 && conv.eliminado === 0));
@@ -82,7 +84,7 @@ const AsignarRoles = () => {
     formData.append('role_name', formulario.role_name);
 
     try {
-      const res = await fetch("http://localhost:8000/api/convocatoria/role", {
+      const res = await fetch(`${apiUrl}/convocatoria/role`, {
         method: "POST",
         //headers: { "Content-Type": "application/json" },
         //body: JSON.stringify(formularioSend)

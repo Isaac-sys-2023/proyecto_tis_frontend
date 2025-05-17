@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./styles/TablaUsuarios.css";
 
+const apiUrl = import.meta.env.VITE_API_URL;
+
 const TablaUsuarios = () => {
   const [usuarios, setUsuarios] = useState([]);
   const navigate = useNavigate();
@@ -11,7 +13,7 @@ const TablaUsuarios = () => {
   }, []);
 
   const cargarUsuarios = () => {
-    fetch("http://localhost:8000/api/todosusers")
+    fetch(`${apiUrl}/todosusers`)
       .then(response => response.json())
       .then(data => setUsuarios(data))
       .catch(error => console.error("Error al obtener usuarios:", error));
@@ -26,7 +28,7 @@ const TablaUsuarios = () => {
     if (!confirmacion) return;
 
     try {
-      const res = await fetch(`http://localhost:8000/api/eliminausers/${id}`, {
+      const res = await fetch(`${apiUrl}/eliminausers/${id}`, {
         method: "DELETE",
       });
 

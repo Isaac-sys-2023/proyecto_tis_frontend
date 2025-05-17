@@ -3,6 +3,8 @@ import "./styles/Convocatoria.css";
 import ImageUpload from "../components/ImageUpload";
 import { useNavigate, useParams } from "react-router-dom";
 
+const apiUrl = import.meta.env.VITE_API_URL;
+
 
 export const EditConvForm = () => {
   const [formData, setFormData] = useState({
@@ -25,7 +27,7 @@ export const EditConvForm = () => {
   useEffect(() => {
     const fetchConv = async () => {
       try {
-        const res = await fetch(`http://localhost:8000/api/veridconvocatorias/${id}`);
+        const res = await fetch(`${apiUrl}/veridconvocatorias/${id}`);
         if (!res.ok) throw new Error("Error al obtener la convocatoria");
         const data = await res.json();
         setConvocatoria(data);
@@ -116,7 +118,7 @@ export const EditConvForm = () => {
     newformData.append('eliminado', convocatoria.eliminado);
 
     try {
-      const response = await fetch(`http://localhost:8000/api/editconvocatorias/${id}`, {
+      const response = await fetch(`${apiUrl}/editconvocatorias/${id}`, {
         method: 'POST',
         body: newformData,
       });

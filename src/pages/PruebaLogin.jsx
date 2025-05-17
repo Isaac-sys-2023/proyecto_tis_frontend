@@ -5,6 +5,8 @@ import { Link } from 'react-router-dom';
 
 import "./styles/PruebaLogin.css";
 
+const apiUrl = import.meta.env.VITE_API_URL;
+
 const PruebaLogin = () => {
     const navigate = useNavigate();
 
@@ -31,7 +33,7 @@ const PruebaLogin = () => {
         setSuccessMessage('');
 
         try {
-            const response = await axios.post('http://localhost:8000/api/login', formData);
+            const response = await axios.post(`${apiUrl}/login`, formData);
             console.log('🔐 [Login] Response completo:', response);
             const { token, user } = response.data;
 
@@ -47,7 +49,7 @@ const PruebaLogin = () => {
 
             if (user.rol === 'tutor') {
                 console.log('🔐 [Login] usuario es tutor, solicitando datos de tutor...');
-                const resTutor = await axios.get('http://localhost:8000/api/tutor', {
+                const resTutor = await axios.get(`${apiUrl}/tutor`, {
                     headers: { Authorization: `Bearer ${token}` }
                 });
                 console.log('🔐 [Login] respuesta tutor:', resTutor);

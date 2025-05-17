@@ -2,6 +2,8 @@ import React, { useEffect, useState, useRef } from 'react';
 import jsPDF from 'jspdf';
 import './styles/Reporte.css';
 
+const apiUrl = import.meta.env.VITE_API_URL;
+
 const ReportePostulantes = () => {
   const [cursos, setCursos] = useState([]);
   const [cursoSeleccionado, setCursoSeleccionado] = useState('');
@@ -11,7 +13,7 @@ const ReportePostulantes = () => {
   const tablaRef = useRef();
 
   useEffect(() => {
-    fetch('http://localhost:8000/api/vercursos')
+    fetch(`${apiUrl}/vercursos`)
       .then(res => res.json())
       .then(data => setCursos(data))
       .catch(err => setError('Error al cargar los cursos'))
@@ -21,7 +23,7 @@ const ReportePostulantes = () => {
   useEffect(() => {
     if (cursoSeleccionado) {
       setCargando(true);
-      fetch(`http://localhost:8000/api/reporte-postulantes/${cursoSeleccionado}`)
+      fetch(`${apiUrl}/reporte-postulantes/${cursoSeleccionado}`)
         .then(res => res.json())
         .then(data => setPostulaciones(data))
         .catch(err => setError('Error al cargar las postulaciones'))

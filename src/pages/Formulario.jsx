@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
+const apiUrl = import.meta.env.VITE_API_URL;
+
 function Formulario() {
   const [colegios, setColegios] = useState([]);  // Para almacenar los colegios
   const [colegioSeleccionado, setColegioSeleccionado] = useState('');  // Para almacenar el colegio seleccionado
@@ -9,7 +11,7 @@ function Formulario() {
 
   // Al montar el componente, obtenemos los colegios desde la API
   useEffect(() => {
-    axios.get('http://localhost:8000/api/colegio')  // Verifica que esta URL sea correcta
+    axios.get(`${apiUrl}/colegio`)  // Verifica que esta URL sea correcta
       .then(response => {
         setColegios(response.data);  // Guardamos los colegios en el estado
       })

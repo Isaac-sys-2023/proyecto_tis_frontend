@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import "./styles/AddUser.css";
 
+const apiUrl = import.meta.env.VITE_API_URL;
+
 const AddUser = () => {
   const navigate = useNavigate();
   const { id } = useParams();
@@ -15,7 +17,7 @@ const AddUser = () => {
   useEffect(() => {
     if (id) {
       const metodo = async () => {
-        fetch(`http://localhost:8000/api/especificousers/${id}`)
+        fetch(`${apiUrl}/especificousers/${id}`)
           .then(response => response.json())
           .then(data => {
             console.log(data);
@@ -51,7 +53,7 @@ const AddUser = () => {
         email: email,
       }
       try {
-        const res = await fetch(`http://localhost:8000/api/editausers/${id}`, {
+        const res = await fetch(`${apiUrl}/editausers/${id}`, {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
@@ -76,7 +78,7 @@ const AddUser = () => {
         password: password
       }
       try {
-        const res = await fetch(`http://localhost:8000/api/guardausers`, {
+        const res = await fetch(`${apiUrl}/guardausers`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

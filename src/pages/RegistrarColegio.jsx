@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
+const apiUrl = import.meta.env.VITE_API_URL;
+
 const RegistrarColegio = () => {
   const [formulario, setFormulario] = useState({
     nombreColegio: '',
@@ -23,7 +25,7 @@ const RegistrarColegio = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const respuesta = await fetch('http://127.0.0.1:8000/api/colegios', {
+      const respuesta = await fetch(`${apiUrl}/colegios`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
