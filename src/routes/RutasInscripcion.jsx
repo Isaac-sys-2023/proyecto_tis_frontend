@@ -6,6 +6,8 @@ import InscripcionManual from '../pages/InscripcionManual';
 import InscripcionExcel from '../pages/InscripcionExcel';
 import OrdenPago from '../components/OrdenPago';
 
+import Disciplinas from '../views/Disciplinas';
+
 export const RutasInscripcion = () => (
   <>
     <Route
@@ -45,6 +47,14 @@ export const RutasInscripcion = () => (
       element={
         <PrivateRoute allowedRoles={['Tutor', 'Admin']}>
           <OrdenPago />
+        </PrivateRoute>
+      }
+    />
+    <Route
+      path="/disciplinas"
+      element={
+        <PrivateRoute allowedRoles={['Tutor', 'Admin']}>
+          <Disciplinas />
         </PrivateRoute>
       }
     />

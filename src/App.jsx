@@ -69,6 +69,8 @@ function AppRoutes() {
       <Route path="/crear-convocatoria" element={<CrearConvForm />} />
       <Route path="/editar-convocatoria/:id" element={<EditConvForm />} />
       <Route path="/detalle-convocatoria" element={<DetalleConv />} />
+      <Route path="/area" element={<Categoria />} />
+      <Route path="/editar-convocatoria/:id/edit-area" element={<DetalleConv />} />
 
       {/* Rutas con rol tutor|admin */}
       <Route

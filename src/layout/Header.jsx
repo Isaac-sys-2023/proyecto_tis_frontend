@@ -2,9 +2,11 @@ import React from "react";
 import "./Header.css";
 import Navbar from "./Navbar";
 import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 const Header = () => {
-    const user = JSON.parse(localStorage.getItem('user'));
+    //const user = JSON.parse(localStorage.getItem('user'));
+    const { user, logout } = useAuth();
     const navigate = useNavigate();
 
     return (
@@ -36,9 +38,10 @@ const Header = () => {
                         <button
                             className="boton-header"
                             onClick={() => {
-                                localStorage.removeItem('token');
-                                localStorage.removeItem('user');
-                                localStorage.removeItem('tutor');
+                                // localStorage.removeItem('token');
+                                // localStorage.removeItem('user');
+                                // localStorage.removeItem('tutor');
+                                logout();
                                 navigate('/login');
                             }}
                         >

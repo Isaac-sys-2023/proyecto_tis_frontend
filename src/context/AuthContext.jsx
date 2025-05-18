@@ -1,11 +1,13 @@
 import { createContext, useContext, useState, useEffect } from "react";
 
+import axios from 'axios';
+
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   // Lee el token y el user de localStorage al montar
   const [token, setToken] = useState(() => localStorage.getItem("token"));
-  const [user, setUser]   = useState(() => {
+  const [user, setUser] = useState(() => {
     const u = localStorage.getItem("user");
     return u ? JSON.parse(u) : null;
   });
@@ -27,8 +29,35 @@ export const AuthProvider = ({ children }) => {
     }
   }, [user]);
 
+  const login = async(userData, tokenData) => {
+    localStorage.setItem('token', tokenData);
+    localStorage.setItem('user', JSON.stringify(userData));
+    console.log('🔐 [Login] token y user guardados en localStorage');
+    setUser(userData);
+    setToken(tokenData);
+
+    if (userData.rol.toLowerCase() === 'tutor' || userData.rol.toLowerCase() === 'admin') {
+      console.log('🔐 [Login] usuario es tutor, solicitando datos de tutor...');
+      console.log("🔐 [Token enviado]:",tokenData);
+      
+      const resTutor = await axios.get('http://localhost:8000/api/tutor', {
+          headers: { Authorization: `Bearer ${tokenData}` }
+      });
+      console.log('🔐 [Login] respuesta tutor:', resTutor);
+      localStorage.setItem('tutor', JSON.stringify(resTutor.data.tutor));
+      console.log('Tutor asociado:', resTutor.data.tutor);
+  }
+  };
+
+  const logout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    localStorage.removeItem('tutor');
+    setUser(null);
+  };
+
   return (
-    <AuthContext.Provider value={{ user, token, setUser, setToken }}>
+    <AuthContext.Provider value={{ user, token, setUser, setToken, logout, login }}>
       {children}
     </AuthContext.Provider>
   );
