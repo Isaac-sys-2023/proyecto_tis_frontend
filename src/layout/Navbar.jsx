@@ -35,6 +35,7 @@ const Navbar = () => {
           <li><Link to="/listaRoles" onClick={closeMenu}>✉️ Lista de Roles</Link></li>
           <li><Link to="/detalle-convocatoria" onClick={closeMenu}>📄 Gestion de Convocatoria</Link></li>
           <li><Link to="/colegios" onClick={closeMenu}>📄 Gestion de colegios</Link></li>
+          <li><Link to="/registroPago" onClick={closeMenu}>🧾 Ordenes de Pago</Link></li>
           <li><Link to="/reportes" onClick={closeMenu}>📄 Reportes</Link></li>
         </ul>
       </div>
