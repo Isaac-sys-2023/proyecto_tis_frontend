@@ -57,7 +57,8 @@ const DetalleConv = () => {
       newformData.append('fechaInicioOlimp', formData.fechaInicioOlimpiada);
       newformData.append('fechaFinOlimp', formData.fechaFinOlimpiada);
       newformData.append('maximoPostPorArea', formData.maxConcursantes);
-      newformData.append('eliminado', '1');
+      //newformData.append('eliminado', '1');
+      newformData.append('eliminado', true);
 
 
       const response = await fetch(`${apiUrl}/editconvocatorias/${id}`, {
