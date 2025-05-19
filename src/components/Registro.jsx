@@ -78,7 +78,7 @@ const Registro = ({ idConvocatoria, setRegistro, estudiante, areasSeleccionadas,
 
   useEffect(() => {
     if (form.departamento) {
-      fetch(`${apiUrl}verprovincias/departamento/${form.departamento}`)
+      fetch(`${apiUrl}/verprovincias/departamento/${form.departamento}`)
         .then(response => response.json())
         .then(data => setProvincias(data))
         .catch(error => console.error("Error al obtener provincias:", error));
