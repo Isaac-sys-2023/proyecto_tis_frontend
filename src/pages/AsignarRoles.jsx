@@ -39,7 +39,8 @@ const AsignarRoles = () => {
     fetch(`${apiUrl}/todasconvocatorias`)
       .then(response => response.json())
       .then(data => {
-        const convocatoriasHabilitadas = data.filter(conv => (conv.habilitada === 1 && conv.eliminado === 0));
+        // const convocatoriasHabilitadas = data.filter(conv => (conv.habilitada === 1 && conv.eliminado === 0));
+        const convocatoriasHabilitadas = data.filter(conv => ((conv.habilitada === 1 || conv.habilitada === true) && (conv.eliminado === 0 || conv.eliminado === false)));
         setConvocatorias(convocatoriasHabilitadas);
       })
       .catch(error => console.error("Error al obtener convocatorias:", error));
