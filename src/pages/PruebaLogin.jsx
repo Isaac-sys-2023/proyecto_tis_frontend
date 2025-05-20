@@ -34,7 +34,8 @@ const PruebaLogin = () => {
         setSuccessMessage('');
 
         try {
-            const response = await axios.post('http://localhost:8000/api/login', formData);
+            //const response = await axios.post('http://localhost:8000/api/login', formData);
+            const response = await axios.post(`${apiUrl}/login`, formData);
             console.log('🔐 [Login] Response completo:', response);
             const { token, user } = response.data;
 

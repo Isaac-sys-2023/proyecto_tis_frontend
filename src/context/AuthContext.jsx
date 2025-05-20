@@ -40,7 +40,8 @@ export const AuthProvider = ({ children }) => {
       console.log('🔐 [Login] usuario es tutor, solicitando datos de tutor...');
       console.log("🔐 [Token enviado]:",tokenData);
       
-      const resTutor = await axios.get('http://localhost:8000/api/tutor', {
+      //const resTutor = await axios.get('http://localhost:8000/api/tutor', {
+      const resTutor = await axios.get(`${apiUrl}/tutor`, {
           headers: { Authorization: `Bearer ${tokenData}` }
       });
       console.log('🔐 [Login] respuesta tutor:', resTutor);
