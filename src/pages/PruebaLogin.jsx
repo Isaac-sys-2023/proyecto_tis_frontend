@@ -7,6 +7,8 @@ import "./styles/PruebaLogin.css";
 
 import { useAuth } from '../context/AuthContext';
 
+const apiUrl = import.meta.env.VITE_API_URL;
+
 const PruebaLogin = () => {
     const navigate = useNavigate();
     const { login } = useAuth();
