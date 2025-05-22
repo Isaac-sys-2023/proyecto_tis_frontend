@@ -71,7 +71,7 @@ const TablaNotificaciones = () => {
       .filter(usuario => usuario.seleccionado)
       .map(usuario => usuario.correoTutor);
 
-    if (!convocatoria.id) {
+    if (!id) {
       alert('Selecciona una convocatoria primero.');
       return;
     }
