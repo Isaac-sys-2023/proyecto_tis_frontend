@@ -71,6 +71,8 @@ function AppRoutes() {
       <Route path="/detalle-convocatoria" element={<DetalleConv />} />
       <Route path="/area" element={<Categoria />} />
       <Route path="/editar-convocatoria/:id/edit-area" element={<CategoriaEdit />} />
+      <Route path="/crear-convocatoria/:id/tablaNotif" element={<TablaNotificaciones />} />
+      <Route path="/editar-convocatoria/:id/tablaNotif" element={<TablaNotificaciones />} />
 
       {/* Rutas con rol tutor|admin */}
       <Route
@@ -140,8 +142,7 @@ function AppRoutes() {
 
       {/* Recuperación y notificaciones */}
       <Route path="/recuperacionC" element={<RecuperarContrasena />} />
-      <Route path="/tablaNotif" element={<TablaNotificaciones />} />
-
+      
       {/* No autorizado */}
       <Route path="/no-autorizado" element={<NoAutorizado />} />
 

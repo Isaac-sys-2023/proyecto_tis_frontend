@@ -255,7 +255,8 @@ export default function ac() {
         return;
       }
 
-      navigate('/detalle-convocatoria');
+      //navigate('/detalle-convocatoria');
+      navigate(`/editar-convocatoria/${idConvocatoria}/tablaNotif`);
     } catch (error) {
       alert("Error de red al guardar la estructura");
       console.error(error);
@@ -358,7 +359,7 @@ export default function ac() {
       <div className="actions">
         <button onClick={handleMostrarJSON}>Ver JSON en consola</button>
         <button onClick={handlePublicar}>Actualizar estructura</button>
-        <button onClick={()=>navigate("/detalle-convocatoria")}>Salir</button>
+        {/* <button onClick={()=>navigate("/detalle-convocatoria")}>Salir</button> */}
       </div>
     </div>
   );

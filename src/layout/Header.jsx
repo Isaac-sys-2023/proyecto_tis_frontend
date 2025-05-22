@@ -21,8 +21,8 @@ const Header = () => {
             <div className="buttons">
                 <Link to="/" className="boton-header">Inicio</Link>
                 <button className="boton-header">Nosotros</button>
-                <button className="boton-header">Eventos</button>
-                <Link to="/disciplinas" className="boton-header">Areas</Link>
+                {/* <button className="boton-header">Eventos</button>
+                <Link to="/disciplinas" className="boton-header">Areas</Link> */}
     
                 {user && (
                     <>

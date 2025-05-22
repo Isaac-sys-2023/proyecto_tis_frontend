@@ -307,7 +307,8 @@ export default function ac() {
         alert(`Error al guardar estructura: ${data.error || data.message}`);
       }
 
-      navigate('/detalle-convocatoria');
+      //navigate('/detalle-convocatoria');
+      navigate(`/crear-convocatoria/${idConvocatoria}/tablaNotif`);
     } catch (error) {
       alert("Error de red al guardar la estructura");
       console.error(error);

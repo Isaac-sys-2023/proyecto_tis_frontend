@@ -1,24 +1,39 @@
 import React, { useState, useEffect } from 'react';
 import './styles/TablaNotificaciones.css';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
 const TablaNotificaciones = () => {
+  const { id } = useParams();
+  const navigate = useNavigate();
+
   const [usuarios, setUsuarios] = useState([]);
   const [seleccionarTodo, setSeleccionarTodo] = useState(false);
   const [convocatoria, setConvocatoria] = useState({ id: '', nombre: '' });
-  const [convocatorias, setConvocatorias] = useState([]);
+  //const [convocatorias, setConvocatorias] = useState([]);
+
+  // Cargar convocatorias desde el backend
+  // useEffect(() => {
+  //   fetch(`${apiUrl}/todasconvocatorias`)
+  //     .then(response => response.json())
+  //     .then(data => {
+  //       const convocatoriasHabilitadas = data.filter(conv => (conv.habilitada === 1 && conv.eliminado === 0));
+  //       setConvocatorias(convocatoriasHabilitadas);
+  //     })
+  //     .catch(error => console.error("Error al obtener convocatorias:", error));
+  // }, []);
 
   // Cargar convocatorias desde el backend
   useEffect(() => {
-    fetch(`${apiUrl}/todasconvocatorias`)
+    fetch(`${apiUrl}/veridconvocatorias/${id}`)
       .then(response => response.json())
       .then(data => {
-        const convocatoriasHabilitadas = data.filter(conv => (conv.habilitada === 1 && conv.eliminado === 0));
-        setConvocatorias(convocatoriasHabilitadas);
+        const convocatoriasHabilitadas = data //.filter(conv => (conv.habilitada === 1 && conv.eliminado === 0));
+        setConvocatoria(convocatoriasHabilitadas);
       })
       .catch(error => console.error("Error al obtener convocatorias:", error));
-  }, []);
+  }, []);  
 
   // Cargar tutores desde el backend
   useEffect(() => {
@@ -67,8 +82,8 @@ const TablaNotificaciones = () => {
     }
 
     const data = {
-  message: `Nueva convocatoria: ${convocatoria.nombre}`
-  };
+      message: `Nueva convocatoria: ${convocatoria.nombre}`
+    };
 
     fetch(`${apiUrl}/notify-tutors`, {
       method: 'POST',
@@ -93,7 +108,7 @@ const TablaNotificaciones = () => {
       <h2>Enviar Notificaciones</h2>
 
       <div className="convocatoria-selector">
-        <label>Seleccionar Convocatoria: </label>
+        {/* <label>Seleccionar Convocatoria: </label>
         <select
           value={convocatoria.id}
           onChange={(e) =>
@@ -109,7 +124,9 @@ const TablaNotificaciones = () => {
               {conv.tituloConvocatoria}
             </option>
           ))}
-        </select>
+        </select> */}
+        <label>Convocatoria:</label>
+        <h4>{convocatoria.tituloConvocatoria}</h4>
       </div>
 
       <table className="tabla-notificaciones">
@@ -145,6 +162,7 @@ const TablaNotificaciones = () => {
       <button className="btn-enviar" onClick={handleEnviarNotificacion}>
         Enviar Notificación
       </button>
+      <button onClick={()=>navigate("/detalle-convocatoria")}>Salir</button>
     </div>
   );
 };
