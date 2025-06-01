@@ -1,20 +1,25 @@
-
 /* Contenedor principal */
-
 .inicio-container {
   background-color: #DBEDEF;
   font-family: sans-serif;
   text-align: center;
   padding: 0;
   margin: 0;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
-/* Banner con imagen de fondo */
+/* Banner con imagen de fondo que cubre todo el ancho */
 .banner {
   background: url("https://drea.mep.go.cr/sites/default/files/styles/publicacion_portada_1155x595/public/articles/DREA3%20Publicacion-Principal%201155x595_2.png?itok=jU7ZwRmU") no-repeat center center;
   background-size: cover;
+  background-color: #000;
   color: white;
-  padding: 100px 90px;
+  padding: 100px 20px;
+  width: 100%;
+  margin: 0;
+  box-sizing: border-box;
 }
 
 /* Títulos en el banner */
@@ -23,7 +28,6 @@
   padding: 50px 50px;
 }
 
-
 .banner h2 {
   font-size: 50px;
   margin-top: 10px;
@@ -31,7 +35,6 @@
 }
 
 /* Subtítulo con efecto al pasar el cursor */
-
 .subtitulo {
   background-color: #027791;
   color: #027791;
@@ -42,25 +45,23 @@
   transition: margin-top 0.2s ease;
 }
 
-/* Cuando el mouse pasa por encima del subtítulo, se mueve hacia arriba */
 .subtitulo.move-up {
   margin-top: -20px;
 }
 
 /* Carrusel de áreas de competencia */
-
 .carrusel {
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 10px;
-  gap: 10px;
-
   position: relative;
+  width: 100%;
+  overflow: hidden;
+  box-sizing: border-box;
 }
 
 /* Flechas de navegación */
-
 .flecha {
   background-color: #000;
   color: #027791;
@@ -69,55 +70,115 @@
   padding: 5px 15px;
   cursor: pointer;
   border-radius: 50%;
-
   z-index: 1;
 }
 
+.flecha.izquierda {
+  left: 10px;
+}
+
+.flecha.derecha {
+  right: 10px;
+}
+
 /* Contenedor de las áreas */
-
-
-
 .areas {
   display: flex;
-  gap: 20px;
+  gap: 30px;
   overflow-x: auto;
-  padding: 10px;
-  transition: transform 0.2s ease;
+  padding: 20px;
+  scroll-behavior: smooth;
+  flex-grow: 1;
+  flex-wrap: nowrap;
+  -webkit-overflow-scrolling: touch;
 }
 
 /* Estilo de cada tarjeta de área */
 .area-card {
+  flex: 0 0 auto;
+  width: 220px;
+  min-width: 220px;
+  height: 270px;
   background: #027791;
-
-}
-
-.area-card {
-  background:  #027791;
-  border-radius: 10px;
-  padding: 15px;
+  border-radius: 15px;
+  padding: 20px;
   text-align: center;
-  width: 180px;
-  min-width: 180px;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.2);
+  color: white;
 }
-
 
 /* Imagen dentro de cada tarjeta */
 .area-card img {
-  width: 180px;
-  height: 150px;
-
+  width: 120px;
+  height: 120px;
+  margin-bottom: 15px;
   object-fit: contain;
-  margin-bottom: 10px;
 }
 
-
-/* Nombre de cada área dentro de la tarjeta */
+/* Nombre de cada área */
 .area-card p {
+  font-size: 18px;
   font-weight: bold;
 }
 
-/* Estilo para el carrusel cuando se pasa el mouse sobre él (Desplaza las áreas) */
-.carrusel:hover .areas {
-  transform: translateX(-30px); /* Desplaza las áreas ligeramente hacia la izquierda */
+/* Estilos responsivos */
+@media (max-width: 768px) {
+  .banner {
+    padding: 50px 20px;
+    width: 100%;
+    max-width: 100vw;
+  }
+
+  .banner h1 {
+    font-size: 36px;
+    padding: 20px 10px;
+    text-align: center;
+  }
+
+  .banner h2 {
+    font-size: 24px;
+    padding: 10px;
+    text-align: center;
+  }
+
+  .carrusel {
+    flex-direction: row;
+    padding: 5px;
+    gap: 5px;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .areas {
+    gap: 15px;
+    padding: 10px 0;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+  }
+
+  .area-card {
+    width: 180px;
+    min-width: 180px;
+    height: 220px;
+    padding: 15px;
+    scroll-snap-align: start;
+  }
+
+  .area-card img {
+    width: 90px;
+    height: 90px;
+    margin-bottom: 10px;
+  }
+
+  .area-card p {
+    font-size: 15px;
+  }
+
+  .flecha {
+    font-size: 30px;
+    padding: 8px;
+    top: 40%;
+    transform: translateY(-40%);
+  }
 }
+

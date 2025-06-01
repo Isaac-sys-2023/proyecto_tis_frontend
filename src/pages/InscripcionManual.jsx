@@ -168,6 +168,8 @@ const InscripcionManual = () => {
                         handleActualizar={handleActualizar}
                         setRegistro={setRegistro}
                         estudiante={estudianteEdit}
+                        setIndexEdit={setIndexEdit}
+                        setEstudianteEdit={setEstudianteEdit}
                     />
                 </div>
             )}

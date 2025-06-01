@@ -123,10 +123,10 @@ const AddUser = () => {
           <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
         </div>
         <div className="form-buttons">
-          <button className="btn-agregar" onClick={handleGuardar}>
+          <button className="btn-agregar-addusr" onClick={handleGuardar}>
             {id ? "✏️" : "💾"}
           </button>
-          <button className="btn-cancelar" onClick={handleCancelar}>❌</button>
+          <button className="btn-cancelar-addusr" onClick={handleCancelar}>❌</button>
         </div>
       </div>
     </div>

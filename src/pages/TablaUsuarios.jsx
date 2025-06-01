@@ -15,7 +15,10 @@ const TablaUsuarios = () => {
   const cargarUsuarios = () => {
     fetch(`${apiUrl}/todosusers`)
       .then(response => response.json())
-      .then(data => setUsuarios(data))
+      .then(data => {
+        const withExpanded = data.map(u => ({ ...u, expanded: false }));
+        setUsuarios(withExpanded);
+      })
       .catch(error => console.error("Error al obtener usuarios:", error));
   };
 
@@ -39,12 +42,11 @@ const TablaUsuarios = () => {
         return;
       }
 
-      cargarUsuarios(); // <-- Asegúrate de tener esta función definida (con useEffect o aparte)
+      cargarUsuarios();
     } catch (error) {
       console.error("Error al eliminar el usuario:", error);
     }
   };
-
 
   const handleAsignarRol = (nombre) => {
     localStorage.setItem("rolEditar", JSON.stringify({ nombre }));
@@ -55,20 +57,19 @@ const TablaUsuarios = () => {
     navigate("/addUser");
   };
 
+  const toggleExpand = (id) => {
+    setUsuarios(prev =>
+      prev.map(u => u.id === id ? { ...u, expanded: !u.expanded } : u)
+    );
+  };
+
   return (
     <div>
+      <div className="titulo-tabla">
       <h2>Lista de Usuarios</h2>
-
-      <div className="acciones-superiores">
-        <button className="btn-registrar" onClick={handleRegistrar}>
-          Registrar +
-        </button>
-        <button className="btn-cancelar" onClick={() => navigate("/")}>
-          Cancelar
-        </button>
       </div>
-
-      <div className="tabla-contenedor">
+      {/* Vista escritorio */}
+      <div className="tabla-contenedor desktop">
         <table>
           <thead>
             <tr>
@@ -83,8 +84,8 @@ const TablaUsuarios = () => {
                 <td>{usuario.name} {usuario.apellido}</td>
                 <td>{usuario.email}</td>
                 <td>
-                  <button onClick={() => handleEditar(usuario.id)}>✍️</button>
-                  <button onClick={() => handleAsignarRol(usuario.nombre)}>🎯Rol</button>
+                  <button onClick={() => handleEditar(usuario.id)}>✏️</button>
+                  <button onClick={() => handleAsignarRol(usuario.nombre)}>Rol</button>
                   <button onClick={() => handleEliminar(usuario.id)}>❌</button>
                 </td>
               </tr>
@@ -92,8 +93,36 @@ const TablaUsuarios = () => {
           </tbody>
         </table>
       </div>
+
+      {/* Vista móvil */}
+      <div className="mobile-cards">
+        {usuarios.map((usuario) => (
+          <div className="user-card" key={usuario.id}>
+            <div className="user-header" onClick={() => toggleExpand(usuario.id)}>
+              <span className="user-name">{usuario.name} {usuario.apellido}</span>
+              <span className="toggle-icon">{usuario.expanded ? '▲' : '▼'}</span>
+            </div>
+            {usuario.expanded && (
+              <div className="user-details">
+                <p><strong>Email:</strong> {usuario.email}</p>
+                <div className="card-actions">
+                  <button onClick={() => handleEditar(usuario.id)}>✏️ Editar</button>
+                  <button onClick={() => handleAsignarRol(usuario.nombre)}>Rol</button>
+                  <button onClick={() => handleEliminar(usuario.id)}>❌ Eliminar</button>
+                </div>
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+      <div className="botones-containe">
+        <button className="btn-registrar" onClick={handleRegistrar}>Agregar +</button>
+        <button className="btn-cancelar" onClick={() => navigate("/")}>Cancelar</button>
+      </div>
+      <hr className="separador" />
     </div>
   );
 };
 
 export default TablaUsuarios;
+

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './styles/RegistroPago.css';
 import { useNavigate } from 'react-router-dom';
+import FullScreenSpinner from './FullScreenSpinner';
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
@@ -59,7 +60,7 @@ const Historial = () => {
         </div>
 
         {cargando ? (
-          <p>Cargando...</p>
+          <FullScreenSpinner/>
         ) : ordenesPago.length > 0 ? (
           <div className="formulario-inputs">
             {ordenesPago.map((orden) => (

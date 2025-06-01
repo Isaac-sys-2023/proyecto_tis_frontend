@@ -7,60 +7,46 @@ const apiUrl = import.meta.env.VITE_API_URL;
 const DetalleConv = () => {
   const [convocatorias, setConvocatorias] = useState([]);
   const navigate = useNavigate();
-
-  const [refresh, setRefresh] = useState(false); // estado auxiliar
+  const [refresh, setRefresh] = useState(false);
 
   useEffect(() => {
-    //fetch("http://localhost:8000/api/todasconvocatorias")
     fetch(`${apiUrl}/convocatorias/activas`)
-      .then(response => response.json())
-      .then(data => setConvocatorias(data))
-      .catch(error => console.error("Error al obtener colegios:", error));
+      .then((response) => response.json())
+      .then((data) => setConvocatorias(data))
+      .catch((error) => console.error("Error al obtener convocatorias:", error));
   }, [refresh]);
 
   const handleEdit = (id) => {
     navigate(`/editar-convocatoria/${id}`);
-  }
+  };
 
-  const handleDelete = async (id) => {
+  const handleDelete = async (id, convocatoria) => {
+    console.log(convocatoria);
+    console.log(id);
+
+    if (!convocatoria) {
+      console.error('Convocatoria no definida');
+      return;
+    }
+
+    const newformData = new FormData();
+    newformData.append('_method', 'PUT');
+    newformData.append('tituloConvocatoria', convocatoria.tituloConvocatoria);
+    newformData.append('descripcion', convocatoria.descripcion);
+    newformData.append('fechaPublicacion', convocatoria.fechaPublicacion.split(' ')[0]);
+    newformData.append('fechaInicioInsc', convocatoria.fechaInicioInsc.split(' ')[0]);
+    newformData.append('fechaFinInsc', convocatoria.fechaFinInsc.split(' ')[0]);
+    //newformData.append('portada', formData.imagenPortada); // <-- tu imagen
+    if (convocatoria.portada instanceof File) {
+      newformData.append('portada', convocatoria.portada);
+    }
+    newformData.append('habilitada', convocatoria.habilitada);
+    newformData.append('fechaInicioOlimp', convocatoria.fechaInicioOlimp.split(' ')[0]);
+    newformData.append('fechaFinOlimp', convocatoria.fechaFinOlimp.split(' ')[0]);
+    newformData.append('maximoPostPorArea', convocatoria.maximoPostPorArea);
+    newformData.append('eliminado', '1');
+
     try {
-      const res = await fetch(`${apiUrl}/veridconvocatorias/${id}`);
-      if (!res.ok) throw new Error("Error al obtener la convocatoria");
-      const data = await res.json();
-
-      const formData = {
-        titulo: data.tituloConvocatoria,
-        descripcion: data.descripcion,
-        habilitada: data.habilitada,
-        fechaPublicacion: data.fechaPublicacion.split(' ')[0],
-        fechaInicioInscripcion: data.fechaInicioInsc.split(' ')[0],
-        fechaCierreInscripcion: data.fechaFinInsc.split(' ')[0],
-        fechaInicioOlimpiada: data.fechaInicioOlimp.split(' ')[0],
-        fechaFinOlimpiada: data.fechaFinOlimp.split(' ')[0],
-        imagenPortada: data.portada,
-        maxConcursantes: data.maximoPostPorArea,
-        maxArea: [],
-      }
-
-      const newformData = new FormData();
-      newformData.append('_method', 'PUT');
-      newformData.append('tituloConvocatoria', formData.titulo);
-      newformData.append('descripcion', formData.descripcion);
-      newformData.append('fechaPublicacion', formData.fechaPublicacion.split(' ')[0]);
-      newformData.append('fechaInicioInsc', formData.fechaInicioInscripcion);
-      newformData.append('fechaFinInsc', formData.fechaCierreInscripcion);
-      //newformData.append('portada', formData.imagenPortada); // <-- tu imagen
-      if (formData.imagenPortada instanceof File) {
-        newformData.append('portada', formData.imagenPortada);
-      }
-      newformData.append('habilitada', formData.habilitada);
-      newformData.append('fechaInicioOlimp', formData.fechaInicioOlimpiada);
-      newformData.append('fechaFinOlimp', formData.fechaFinOlimpiada);
-      newformData.append('maximoPostPorArea', formData.maxConcursantes);
-      newformData.append('eliminado', '1');
-      //newformData.append('eliminado', true);
-
-
       const response = await fetch(`${apiUrl}/editconvocatorias/${id}`, {
         method: 'POST',
         body: newformData,
@@ -70,51 +56,122 @@ const DetalleConv = () => {
       if (!response.ok) {
         console.error('Error del servidor:', text); // en vez de tratar de hacer response.json() directamente
         return;
-      }else{
-        alert("Convocatoria eliminada correctamente");
-        setRefresh(prev => !prev); // invertimos el valor para forzar el useEffect
       }
+
+      setRefresh(!refresh);
     } catch (error) {
       console.error('Error al eliminar la convocatoria:', error);
     }
-  }
+    // ...
+  };
 
   return (
-    <div className="container-detalleCov">
+    <div className="container-detalleConv lista-usuarios">
       <h2 className="title-detalleConv">Detalle de convocatorias</h2>
-      <table className="convocatoria-table">
-        <thead>
-          <tr>
-            <th>TÍTULO</th>
-            <th>FECHA DE INSCRIPCIONES</th>
-            <th>FECHA DE OLIMPIADAS</th>
-            <th>ESTADO</th>
-            <th>ACCIÓN</th>
-          </tr>
-        </thead>
-        <tbody>
-          {convocatorias.map((convocatoria) => (
-            <tr key={convocatoria.idConvocatoria}>
 
-              <td>{convocatoria.tituloConvocatoria}</td>
-
-              <td>{convocatoria.fechaInicioInsc} - {convocatoria.fechaFinInsc}</td>
-              <td>{convocatoria.fechaInicioOlimp} - {convocatoria.fechaFinOlimp}</td>
-              <td>
-                <span className={`estado ${convocatoria.habilitada === 0 ? "rojo" : "verde"}`}>
-                  {convocatoria.habilitada === 0 ? "Inactivo" : "Activo"}
-                </span>
-              </td>
-              <td>
-                <button className="btn editar" onClick={() => handleEdit(convocatoria.idConvocatoria)}>Editar</button>
-                <button className="btn eliminar" onClick={() => handleDelete(convocatoria.idConvocatoria)}>Retirar</button>
-              </td>
+      {/* Vista escritorio */}
+      <div className="desktop tabla-contenedor">
+        <table className="convocatoria-table">
+          <thead>
+            <tr>
+              <th>TÍTULO</th>
+              <th>FECHA DE INSCRIPCIONES</th>
+              <th>FECHA DE OLIMPIADAS</th>
+              <th>ESTADO</th>
+              <th>ACCIÓN</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
-      <button className="btn agregar"><Link to="/crear-convocatoria" className="text-button">AÑADIR NUEVO</Link></button>
-      <button className="btn agregar"><Link to="/" className="text-button">SALIR</Link></button>
+          </thead>
+          <tbody>
+            {convocatorias.map((convocatoria) => (
+              <tr key={convocatoria.idConvocatoria}>
+                <td>{convocatoria.tituloConvocatoria}</td>
+                <td>
+                  {convocatoria.fechaInicioInsc} - {convocatoria.fechaFinInsc}
+                </td>
+                <td>
+                  {convocatoria.fechaInicioOlimp} - {convocatoria.fechaFinOlimp}
+                </td>
+                <td>
+                  <span
+                    className={`estado ${convocatoria.habilitada === 0 ? "rojo" : "verde"
+                      }`}
+                  >
+                    {convocatoria.habilitada === 0 ? "Inactivo" : "Activo"}
+                  </span>
+                </td>
+                <td>
+                  <button
+                    className="edit-btn"
+                    onClick={() => handleEdit(convocatoria.idConvocatoria)}
+                  >
+                    ✏️
+                  </button>
+                  <button
+                    className="delete-btn"
+                    onClick={() => {
+                      handleDelete(convocatoria.idConvocatoria, convocatoria);
+                    }}
+                  >
+                    ❌
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      {/* Vista móvil */}
+      <div className="mobile-cards">
+        {convocatorias.map((convocatoria) => (
+          <div key={convocatoria.idConvocatoria} className="user-card">
+            <div className="user-header">
+              <span>{convocatoria.tituloConvocatoria}</span>
+              <span
+                className={`estado ${convocatoria.habilitada === 0 ? "rojo" : "verde"
+                  }`}
+              >
+                {convocatoria.habilitada === 0 ? "Inactivo" : "Activo"}
+              </span>
+            </div>
+            <div className="user-details">
+              <p>
+                <strong>Inscripciones:</strong>{" "}
+                {convocatoria.fechaInicioInsc} - {convocatoria.fechaFinInsc}
+              </p>
+              <p>
+                <strong>Olimpiadas:</strong>{" "}
+                {convocatoria.fechaInicioOlimp} - {convocatoria.fechaFinOlimp}
+              </p>
+              <div className="card-actions">
+                <button
+                  className="edit-btn"
+                  onClick={() => handleEdit(convocatoria.idConvocatoria)}
+                >
+                  ✏️ Editar
+                </button>
+                <button
+                  className="delete-btn"
+                  onClick={() => handleDelete(convocatoria.idConvocatoria, convocatoria)}
+                >
+                  ❌ Eliminar
+                </button>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <button className="btn agregar">
+        <Link to="/crear-convocatoria" className="text-button">
+          + Agregar
+        </Link>
+      </button>
+      <button className="btn-ir">
+        <Link to="/" className="text-button">
+          Salir
+        </Link>
+      </button>
     </div>
   );
 };

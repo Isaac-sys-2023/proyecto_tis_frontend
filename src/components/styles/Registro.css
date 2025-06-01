@@ -1,7 +1,6 @@
 /* Fondo general */
 body {
     background-color: #d8eef2;
-
     margin: 0;
     padding: 0;
     font-family: Arial, sans-serif;
@@ -20,13 +19,11 @@ body {
 
 /* Encabezado principal */
 .encabezado-postulante {
-    background-color: #007d99;
-    color: white;
-    font-weight: bold;
-    font-size: 22px;
-    text-align: center;
-    padding: 15px;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
 }
+
 
 /* Contenedor de cada sección */
 .seccion-container {
@@ -45,7 +42,6 @@ body {
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 5);
     position: relative;
     overflow: visible;
-
 }
 
 /* Subtítulos */
@@ -57,10 +53,11 @@ body {
 }
 
 /* Estilos de los campos */
-.grid-container {
+.grid-container-Registro {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, minmax(200px, 1fr));
     gap: 15px;
+    overflow-x: auto;
 }
 
 input, select {
@@ -77,6 +74,7 @@ input, select {
     justify-content: center;
     gap: 20px;
     margin: 30px 0;
+    padding: 20px;
 }
 
 .btn-guardar {
@@ -109,16 +107,6 @@ input, select {
     background-color: #9eb3c9;
 }
 
-.btn-competencia {
-    margin: 0 20px;
-    background: #1e40af;
-    color: white;
-}
-
-.btn-competencia:hover {
-    background: #1d4ed8;
-}
-
 .boton {
     display: inline-block;
     padding: 10px 20px;
@@ -132,6 +120,7 @@ input, select {
     border: none;
     cursor: pointer;
     transition: background 0.3s;
+    margin: 0
 }
 
 .btn-red {
@@ -150,6 +139,16 @@ input, select {
     background-color: #072B6A;
 }
 
+.btn-competencia {
+    margin: 0 20px;
+    background: #1e40af;
+    color: white;
+}
+
+.btn-competencia:hover {
+    background: #1d4ed8;
+}
+
 /* Contenedor de Áreas de Competencia */
 .area-competencia-container {
     width: 100%;
@@ -160,53 +159,51 @@ input, select {
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 5);
     margin-top: 20px;
 }
+/* ESTILOS ADICIONALES para evitar solapamientos en el calendario */
 
-/* ============================= */
-/* ESTILOS PERSONALIZADOS CALENDARIOS */
-/* ============================= */
-
-/* CALENDARIO POSTULANTE */
-.calendario-postulante .react-datepicker__day-name {
-    width: 2.5rem;
-    height: 2.5rem;
-    line-height: 2.5rem;
-    text-align: center;
-    font-weight: bold;
-    font-size: 14px;
-    color: #444;
-    background-color: #fff3e6;
-    border-radius: 4px;
-    margin: 2px;
-    white-space: nowrap;
-    overflow: hidden;
+/* Asegura que el dropdown de mes y año se vea correctamente */
+.calendario-postulante .react-datepicker__current-month,
+.calendario-postulante .react-datepicker__month-dropdown,
+.calendario-postulante .react-datepicker__year-dropdown {
+  font-size: 0.85rem;
+  white-space: nowrap;
+  overflow: visible;
 }
 
+/* Evita que el texto dentro del calendario se deforme o corte */
+.calendario-postulante .react-datepicker__header {
+  font-size: 0.85rem;
+  padding: 8px 10px;
+  text-align: center;
+}
+
+.calendario-postulante .react-datepicker__navigation-icon {
+  top: 8px;
+}
+
+.calendario-postulante .react-datepicker__month-dropdown-container,
+.calendario-postulante .react-datepicker__year-dropdown-container {
+  width: auto;
+}
+
+/* Ajustes adicionales para evitar desbordes */
+.calendario-postulante .react-datepicker__day-name,
 .calendario-postulante .react-datepicker__day {
-    width: 2.5rem;
-    height: 2.5rem;
-    line-height: 2.5rem;
-    text-align: center;
-    border-radius: 4px;
-    margin: 2px;
-    font-size: 14px;
-    color: #444;
-    background-color: white;
-    transition: background-color 0.2s ease;
+  max-width: 2.5rem;
+  font-size: 13px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.calendario-postulante .react-datepicker__day--selected {
-    background-color: #ff8c42;
-    color: white;
+/* Asegura que los botones y listas no se corten */
+.calendario-postulante .react-datepicker__dropdown {
+  z-index: 10000 !important;
+  font-size: 14px;
+  max-height: 200px;
+  overflow-y: auto;
 }
 
-.calendario-postulante .react-datepicker__day:hover {
-    background-color: #ffd2aa;
-    cursor: pointer;
-}
-
-.calendario-postulante .react-datepicker__day--outside-month {
-    color: #ccc;
-}
 
 /* CALENDARIO TUTOR */
 .calendario-tutor .react-datepicker__day-name {
@@ -256,16 +253,72 @@ input, select {
     z-index: 9999 !important;
 }
 
-/* Responsive */
-@media (max-width: 500px) {
-    .react-datepicker__day-name,
-    .react-datepicker__day {
-        width: 2rem;
-        height: 2rem;
-        font-size: 12px;
-        line-height: 2rem;
+/* Encabezado Postulante (estilos base) */
+.encabezado-postulante {
+    background-color: #007d99;
+    color: white;
+    font-weight: bold;
+    font-size: 22px;
+    text-align: center;
+    padding: 15px;
+    display: block;
+}
+
+/* MEDIA QUERY para pantallas menores o iguales a 800px */
+@media screen and (max-width: 800px) {
+    .encabezado-postulante {
+        font-size: 18px;
+        padding: 10px;
     }
 }
 
-  
+/* MEDIA QUERY para pantallas menores o iguales a 400px */
+@media screen and (max-width: 400px) {
+    .registro-container {
+        margin: 20px;
+        padding: 10px;
+    }
 
+    .grid-container {
+        grid-template-columns: 1fr;
+    }
+
+    .encabezado-postulante {
+        font-size: 16px;
+        padding: 8px;
+        text-align: center;
+    }
+
+    .subtitulo {
+        font-size: 20px;
+    }
+
+    .btn-guardar,
+    .btn-cancelar {
+        font-size: 14px;
+        padding: 8px 16px;
+    }
+}
+/* Por defecto: grilla para pantallas grandes */
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+/* En pantallas pequeñas: una sola columna y scroll vertical */
+@media (max-width: 768px) {
+  .postulante-scroll {
+    display: flex;
+    flex-direction: column;
+    max-height: 80vh; /* Ajusta la altura visible si es necesario */
+    overflow-y: auto;
+    gap: 1rem;
+    padding-right: 8px; /* Para dejar espacio al scroll */
+  }
+
+  .postulante-scroll input,
+  .postulante-scroll select {
+    width: 100%;
+  }
+}

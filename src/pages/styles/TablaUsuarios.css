@@ -1,112 +1,166 @@
-/* Contenedor principal */
-div {
+/* --- Vista de escritorio (por defecto) --- */
+.desktop {
+  display: block;
+  margin: 5%;
+}
+
+.mobile-cards {
+  display: none;
+}
+
+.titulo-tabla{
+  text-align: center;
+}
+/* --- Contenedor general --- */
+.lista-usuarios {
+  background-color: #d4ebf2;
   padding: 20px;
+  border-radius: 10px;
   font-family: Arial, sans-serif;
 }
 
-/* Título */
-h2 {
-  text-align: center;
-  margin-bottom: 25px;
-  color: #333;
-}
-
-/* Contenedor de botones superiores */
-.acciones-superiores {
-  display: flex;
-  justify-content: flex-start;
-  gap: 10px;
+.lista-usuarios h2 {
   margin-bottom: 20px;
+  font-size: 24px;
+  text-align: center;
 }
 
-/* Botón Registrar */
+/* --- Botones superiores --- */
+.acciones-superiores {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.btn-registrar,
+.btn-cancelar,
+.btn-agregar {
+  width: 50%;
+  max-width: 150px;
+  padding: 10px 16px;
+  font-size: 15px;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  text-align: center;
+}
+
 .btn-registrar {
-  background-color: #0099B3;
+  background-color: #0099b3;
   color: white;
-  padding: 8px 16px;
-  border: none;
-  border-radius: 5px;
-  font-weight: bold;
-  cursor: pointer;
 }
 
-.btn-registrar:hover {
-  background-color: #007290;
-}
-
-/* Botón Cancelar */
-.btn-cancelar {
-  background-color: #f44336; /* Rojo suave */
+.btn-cancelar,
+.btn-agregar {
+  background-color: #0099b3;
   color: white;
-  padding: 8px 16px;
-  border: none;
-  border-radius: 5px;
-  font-weight: bold;
-  cursor: pointer;
 }
 
-.btn-cancelar:hover {
-  background-color: #c62828;
+/* --- Línea separadora opcional --- */
+.separador {
+  border-top: 1px solid #ccc;
+  margin: 20px 0;
 }
 
-/* Contenedor de la tabla como cuadro */
-.tabla-contenedor {
-  background-color: #ffffff;
-  padding: 5px;
-  max-width: 900px;
-  margin: 0 auto;
-  border: 2px solid #ccc;
-  border-radius: 20px;
-  box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
-}
-
-/* Tabla */
-table {
+/* --- Tabla en escritorio --- */
+.tabla-contenedor table {
   width: 100%;
   border-collapse: collapse;
-  margin: 0 auto;
 }
 
-/* Encabezado de tabla */
-thead {
+.tabla-contenedor th,
+.tabla-contenedor td {
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: left;
+}
+
+.tabla-contenedor th {
   background-color: #007290;
   color: white;
 }
 
-/* Celdas de la tabla */
-th,
-td {
-  padding: 25px 35px;
-  text-align: center;
-  border-bottom: 1px solid #ddd;
-}
-
-/* Fila hover */
-tbody tr:hover {
-  background-color: #f1f1f1;
-}
-
-/* Botones dentro de la tabla */
-td button {
+.tabla-contenedor td button {
   margin-right: 5px;
-  padding: 6px 12px;
+  padding: 6px 10px;
   border: none;
-  border-radius: 5px;
+  border-radius: 4px;
   cursor: pointer;
-  color: white;
 }
 
-td button:first-of-type {
-  background-color: #0099B3;
-}
+/* --- Tarjetas móviles --- */
+@media (max-width: 768px) {
+  .desktop {
+    display: none;
+  }
 
-td button:last-of-type {
-  background-color: #dc3545;
-}
+  .mobile-cards {
+    display: block;
+    margin: 10%;
+  }
 
-td button:hover {
-  opacity: 0.9;
-}
+  .user-card {
+    background: #fff;
+    border: 1px solid #000;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+  }
 
+  .user-header {
+    background-color: #007290;
+    color: white;
+    padding: 15px;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+  }
+
+  .user-details {
+    padding: 15px;
+    background-color: #f9f9f9;
+  }
+
+  .card-actions button {
+    margin-right: 10px;
+    padding: 6px 12px;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+  }
+
+  .card-actions button:nth-child(1) {
+    background-color: #0099b3;
+  }
+
+  .card-actions button:nth-child(2) {
+    background-color: #006680;
+  }
+
+  .card-actions button:nth-child(3) {
+    background-color: #dc3545;
+  }
+
+  .card-actions button:hover {
+    opacity: 0.9;
+  }
+
+  /* Ajustes móviles para botones */
+  .btn-registrar,
+  .btn-cancelar,
+  .btn-agregar {
+    font-size: 14px;
+    padding: 8px 12px;
+    max-width: 50%;
+  }
+}
 
   

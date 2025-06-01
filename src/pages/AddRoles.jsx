@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import './styles/AddRoles.css';
+
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
@@ -201,8 +203,10 @@ const AddRoles = () => {
           ))}
         </div>
 
-        <button type="submit">{modoEdicion ? "Guardar Cambios" : "Registrar"}</button>
-        <button type="button" onClick={handleCancel}>Cancelar</button>
+        <div className="add-rol-buttons">
+          <button type="submit">{modoEdicion ? "Guardar Cambios" : "Registrar"}</button>
+          <button type="button" onClick={handleCancel}>Cancelar</button>
+        </div>
       </form>
     </div>
   );

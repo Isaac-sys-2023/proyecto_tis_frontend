@@ -1,152 +1,146 @@
-.contenedor-colegio {
-    margin: auto;
-    padding: 20px 0 20px 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 75%;
+/* --- Vista de escritorio (por defecto) --- */
+.desktop {
+  display: block;
 }
 
-.title-tabla {
-    width: 100%;
-    font-size: 20px;
-    margin-bottom: 0;
+.mobile-cards {
+  display: none;
+}
+
+/* --- Contenedor general --- */
+.lista-usuarios {
+  background-color: #d4ebf2;
+  padding: 20px;
+  border-radius: 10px;
+  font-family: Arial, sans-serif;
+}
+
+.lista-usuarios h2 {
+  margin-bottom: 20px;
+  font-size: 24px;
+  text-align: center;
+}
+
+/* --- Botones inferiores --- */
+.botones-containe {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+}
+
+.btn-registrar,
+.btn-cancelar {
+  width: 100%;
+  max-width: 300px;
+  padding: 10px 16px;
+  font-size: 15px;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  text-align: center;
+  background-color: #0099b3;
+  color: white;
+}
+
+.separador {
+  border-top: 1px solid #ccc;
+  margin: 20px 0;
+}
+
+/* --- Tabla en escritorio --- */
+.tabla-contenedor table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tabla-contenedor th,
+.tabla-contenedor td {
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: left;
+}
+
+.tabla-contenedor th {
+  background-color: #007290;
+  color: white;
+}
+
+.tabla-contenedor td button {
+  margin-right: 5px;
+  padding: 6px 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  background-color: #0099b3;
+  color: white;
+}
+
+/* --- Tarjetas móviles --- */
+@media (max-width: 768px) {
+  .desktop {
+    display: none;
+  }
+
+  .mobile-cards {
+    display: block;
+  }
+
+  .user-card {
+    background: #fff;
+    border: 1px solid #000;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+  }
+
+  .user-header {
     background-color: #007290;
     color: white;
-    text-align: center;
-    border-radius: 5px;
-    padding: 20px;
-}
-
-.tabla {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 30px;
-    background-color: white;
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-    text-align: left;
-}
-
-/* Centrar los botones de paginación */
-.pagination {
-    width: 100%;
-    margin-top: 20px;
+    padding: 15px;
+    font-weight: bold;
     display: flex;
     justify-content: space-between;
     align-items: center;
-}
-
-
-.tabla td,
-.tabla th {
-    border: 1px solid black;
-    padding: 10px;
-    text-align: center;
-}
-
-tr {
-    background-color: #D9D9D9;
-}
-
-/* .actions{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-} */
-/* tr:nth-child(even) {
-    background-color: #e0e0e0;
-} */
-
-.no-data {
-    width: 100%;
-    text-align: center;
-}
-
-/* Estilos para los botones */
-.pagination button {
-    border: none;
-    background-color: #F5EFEF;
-    color: black;
     cursor: pointer;
+  }
+
+  .user-details {
+    padding: 15px;
+    background-color: #f9f9f9;
+  }
+
+  .card-actions button {
+    margin-right: 10px;
+    padding: 6px 12px;
+    border: none;
     border-radius: 5px;
-    border: 1px solid black;
-}
-.pagination button:hover {
-    background-color: #D6CFCF;
-}
-.pagination button:disabled {
-    color: gray;
-    border: 1px solid gray;
-    cursor: not-allowed;
-    background-color: #F5EFEF;
-}
-
-.boton-style {
-    display: inline-block;
-    padding: 10px 20px;
-    background-color: #0C3E92;
     color: white;
-    text-decoration: none;
-    font-weight: 500;
-    border-radius: 10px;
-    font-size: 16px;
-    text-align: center;
-    border: none;
     cursor: pointer;
-    transition: background 0.3s;
-    margin: 5px
-}
+    font-weight: bold;
+  }
 
-.btn-rechazo {
-    background-color: #B0C4D8;
-    color: white;
-}
-.btn-rechazo:hover {
-    background-color: #96AEC9;
-}
+  .card-actions button:nth-child(1) {
+    background-color: #0099b3;
+  }
 
-.btn-aceptacion {
-    background-color: #0099B3;
-}
-.btn-aceptacion:hover {
-    background-color: #007A8F;
-}
+  .card-actions button:nth-child(2) {
+    background-color: #dc3545;
+  }
 
-/* Definir anchos de columnas */
-.col-rue {
-    width: 10%;
-}
+  .card-actions button:hover {
+    opacity: 0.9;
+  }
 
-.col-nombre {
-    width: 60%;
-}
-
-.col-nombre-estudiante{
-    width: 40%;
-}
-
-.col-area {
-    width: 30%;
-}
-
-.col-accion {
-    text-align: center;
-}
-
-/*Botones de control*/
-.control{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 20px;
-    width: 100%;
+  .btn-registrar,
+  .btn-cancelar {
+    font-size: 14px;
+    padding: 8px 12px;
+    max-width: 100%;
+  }
 }
 
 

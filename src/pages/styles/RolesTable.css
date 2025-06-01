@@ -1,32 +1,109 @@
+.roles-table-container{
+  padding: 20px;
+}
+
 .table-container {
-    padding: 20px;
-    background-color: #f9f9f9;
+  padding: 20px;
+  background-color: #f9f9f9;
+}
+
+.table-container h2{
+  text-align: center;
+  margin-top: 0;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 10px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+th {
+  background-color: #f4f4f4;
+}
+
+button {
+  padding: 8px 12px;
+  margin: 5px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #007b9a;
+  color: white;
+}
+
+.btn {
+  margin-top: 10px;
+}
+
+/* Desktop visible por defecto */
+.desktop-table {
+  display: block;
+}
+
+.mobile-cards {
+  display: none;
+}
+
+/* Responsive para móviles */
+@media (max-width: 768px) {
+  .desktop-table {
+    display: none;
   }
-  
-  table {
-    width: 100%;
-    border-collapse: collapse;
+
+  .mobile-cards {
+    display: block;
   }
-  
-  th, td {
-    padding: 10px;
-    border: 1px solid #ddd;
-    text-align: left;
+
+  .role-card {
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    overflow: hidden;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
   }
-  
-  th {
-    background-color: #f4f4f4;
-  }
-  
-  button {
-    padding: 8px 12px;
-    margin: 5px;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  button:hover {
+
+  .role-summary {
     background-color: #007b9a;
     color: white;
+    padding: 15px;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
   }
-  
+
+  .role-details {
+    padding: 15px;
+    background-color: #f0f8fa;
+  }
+
+  .edit-btn, .delete-btn {
+    padding: 6px 10px;
+    margin-right: 10px;
+    border: none;
+    border-radius: 4px;
+    color: white;
+  }
+
+  .edit-btn {
+    background-color: #00a9c9;
+  }
+
+  .delete-btn {
+    background-color: #d9534f;
+  }
+
+  .card-actions {
+    margin-top: 10px;
+  }
+}

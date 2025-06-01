@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import './styles/TablaNotificaciones.css';
 import { useNavigate, useParams } from 'react-router-dom';
 
+import SpinnerInsideButton from '../components/SpinnerInsideButton';
+
 const apiUrl = import.meta.env.VITE_API_URL;
 
 const TablaNotificaciones = () => {
@@ -11,6 +13,8 @@ const TablaNotificaciones = () => {
   const [usuarios, setUsuarios] = useState([]);
   const [seleccionarTodo, setSeleccionarTodo] = useState(false);
   const [convocatoria, setConvocatoria] = useState({ id: '', nombre: '' });
+
+  const [submitting, setSubmitting] = useState(false);
   //const [convocatorias, setConvocatorias] = useState([]);
 
   // Cargar convocatorias desde el backend
@@ -33,7 +37,7 @@ const TablaNotificaciones = () => {
         setConvocatoria(convocatoriasHabilitadas);
       })
       .catch(error => console.error("Error al obtener convocatorias:", error));
-  }, []);  
+  }, []);
 
   // Cargar tutores desde el backend
   useEffect(() => {
@@ -85,6 +89,8 @@ const TablaNotificaciones = () => {
       message: `Nueva convocatoria: ${convocatoria.nombre}`
     };
 
+    setSubmitting(true);
+
     fetch(`${apiUrl}/notify-tutors`, {
       method: 'POST',
       headers: {
@@ -100,7 +106,8 @@ const TablaNotificaciones = () => {
       .catch(error => {
         console.error('Error al enviar notificaciones:', error);
         alert('Hubo un error al enviar las notificaciones.');
-      });
+      })
+      .finally(() => setSubmitting(false));
   };
 
   return (
@@ -159,10 +166,11 @@ const TablaNotificaciones = () => {
         </tbody>
       </table>
 
-      <button className="btn-enviar" onClick={handleEnviarNotificacion}>
+      <button className="btn-enviarcorreo" onClick={handleEnviarNotificacion}>
         Enviar Notificación
+        {submitting && <SpinnerInsideButton />}
       </button>
-      <button onClick={()=>navigate("/detalle-convocatoria")}>Salir</button>
+      <button onClick={() => navigate("/detalle-convocatoria")} disabled={submitting}>Salir</button>
     </div>
   );
 };

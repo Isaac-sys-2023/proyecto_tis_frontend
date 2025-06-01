@@ -1,12 +1,17 @@
 import React, { useState, useEffect } from "react";
 import "./styles/Registro.css";
 import { useNavigate } from "react-router-dom";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { es } from 'date-fns/locale';
+ 
+
 
 const nombreApellidoRegex = /^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/;
 const carnetRegex = /^[0-9]+$/;
 const apiUrl = import.meta.env.VITE_API_URL;
 
-const Registro = ({ idConvocatoria, setRegistro, estudiante, areasSeleccionadas, setAreasSeleccionadas, categoriasSeleccionadas, setCategoriasSeleccionadas, handleRegistrar, handleActualizar }) => {
+const Registro = ({ idConvocatoria, setRegistro, estudiante, areasSeleccionadas, setAreasSeleccionadas, categoriasSeleccionadas, setCategoriasSeleccionadas, handleRegistrar, handleActualizar, setIndexEdit, setEstudianteEdit }) => {
   const [mostrarArea, setMostrarArea] = useState(false);
   const [provinciasColegio, setProvinciasColegio] = useState([]);
   const [areas, setAreas] = useState([]);
@@ -97,16 +102,40 @@ const Registro = ({ idConvocatoria, setRegistro, estudiante, areasSeleccionadas,
       alert("El carnet solo puede contener números.");
       return;
     }
-    if (name === "fechaNaciPost") {
-      const selectedDate = new Date(value);
-      const minDate = new Date(1990, 0, 1); // 1 de enero de 1990
-      const maxDate = new Date(2019, 11, 31); // 31 de diciembre de 2019
+   
 
-      if (value && (selectedDate < minDate || selectedDate > maxDate)) {
-        alert("La fecha de nacimiento debe estar entre el 1 de enero de 1990 y el 31 de diciembre de 2019.");
-        return; // No actualiza el estado si la fecha es inválida
+    if (name === "fechaNaciPost") {
+      // Permitir solo números y el separador "/"
+      const formattedValue = value.replace(/[^0-9/]/g, ""); // Elimina todo lo que no sea número o "/"
+      
+
+      // Actualizamos el estado con la entrada formateada
+      setForm((prevForm) => ({
+        ...prevForm,
+        [name]: formattedValue,
+      }));
+  
+      // Validación para que la fecha tenga el formato correcto
+      const dateRegex = /^(\d{2})\/(\d{2})\/(\d{4})$/;
+      const match = formattedValue.match(dateRegex);
+  
+      if (match) {
+        const day = parseInt(match[1], 10);
+        const month = parseInt(match[2], 10) - 1; // Los meses en JavaScript son de 0 a 11
+        const year = parseInt(match[3], 10);
+        
+        const selectedDate = new Date(year, month, day);
+        const minDate = new Date("1991-01-01");
+        const maxDate = new Date("2019-12-31");
+  
+        // Comprobamos si la fecha está dentro del rango
+        if (selectedDate < minDate || selectedDate > maxDate) {
+          alert("La fecha debe estar entre el 1 de enero de 1990 y el 31 de diciembre de 2019.");
+          return;
+        }
       }
     }
+    
 
     setForm((prevForm) => {
       if (name.includes(".")) {
@@ -259,27 +288,47 @@ const Registro = ({ idConvocatoria, setRegistro, estudiante, areasSeleccionadas,
   };
 
   const handleCancelar = () => {
+    console.log("SI HACE CLICK");
+
+    console.log("Estudiante:", estudiante);
+
+    setIndexEdit(-1);
+    setEstudianteEdit({});
+    setAreasSeleccionadas([]);
+    setCategoriasSeleccionadas([]);
     setRegistro(false);
   };
 
   return (
     <div className="registro-container">
-      <div className="seccion-container">
-        <div className="seccion">
-          <h2 className="subtitulo">Postulante</h2>
-          <div className="grid-container">
+      <div className="seccion-container">        
+          <div className="encabezado-postulante">Postulante</div>
+            <div className="grid-container postulante-scroll">
             <input type="text" placeholder="Nombre(s)" name="nombrePost" onChange={handleChange} value={form.nombrePost} />
             <input type="text" placeholder="Apellido(s)" name="apellidoPost" onChange={handleChange} value={form.apellidoPost} />
             <input type="text" placeholder="Carnet de Identidad" name="carnet" onChange={handleChange} value={form.carnet} />
             <input type="email" placeholder="Correo Electrónico" name="correoPost" onChange={handleChange} value={form.correoPost} />
-            <input
-              type="date"
-              name="fechaNaciPost"
-              onChange={handleChange}
-              min="1990-01-01"
-              max="2019-12-31"
-              value={form.fechaNaciPost}
+              <DatePicker
+              selected={form.fechaNaciPost}
+              onChange={(date) =>
+                setForm((prevForm) => ({
+                  ...prevForm,
+                  fechaNaciPost: date,
+                }))
+              }
+              dateFormat="dd/MM/yyyy"
+              placeholderText="DD/MM/AAAA"
+              minDate={new Date("1991-01-01")}
+              maxDate={new Date("2007-12-31")}
+              showMonthDropdown
+              showYearDropdown
+              dropdownMode="select"
+              locale={es}
+              calendarClassName="calendario-postulante"
+              dayClassName={date => "dia-calendario"}
+              formatWeekDay={nameOfDay => nameOfDay.substr(0, 2)} // corta a "lun", "mar", etc.
             />
+
 
             <select name="idCurso" onChange={handleChange} value={form.idCurso}>
               <option value="">Selecciona un curso</option>
@@ -302,7 +351,7 @@ const Registro = ({ idConvocatoria, setRegistro, estudiante, areasSeleccionadas,
               ))}
             </select>
           </div>
-        </div>
+        
 
         <div className="recuadro-container">
           <h3> Datos del Colegio </h3>

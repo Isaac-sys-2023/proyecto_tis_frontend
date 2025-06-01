@@ -1,133 +1,76 @@
-/* Fondo general de la página */
-body {
-  margin: 0;
-  padding: 0;
-  background-color: #cfe7ef; /* tono celeste suave */
-  font-family: 'Segoe UI', sans-serif;
+.mobile-view {
+  display: none;
 }
 
-/* Ocupa toda la pantalla con padding cómodo */
-.contenedor-orden {
-  min-height: 100vh;
-  width: 100%;
-  padding: 60px 20px;
-  box-sizing: border-box;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-}
+@media (max-width: 768px) {
+  .seccion {
+    display: none;
+  }
 
-/* Caja principal sin fondo blanco */
-.seccion-container {
-  background-color: #a9c3d8; /* azul grisáceo suave */
-  padding: 40px;
-  border-radius: 16px;
-  width: 100%;
-  max-width: 900px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-}
+  .mobile-view {
+    display: block;
+    margin-top: 1rem;
+  }
 
-/* Título */
-.seccion-container h1 {
-  font-size: 28px;
-  color: #005f75;
-  margin-bottom: 30px;
-  text-align: center;
-}
+  .user-card {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: #f9f9f9;
+  }
 
-/* Tabla */
-table {
-  width: 100%;
-  border-collapse: collapse;
-  background-color: transparent;
-}
+  .user-header {
+    display: flex;
+    justify-content: space-between;
+    cursor: pointer;
+    font-weight: bold;
+  }
 
-th {
-  text-align: left;
-  padding-bottom: 10px;
-  font-size: 16px;
-  color: #222;
-}
+  .user-details {
+    margin-top: 10px;
+  }
 
-td {
-  padding: 10px 0;
-}
-
-input {
-  width: 100%;
-  border: none;
-  border-bottom: 1px solid #ccc;
-  padding: 5px 0;
-  background: transparent;
-  font-size: 15px;
-  color: #222;
-}
-
-input:read-only {
-  cursor: default;
-}
-
-/* Monto total */
-.total {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-top: 20px;
-}
-
-.total label {
-  font-weight: bold;
-  color: #222;
-}
-
-.total input {
-  border-bottom: 2px solid #007b9e;
-  font-weight: bold;
-  color: #007b9e;
+  .toggle-icon {
+    font-size: 18px;
+  }
 }
 
 /* Botones */
 .botones {
   display: flex;
-  justify-content: flex-end;
-  gap: 20px;
-  margin-top: 30px;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 20px;
+  justify-content: stretch; /* Centra los botones si no ocupan todo el ancho */
 }
 
-.btn-descargar,
-.btn-cancelar {
-  background-color: #007b9e;
-  color: white;
+.botones button {
+  padding: 12px;
   border: none;
-  padding: 12px 24px;
   border-radius: 8px;
-  cursor: pointer;
+  font-size: 16px;
   font-weight: bold;
-  transition: background-color 0.3s ease;
+  cursor: pointer;
+  color: white;
+  text-align: center;
+  width: 100%;              /* ocupa todo el ancho del contenedor */
+  max-width: 100%;
 }
 
-.btn-descargar:hover,
-.btn-cancelar:hover {
-  background-color: #005f75;
+/* Colores personalizados */
+.btn-descargar {
+  background-color: #007A8F; 
 }
 
-/* Responsive */
-@media (max-width: 600px) {
-  .contenedor-orden {
-    padding: 20px;
-  }
-
-  .botones {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .btn-descargar,
-  .btn-cancelar {
-    width: 100%;
-  }
+.btn-cancelar {
+  background-color: #0099B3; 
 }
 
+.botones button:disabled {
+  background-color: #007A8F; 
+  cursor: not-allowed;
+}
 
 
  

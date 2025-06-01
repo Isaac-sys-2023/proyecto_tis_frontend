@@ -106,4 +106,52 @@
   background-color: #8e9ca9; /* Hover effect para el botón cancelar */
 }
 
-  
+  @media (max-width: 600px) {
+  .roles-container {
+    width: 95%;
+    margin: 20px auto;
+    padding: 10px;
+  }
+
+  .roles-search {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+    margin: 10px 0;
+  }
+
+  .search-input {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .add-button {
+    width: 100%;
+    height: 40px;
+    font-size: 18px;
+    margin-left: 0;
+  }
+
+  .roles-table {
+    width: 100%;
+    font-size: 14px;
+  }
+
+  .roles-table th,
+  .roles-table td {
+    padding: 6px;
+  }
+
+  .roles-buttons {
+    flex-direction: column;
+    gap: 10px;
+    margin: 10px 0;
+  }
+
+  .btn-registrar,
+  .btn-cancelar {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+  }
+}

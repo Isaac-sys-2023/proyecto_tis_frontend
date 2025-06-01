@@ -1,138 +1,293 @@
-/* Contenedor principal centrado */
-.container-area {
+/* Categoria.css */
+
+/* Contenedor principal */
+.container-Area {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 20px;
   font-family: Arial, sans-serif;
-  max-width: 900px;
-  margin: 40px auto;
-  background-color: #ffffff;
-  padding: 30px;
-  border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
-/* Título con fondo esmeralda */
-.title-area {
-  background-color: #2E8B57;
+.container-Area h2 {
+  background-color: #007290; /* verde esmeralda */
   color: white;
   padding: 10px;
+  border-radius: 8px;
   text-align: center;
+}
+
+/* Select dropdown */
+.Seleccion {
+  width: 100%;
+  padding: 8px;
+  margin: 15px 0;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+/* Botón principal */
+.container-Area button {
+  padding: 8px 15px;
+  margin: 5px;
+  background-color: #007290;
+  color: white;
+  border: none;
   border-radius: 6px;
-  margin-bottom: 20px;
-  font-size: 20px;
-  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
 }
 
-/* Tarjeta de área */
+.container-Area button:hover {
+  background-color: #007290;
+}
+
+/* Área de tarjetas */
+.area-cards-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-top: 15px;
+}
+
 .area-card-area {
-  margin-top: 20px;
-  padding: 15px;
-  background-color: #0097a7;
-  color: #fff;
+  background-color: #f0fdf4;
+  border: 1px solid #007290;
   border-radius: 10px;
+  padding: 15px;
 }
 
-/* Tarjeta de categoría */
-.category-card-area {
-  background-color: #f4f4f4;
+/* Modal general */
+.modal-area,
+.modal-cat {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.modal-content-area,
+.modal-content-c {
+  background-color: white;
+  padding: 20px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.modal-content-area h3,
+.modal-content-c h3 {
+  margin-top: 0;
+  color: #007290;
+}
+
+.close-modal-area {
+  float: right;
+  cursor: pointer;
+  font-size: 20px;
+  color: red;
+}
+
+/* Inputs en modales */
+.modal-content-area input,
+.modal-content-c input,
+.modal-content-area textarea,
+.modal-content-c textarea {
+  width: 100%;
   margin-top: 10px;
+  margin-bottom: 15px;
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+.modal-content-area button,
+.modal-content-c button {
+  background-color: #007290;
+  color: white;
+  border: none;
   padding: 10px;
   border-radius: 6px;
-  color: #000;
+  width: 100%;
+  cursor: pointer;
 }
 
-/* Iconos ✏️ 🗑️ */
-.icon-area {
+.modal-content-area button:hover,
+.modal-content-c button:hover {
+  background-color: #007290;
+}
+
+/* Checkboxes en grilla */
+.checkbox-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.checkbox-item {
+  background-color: #d2f3f5;
+  padding: 5px 10px;
+  border-radius: 6px;
+  border: 1px solid #007290;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.area-name {
+  font-weight: bold;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 5px;
+}
+
+.category-name {
+  padding: 8px;
+  border-radius: 5px;
+  margin: 5px 0;
+}
+
+.area-name-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #00B7C2;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 5px;
+}
+
+.area-icons span {
   margin-left: 10px;
   cursor: pointer;
 }
 
-/* Modal */
-.modal-area {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex; justify-content: center; align-items: center;
-  z-index: 999;
+.category-name-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #a9eaea;
+  padding: 8px;
+  border-radius: 5px;
+  margin: 5px 0;
 }
 
-.modal-content-area {
+.category-icons span {
+  margin-left: 10px;
+  cursor: pointer;
+}
+/* Estilo general del modal que cubre toda la pantalla */
+.modal-cat {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6); /* Fondo oscuro translúcido */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999; /* Asegura que esté encima de todo */
+}
+
+/* Contenido del modal */
+.modal-content-cat {
   background-color: #fff;
-  padding: 25px;
+  padding: 2rem;
   border-radius: 10px;
-  width: 500px;
+  width: 90%;
+  max-width: 500px;
   max-height: 90vh;
   overflow-y: auto;
   position: relative;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
 }
 
-.modal-content-area input,
-.modal-content-area textarea {
+/* Botón de cerrar */
+.close-modal-cat {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+/* Inputs y etiquetas */
+.modal-content-cat label {
   display: block;
+  margin-top: 1rem;
+  font-weight: bold;
+}
+
+.modal-content-cat input[type="text"],
+.modal-content-cat input[type="number"] {
   width: 100%;
-  margin-bottom: 15px;
-  padding: 10px;
-  font-size: 14px;
-  border-radius: 5px;
+  padding: 0.5rem;
+  margin-top: 0.3rem;
   border: 1px solid #ccc;
-  box-sizing: border-box;
+  border-radius: 5px;
 }
 
-/* Contenedor para los botones (guardar, cancelar) */
-.modal-actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 10px;
-  margin-top: 20px;
-}
-
-/* Botones */
-.modal-content-area button {
-  background-color: #2E8B57;
+/* Botón guardar */
+.modal-content-cat button {
+  margin-top: 1.5rem;
+  padding: 0.7rem 1.5rem;
+  background-color: #58aebd;
   color: white;
   border: none;
-  padding: 10px 16px;
   border-radius: 6px;
   cursor: pointer;
-  font-weight: bold;
-  transition: background-color 0.3s ease;
 }
 
-.modal-content-area button:hover {
-  background-color: #256d46;
+.modal-content-cat button:hover {
+  background-color: #007290;
 }
 
-.close-modal-area {
-  position: absolute;
-  top: 10px; right: 15px;
-  cursor: pointer;
-  font-size: 18px;
+/* Grid para los checkboxes */
+.checkbox-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 10px;
+  margin-top: 0.5rem;
 }
-
-/* Grupo de botones principal */
-.button-group-area {
+.checkbox-item {
   display: flex;
-  justify-content: center;
-  gap: 40px;
-  margin-top: 30px;
+  align-items: center;
+  gap: 5px;
+  font-weight: normal;
 }
-
-.siguiente {
-  background: #0093B3;
-  color: white;
-  padding: 10px 20px;
+.btn-formcov,
+.btn-salirconv {
+  background-color: #007290;
+  color: #fff;
+  padding: 12px 24px;
   border: none;
-  border-radius: 10px;
+  border-radius: 8px;
+  font-weight: bold;
   font-size: 16px;
-  text-align: center;
   cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin: 8px;
 }
 
-.cancelar {
-  background: #B0C4D8;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
+.btn-formcov:hover,
+.btn-salirconv:hover {
+  background-color: #005f6b;
+}
+
+/* Versión móvil */
+@media (max-width: 600px) {
+  .btn-formcov,
+  .btn-salirconv {
+    width: 100%;
+    font-size: 15px;
+  }
 }

@@ -123,7 +123,7 @@ const PruebaRegister = () => {
 
                     <div className="button-container">
                         <button type="submit" className="btn-registrarse">REGISTRARSE</button>
-                        <button type="button" className="btn-cancelar" onClick={handleCancel}>CANCELAR</button>
+                        <button type="button" className="btn-cancelar-register" onClick={handleCancel}>CANCELAR</button>
                     </div>
                 </form>
             </div>

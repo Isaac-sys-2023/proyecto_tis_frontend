@@ -233,15 +233,6 @@ export const CrearConvForm = () => {
           onChange={handleChange}
           className="input-field"
         />
-
-        {/* <ul className="area-list">
-          {formData.maxConcursantes.map((item, index) => (
-            <li key={index}>
-              {item.area}: {item.max} postulantes
-            </li>
-          ))}
-        </ul> */}
-
         <label>Imagen de portada:</label>
         <ImageUpload onFileSelect={handleFileChange} />
 

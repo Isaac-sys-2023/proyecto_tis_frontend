@@ -1,7 +1,7 @@
 .reporte-container {
-  width: 80%;
+  width: 95%;
   margin: 20px auto;
-  padding: 20px;
+  padding: 0;
   background-color: #f9f9f9;
   border-radius: 15px;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
@@ -9,9 +9,13 @@
 
 .reporte-container h2 {
   text-align: center;
-  color: #003366;
+  color: #ffffff;
   font-size: 2rem;
   margin-bottom: 20px;
+  background-color: #007290;
+  width: 100%;
+  padding: 10px 0;
+  border-radius: 10px 10px 0px 0;
 }
 
 .reporte-container label {
@@ -58,11 +62,11 @@
   background-color: #eef3fa;
 }
 
-.reporte-container button {
+.reporte-container .button {
   display: block;
   width: 100%;
   padding: 15px;
-  background-color: #003366;
+  background-color: #007290;
   color: #fff;
   font-size: 1rem;
   border: none;
@@ -71,6 +75,42 @@
   transition: background-color 0.3s;
 }
 
-.reporte-container button:hover {
+.reporte-container .button:hover {
   background-color: #00509e;
 }
+
+.toggle-filtros-btn {
+  background-color: #000;
+  color: white;
+  padding: 8px 1px;
+  margin: 10px 0;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.toggle-filtros-btn:hover {
+  background-color: #00509e;
+}
+
+.btn-pdf{
+  margin: 10px 0;
+}
+
+.soporte-container{
+  padding: 0 20px 10px 20px;
+}
+
+.select-container{
+  padding: 0 20px;
+}
+
+.select-container select{
+  margin: 0;
+}
+
+.soporte-container .select-container{
+  padding: 10px 0;
+}
+

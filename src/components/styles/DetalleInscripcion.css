@@ -1,0 +1,172 @@
+/* Mostrar solo escritorio */
+.desktop-only {
+  display: block;
+}
+
+/* Ocultar elementos móviles por defecto */
+.mobile-only {
+  display: none;
+}
+
+.title-tabla-d {
+  margin: 25px;
+  padding: 25px;
+  background-color: #007899;
+  color: white;
+  text-align: center;
+}
+
+.control {
+  display: flex;
+  flex-direction: row;
+  margin: 0;
+  padding: 25px;
+}
+
+.tabla-d{
+  margin: 0;
+  padding: 25px;
+}
+
+.tabla-d th{
+  background-color: #007899;
+  color: white;
+}
+
+.tabla-d td{
+  background-color: white;
+}
+
+/* Vista móvil (máximo 768px) */
+@media (max-width: 768px) {
+  .desktop-only {
+    display: none;
+  }
+
+  .mobile-only {
+    display: block;
+  }
+
+  /* Fondo general de la tarjeta */
+  .user-card-d {
+    background-color: #b8cee0;
+    /* igual que el fondo de la imagen */
+    border-radius: 15px;
+    padding: 20px;
+    margin: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  /* Estilo del encabezado del usuario */
+  .user-header-d {
+    background-color: #007899;
+    color: white;
+    font-weight: bold;
+    padding: 12px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+
+  .toggle-icon-d {
+    font-size: 16px;
+    color: white;
+  }
+
+  /* Estilo del cuerpo de la tarjeta */
+  .user-details-d {
+    padding: 15px 10px;
+    background-color: #f2f2f2;
+    margin-top: 10px;
+    border-radius: 10px;
+  }
+
+  /* Estilo del dropdown personalizado */
+  .custom-dropdown {
+    background-color: #007899;
+    color: black;
+    font-weight: bold;
+    padding: 12px 16px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    border: 6px solid black;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 15px 0;
+  }
+
+  .custom-dropdown i {
+    color: white;
+  }
+
+  /* Botones generales */
+  .card-actions-d button {
+    width: 100%;
+    margin: 10px 0;
+    padding: 12px;
+    font-weight: bold;
+    font-size: 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    color: black;
+  }
+
+  .btn-aceptar {
+    background-color: #007899;
+  }
+
+  .btn-cancelar {
+    background-color: #00a7c4;
+  }
+
+  .btn-salir {
+    background-color: #007879;
+  }
+
+  .card-actions-d button:hover {
+    opacity: 0.9;
+  }
+
+  /* Estilo general para botones, visibles en escritorio y móvil */
+  .action-buttons {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin-top: 10px;
+  }
+
+  .action-buttons button {
+    flex: 1;
+    padding: 12px;
+    font-weight: bold;
+    font-size: 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    color: white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  }
+
+  .btn-modificar {
+    background-color: #007899;
+  }
+
+  .btn-eliminar {
+    background-color: #007899;
+  }
+
+  .action-buttons button:hover {
+    opacity: 0.9;
+  }
+
+  .control {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: 25px;
+  }
+}

@@ -154,3 +154,51 @@ input[type="date"] {
 .btn-aceptacion:hover {
     background-color: #007A8F;
 }
+
+/* Responsivo para pantallas menores a 768px (tablets y móviles) */
+@media (max-width: 768px) {
+    .contenedor-add-colegio {
+        width: 90%;
+        padding: 15px 0;
+    }
+
+    .two-items {
+        flex-direction: column;
+        gap: 0px;
+    }
+
+    .campo-item1,
+    .campo-item2 {
+        padding: 0 15px 15px 15px;
+        width: 100%;
+    }
+
+    .boton-style {
+        width: 100%;
+        padding: 12px;
+        font-size: 16px;
+    }
+
+    .title-add-colegio {
+        font-size: 18px;
+        padding: 15px;
+    }
+}
+
+/* Responsivo para pantallas muy pequeñas (menores a 480px) */
+@media (max-width: 480px) {
+    .title-add-colegio {
+        font-size: 16px;
+    }
+
+    input,
+    select,
+    input[type="date"] {
+        font-size: 14px;
+        padding: 6px;
+    }
+
+    .boton-style {
+        font-size: 14px;
+    }
+}

@@ -64,6 +64,16 @@
   color: #333;
 }
 
+.formulario-inputs{
+  padding: 10px;
+}
+
+.formulario-row{
+  border: 1px solid #333;
+  margin-top: 10px;
+  border-radius: 5px;
+}
+
 .tabla-pago {
   width: 90%;
   margin: 10px auto 20px;
@@ -154,6 +164,13 @@
   gap: 8px;
 }
 
+
+@media (max-width: 480px) {
+  .formulario-botones{
+    flex-direction: column;
+    padding: 0 15px;
+  }
+}
 
 
 

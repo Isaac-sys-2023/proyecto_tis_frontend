@@ -4,12 +4,16 @@ import React, { useState, useEffect } from 'react'
 import "./styles/Disciplinas.css"
 import { useNavigate } from 'react-router-dom';
 
+import FullScreenSpinner from '../components/FullScreenSpinner';
+
 const apiUrl = import.meta.env.VITE_API_URL;
 
 const Convocatorias = () => {
     const navigate = useNavigate();
 
     const [convocatorias, setConvocatorias] = useState([]);
+
+    const [cargando, setCargando] = useState(true);
 
     useEffect(() => { //para hacer un get
         fetch(`${apiUrl}/todasconvocatorias`)
@@ -20,7 +24,8 @@ const Convocatorias = () => {
                 setConvocatorias(convocatoriasHabilitadas);
                 console.log("Convocatorias:", convocatoriasHabilitadas);
             })
-            .catch(error => console.error("Error al obtener convocatorias:", error));
+            .catch(error => console.error("Error al obtener convocatorias:", error))
+            .finally(() => setCargando(false));
     }, []);
 
 
@@ -30,18 +35,23 @@ const Convocatorias = () => {
 
     return (
         <div className="Disciplina">
+            {cargando ? (
+                <FullScreenSpinner />
+            ) : (                
+                <div className="grid-container">
+                    {convocatorias.map((convocatoria, index) => (
+                        <div key={index} className="card">
+                            <img src={convocatoria.portada} alt={convocatoria.titulo} className="imagen" />
 
-            <div className="grid-container">
-                {convocatorias.map((convocatoria, index) => (
-                    <div key={index} className="card">
-                        <img src={convocatoria.portada} alt={convocatoria.titulo} className="imagen" />
+                            <h3>{convocatoria.tituloConvocatoria}</h3>
 
-                        <h3>{convocatoria.tituloConvocatoria}</h3>
+                            <button onClick={() => handleInscripcion(convocatoria.idConvocatoria)}>Inscribirse</button>
+                        </div>
+                    ))}
+                </div>
+            )}
 
-                        <button onClick={() => handleInscripcion(convocatoria.idConvocatoria)}>Inscribirse</button>
-                    </div>
-                ))}
-            </div>
+
         </div>
     )
 }

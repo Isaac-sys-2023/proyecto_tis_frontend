@@ -8,29 +8,39 @@ const apiUrl = import.meta.env.VITE_API_URL;
 const OrdenPago = () => {
   const [mostrarDescargar, setMostrarDescargar] = useState(false);
   const [mostrarBotones, setMostrarBotones] = useState(true);
-
   const [salirActivo, setSalirActivo] = useState(false);
 
   const navigate = useNavigate();
-
   const { idConvocatoria } = useParams();
   const [convocatoria, setConvocatoria] = useState(null);
-  const tutor = JSON.parse(localStorage.getItem('tutor'));
+  const tutor = JSON.parse(localStorage.getItem("tutor"));
 
   const location = useLocation();
   const estudiantes = location.state?.estudiantes;
   const from = location.state?.from || "default";
   console.log(estudiantes);
 
+  const [expandedIds, setExpandedIds] = useState([]);
+
+  const toggleExpand = (id) => {
+    setExpandedIds((prevExpandedIds) =>
+      prevExpandedIds.includes(id)
+        ? prevExpandedIds.filter((item) => item !== id)
+        : [...prevExpandedIds, id]
+    );
+  };
+
   useEffect(() => {
     const obtenerConvocatoria = async () => {
       try {
-        const respuesta = await fetch(`${apiUrl}/veridconvocatorias/${idConvocatoria}`);
+        const respuesta = await fetch(
+          `${apiUrl}/veridconvocatorias/${idConvocatoria}`
+        );
         if (!respuesta.ok) {
           throw new Error("Error al obtener la convocatoria");
         }
         const datos = await respuesta.json();
-        setConvocatoria(datos); // Guardamos en la variable de estado
+        setConvocatoria(datos);
       } catch (error) {
         console.error("Error:", error.message);
       }
@@ -41,7 +51,10 @@ const OrdenPago = () => {
 
   const montoTotal = estudiantes
     .reduce((total, est) => {
-      const sumaCategorias = est.categorias?.reduce((sum, cat) => sum + (parseFloat(cat.monto) || 0), 0);
+      const sumaCategorias = est.categorias?.reduce(
+        (sum, cat) => sum + (parseFloat(cat.monto) || 0),
+        0
+      );
       return total + sumaCategorias;
     }, 0)
     .toFixed(2)
@@ -64,8 +77,17 @@ const OrdenPago = () => {
     doc.text("Fecha: " + new Date().toLocaleDateString(), 20, 35);
     doc.text("Convocatoria: " + convocatoria?.tituloConvocatoria, 20, 45);
 
-    if (tutor) {      
-      doc.text("Tutor: " + tutor.nombreTutor + " " + tutor.apellidoTutor + "  ID Tutor: " + tutor.idTutor, 20, 55);
+    if (tutor) {
+      doc.text(
+        "Tutor: " +
+          tutor.nombreTutor +
+          " " +
+          tutor.apellidoTutor +
+          "  ID Tutor: " +
+          tutor.idTutor,
+        20,
+        55
+      );
       doc.text("Email: " + tutor.correoTutor, 20, 63);
       doc.text("Teléfono: " + tutor.telefonoTutor, 20, 71);
     }
@@ -81,8 +103,19 @@ const OrdenPago = () => {
     let yPosition = 100;
     estudiantes.forEach((est) => {
       doc.text(est.nombrePost + " " + est.apellidoPost, 20, yPosition);
-      doc.text(est.categorias.reduce((acc, cat) => acc + parseFloat(cat.monto), 0).toFixed(2).toString(), 100, yPosition);
-      doc.text(est.areas.map(area => area.tituloArea).join(" - "), 150, yPosition);
+      doc.text(
+        est.categorias
+          .reduce((acc, cat) => acc + parseFloat(cat.monto), 0)
+          .toFixed(2)
+          .toString(),
+        100,
+        yPosition
+      );
+      doc.text(
+        est.areas.map((area) => area.tituloArea).join(" - "),
+        150,
+        yPosition
+      );
       yPosition += 10;
     });
 
@@ -101,13 +134,20 @@ const OrdenPago = () => {
 
     let hayErrores = false;
     let listaDePostulantes = [];
-    
+
     for (let i = 0; i < estudiantes.length; i++) {
       const estudianteOriginal = estudiantes[i];
 
       const camposRequeridos = [
-        "nombrePost", "apellidoPost", "carnet", "correoPost", "fechaNaciPost",
-        "idCurso", "idColegio", "departamento", "provincia"
+        "nombrePost",
+        "apellidoPost",
+        "carnet",
+        "correoPost",
+        "fechaNaciPost",
+        "idCurso",
+        "idColegio",
+        "departamento",
+        "provincia",
       ];
 
       const camposVacios = camposRequeridos.filter((campo) => {
@@ -119,14 +159,21 @@ const OrdenPago = () => {
         }
       });
 
-      if (camposVacios.length > 0 || estudianteOriginal.areas.length === 0 || estudianteOriginal.categorias.length === 0) {
-        console.warn(`Estudiante ${i + 1} tiene campos vacíos:`, camposVacios);
+      if (
+        camposVacios.length > 0 ||
+        estudianteOriginal.areas.length === 0 ||
+        estudianteOriginal.categorias.length === 0
+      ) {
+        console.warn(
+          `Estudiante ${i + 1} tiene campos vacíos:`,
+          camposVacios
+        );
         hayErrores = true;
         continue;
       }
 
-      // Excluir campos innecesarios
-      const { departamentoColegio, provinciaColegio, ...estudiante } = estudianteOriginal;
+      const { departamentoColegio, provinciaColegio, ...estudiante } =
+        estudianteOriginal;
 
       const postulante = {
         ...estudiante,
@@ -134,21 +181,20 @@ const OrdenPago = () => {
         telefonoPost: String(estudiante.telefonoPost ?? ""),
         idCurso: String(estudiante.idCurso ?? ""),
         idColegio: String(estudiante.idColegio ?? ""),
-        fechaNaciPost: estudiante.fechaNaciPost,
+        fechaNaciPost: new Date(estudiante.fechaNaciPost).toISOString().split('T')[0],
         idTutor: tutor.idTutor,
         tutor: tutor,
       };
 
       console.log(postulante);
 
-
       try {
         const response = await fetch(`${apiUrl}/registrar-postulante`, {
-          method: 'POST',
+          method: "POST",
           headers: {
-            'Content-Type': 'application/json'
+            "Content-Type": "application/json",
           },
-          body: JSON.stringify(postulante)
+          body: JSON.stringify(postulante),
         });
 
         if (!response.ok) {
@@ -157,21 +203,20 @@ const OrdenPago = () => {
           hayErrores = true;
         } else {
           const data = await response.json();
-          const idsPostulacion = data.idPostulacion; // Puede ser un array
+          const idsPostulacion = data.idPostulacion;
           const postulanteRegistrado = data.postulante;
           console.log(`Estudiante ${i + 1} registrado con éxito.`);
-          console.log('IDs de postulación:', idsPostulacion);
-          console.log('Postulante:', postulanteRegistrado);
+          console.log("IDs de postulación:", idsPostulacion);
+          console.log("Postulante:", postulanteRegistrado);
 
           const detalles = postulante.categorias.map((categoria, index) => ({
             idPostulacion: idsPostulacion[index],
             descripcion: `Inscripción (${categoria.nombreCategoria})`,
-            monto: categoria.monto
+            monto: categoria.monto,
           }));
 
           listaDePostulantes.push(...detalles);
         }
-
       } catch (error) {
         console.error(`Error de red al registrar estudiante ${i + 1}:`, error);
         hayErrores = true;
@@ -179,33 +224,32 @@ const OrdenPago = () => {
     }
 
     if (hayErrores) {
-      alert("Algunos estudiantes no se pudieron registrar. Revisa la consola para más detalles.");
+      alert(
+        "Algunos estudiantes no se pudieron registrar. Revisa la consola para más detalles."
+      );
     } else {
       alert("Todos los estudiantes fueron registrados correctamente.");
     }
 
-
-
     const orden = {
       idTutor: tutor.idTutor,
-      montoTotal: parseFloat(montoTotal.replace(',', '.')),
+      montoTotal: parseFloat(montoTotal.replace(",", ".")),
       vigencia: convocatoria.fechaFinInsc,
       cancelado: false,
       recibido: false,
-      detalles: listaDePostulantes
+      detalles: listaDePostulantes,
     };
 
     console.log(orden);
 
-
     try {
       const response = await fetch(`${apiUrl}/ordenpago`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
+          "Content-Type": "application/json",
+          Accept: "application/json",
         },
-        body: JSON.stringify(orden)
+        body: JSON.stringify(orden),
       });
 
       if (!response.ok) {
@@ -232,13 +276,13 @@ const OrdenPago = () => {
         state: { estudiantes },
       });
     } else {
-      navigate(-1); // por si acaso
+      navigate(-1);
     }
-  }
+  };
 
   const handleSalir = () => {
     navigate("/");
-  }
+  };
 
   return (
     <div className="contenedor-orden">
@@ -261,10 +305,20 @@ const OrdenPago = () => {
                     <input value={est.nombrePost} readOnly />
                   </td>
                   <td className="monto">
-                    <input value={est.categorias.reduce((acc, cat) => acc + parseFloat(cat.monto), 0).toFixed(2)} readOnly />
+                    <input
+                      value={est.categorias
+                        .reduce((acc, cat) => acc + parseFloat(cat.monto), 0)
+                        .toFixed(2)}
+                      readOnly
+                    />
                   </td>
                   <td>
-                    <input value={est.areas.map(area => area.tituloArea).join(" - ")} readOnly />
+                    <input
+                      value={est.areas
+                        .map((area) => area.tituloArea)
+                        .join(" - ")}
+                      readOnly
+                    />
                   </td>
                 </tr>
               ))}
@@ -277,16 +331,57 @@ const OrdenPago = () => {
           </div>
         </div>
 
+        {/* Vista móvil */}
+        <div className="mobile-cards mobile-view">
+          {estudiantes.map((estudiante, index) => {
+            const isExpanded = expandedIds.includes(estudiante.id || index);
+            return (
+              <div className="user-card" key={estudiante.id || index}>
+                <div
+                  className="user-header"
+                  onClick={() => toggleExpand(estudiante.id || index)}
+                >
+                  <span className="user-name">
+                    {estudiante.nombrePost} {estudiante.apellidoPost}
+                  </span>
+                  <span className="toggle-icon">{isExpanded ? "▲" : "▼"}</span>
+                </div>
+                {isExpanded && (
+                  <div className="user-details">
+                    <p>
+                      <strong>Áreas:</strong>{" "}
+                      {estudiante.areas.map((area, idx) => (
+                        <span key={area.idArea}>
+                          {area.tituloArea} -{" "}
+                          {estudiante.categorias[idx]?.nombreCategoria}
+                          <br />
+                        </span>
+                      ))}
+                    </p>
+                    <p>
+                      <strong>Monto:</strong>{" "}
+                      {estudiante.categorias
+                        .reduce((acc, cat) => acc + parseFloat(cat.monto), 0)
+                        .toFixed(2)}
+                    </p>
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+
         <div className="botones">
           {mostrarBotones && (
             <>
               <button className="btn-descargar" onClick={handleAceptar}>
                 Aceptar
               </button>
-              <button className="btn-cancelar" onClick={handleCancelar}>Cancelar</button>
+              <button className="btn-cancelar" onClick={handleCancelar}>
+                Cancelar
+              </button>
             </>
           )}
-
 
           {mostrarDescargar && (
             <>

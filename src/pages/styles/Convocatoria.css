@@ -1,16 +1,17 @@
 .container-formconv {
-  width: 50%;
+  width: 90%;
   max-width: 900px;
   margin: 20px auto;
   padding: 10px;
   border: 1px solid #ddd;
   background-color: #ffffff;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
 }
 
 .title-add-convocatoria {
   width: 100%;
-  font-size: 24px;
+  font-size: 1.5rem;
   font-weight: bold;
   margin: 0;
   background-color: #007290;
@@ -19,12 +20,14 @@
   padding: 20px 10px;
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
+  box-sizing: border-box;
 }
 
 .convocatoria-form {
   background-color: #ffffff;
   width: 100%;
   padding: 20px;
+  box-sizing: border-box;
 }
 
 label {
@@ -36,13 +39,15 @@ label {
   padding: 0 10px;
 }
 
-.input-field, .textarea {
+.input-field,
+.textarea {
   width: 100%;
   border: 1px solid #ccc;
   border-radius: 6px;
-  padding: 5px;
-  margin-bottom: 1px;
-  font-size: 14px;
+  padding: 8px;
+  margin-bottom: 10px;
+  font-size: 1rem;
+  box-sizing: border-box;
 }
 
 .textarea {
@@ -52,29 +57,36 @@ label {
 
 .fecha-group {
   display: flex;
-  gap: 15px;
   flex-wrap: wrap;
+  gap: 15px;
   margin-bottom: 15px;
 }
 
 .button-group {
+  display: flex;
   justify-content: center;
-  gap: 20px;
-  margin-top: 10px;
+  align-items: center;
+  gap: 16px;
+  margin-top: 20px;
   flex-wrap: wrap;
+}
+
+.siguiente,
+.cancelar {
+  min-height: 44px; /* estándar de accesibilidad */
+  min-width: 120px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  text-align: center;
 }
 
 .siguiente {
   background-color: #0093B3;
   color: #ffffff;
-  padding: 8px 16px;
-  border: none;
-  border-radius: 8px;
-  font-size: 14px;
-  text-align: center;
-  cursor: pointer;
-  text-decoration: none;
-  transition: background-color 0.3s;
 }
 
 .siguiente:hover {
@@ -84,14 +96,37 @@ label {
 .cancelar {
   background-color: #B0C4D8;
   color: #ffffff;
-  padding: 8px 16px;
-  border: none;
-  border-radius: 8px;
-  font-size: 14px;
-  cursor: pointer;
-  transition: background-color 0.3s;
 }
 
 .cancelar:hover {
   background-color: #9eb1c5;
+}
+
+/* 📱 Media Query para pantallas pequeñas */
+@media screen and (max-width: 600px) {
+  .title-add-convocatoria {
+    font-size: 1.25rem;
+    padding: 15px 8px;
+  }
+
+  .input-field,
+  .textarea {
+    font-size: 0.95rem;
+  }
+
+  .siguiente,
+  .cancelar {
+    width: 30%;
+    font-size: 1rem;
+    padding: 10px;
+  }
+
+  .fecha-group {
+    flex-direction: column;
+  }
+
+  .button-group {
+    flex-direction: column;
+    align-items: stretch;
+  }
 }

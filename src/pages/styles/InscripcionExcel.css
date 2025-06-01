@@ -1,7 +1,7 @@
 .excel-container {
     max-width: 900px;
-    margin: 40px auto;
-    padding: 0;
+    margin: 20px auto;
+    padding: 0 20px;
     background: white;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
     border-radius: 10px;
@@ -48,4 +48,16 @@
 
 .excel-tabla th {
     background: lightgray;
+}
+
+@media (max-width: 940px) {
+    .excel-container{
+        margin: 20px 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .excel-container{
+        margin: 20px 20px;
+    }
 }

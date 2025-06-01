@@ -1,8 +1,9 @@
 /* Fondo general */
 .login-page {
     background-color: #d7edf1;
-    min-height: 100vh;
+    height: 100vh;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     font-family: Arial, sans-serif;
@@ -16,6 +17,12 @@
     padding: 40px 50px;  /* Aumentado */
     width: 520px;        /* Aumentado */
     text-align: center;
+}
+
+@media (max-width: 768px) {
+    .login-box{
+        width: 80%;
+    }
 }
 
 /* Título */

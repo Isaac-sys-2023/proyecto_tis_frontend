@@ -1,87 +1,261 @@
-.container-detalleConv {
-    text-align: center;
+/* --- Vista de escritorio (por defecto) --- */
+.desktop {
+  display: block;
+}
 
-    margin: auto;
-    padding: 20px 0 20px 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 75%;
+.mobile-cards {
+  display: none;
+}
+
+/* --- Contenedor general --- */
+.container-detalleConv,
+.lista-usuarios {
+  background-color: #adc5cd;
+  padding: 20px;
+  border-radius: 10px;
+  font-family: Arial, sans-serif;
+  text-align: center;
+  margin: auto;
+  width: 90%;
+  max-width: 1200px;
+  box-sizing: border-box;
+}
+
+.title-detalleConv {
+  width: 100%;
+  font-size: 24px;
+  margin-bottom: 20px;
+  background-color: #007290;
+  color: white;
+  text-align: center;
+  border-radius: 4px;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* --- Tabla en escritorio --- */
+.tabla-contenedor table,
+.convocatoria-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  box-sizing: border-box;
+  overflow-x: auto;
+}
+
+.convocatoria-table th,
+.convocatoria-table td {
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: center;
+  font-size: 14px;
+}
+
+.convocatoria-table th {
+  background-color: #007290;
+  color: white;
+}
+
+/* Estado activo/inactivo */
+.estado {
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-weight: bold;
+  display: inline-block;
+  min-width: 70px;
+}
+
+.rojo {
+  background-color: #dc3545;
+  color: white;
+}
+
+.verde {
+  background-color: #28a745;
+  color: white;
+}
+
+/* Botones editar y eliminar (desktop) */
+.edit-btn,
+.delete-btn {
+  border: none;
+  border-radius: 4px;
+  padding: 6px 12px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-right: 6px;
+  transition: background-color 0.3s ease;
+  color: white;
+}
+
+.edit-btn {
+  background-color: #5a7bbf; /* azul claro */
+}
+
+.edit-btn:hover {
+  background-color: #4665a3;
+}
+
+.delete-btn {
+  background-color: #dc3545; /* rojo */
+}
+
+.delete-btn:hover {
+  background-color: #b32e39;
+}
+
+/* Botones agregar y salir */
+.btn.agregar {
+  background-color: #0099b3;
+  color: white;
+  font-weight: 600;
+  padding: 10px 20px;
+  margin-top: 15px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  width: 150px;
+  text-align: center;
+}
+
+.btn.agregar:hover {
+  background-color: #007a8a;
+}
+
+.text-button {
+  color: white;
+  text-decoration: none;
+  font-weight: 600;
+  display: block;
+}
+
+/* --- Tarjetas móviles --- */
+.mobile-cards {
+  display: none;
+}
+
+.user-card {
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  margin-bottom: 15px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  text-align: left;
+}
+
+.user-header {
+  background-color: #007290;
+  color: white;
+  padding: 15px;
+  font-weight: bold;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: default;
+}
+
+.user-details {
+  padding: 15px;
+  background-color: #f9f9f9;
+}
+
+.user-details p {
+  margin: 8px 0;
+  font-size: 14px;
+}
+
+.card-actions {
+  margin-top: 10px;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.card-actions button {
+  border: none;
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+  font-weight: 600;
+  padding: 8px 14px;
+  margin-right: 10px;
+  transition: background-color 0.3s ease;
+}
+
+/* Botones editar y eliminar móviles */
+.card-actions .edit-btn {
+  background-color: #5a7bbf;
+}
+
+.card-actions .edit-btn:hover {
+  background-color: #4665a3;
+}
+
+.card-actions .delete-btn {
+  background-color: #dc3545;
+}
+
+.card-actions .delete-btn:hover {
+  background-color: #b32e39;
+}
+
+/* --- Responsividad --- */
+@media (max-width: 768px) {
+  .desktop {
+    display: none;
   }
-  
+
+  .mobile-cards {
+    display: block;
+  }
+
   .title-detalleConv {
-    width: 100%;
     font-size: 20px;
-    margin-bottom: 0;
-    background-color: #007290;
-    color: white;
-    text-align: center;
-    border-radius: 1px;
-    padding: 20px;
-  }
-  
-  .convocatoria-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 10px;
-    background: white;
-    padding: 10px;
-  }
-  
-  .convocatoria-table th, .convocatoria-table td {
-    border: 1px solid black;
-    padding: 10px;
-    text-align: center;
-  }
-  
-  .convocatoria-table th {
-    background: lightgray;
-  }
-  
-  .estado {
-    padding: 5px 10px;
-    border-radius: 5px;
-    font-weight: bold;
-  }
-  
-  .rojo {
-    background-color: red;
-    color: white;
-  }
-  
-  .verde {
-    background-color: green;
-    color: white;
-  }
-  
-  .btn {
-    padding: 8px 12px;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
-    font-weight: 500;
-    margin: 5px;
-  }
-  
-  .editar {
-    background-color: #B0C4D8;
-    color: white;
-  }
-  
-  .eliminar {
-    background-color: #5B728A;
-    color: white;
-  }
-  
-  .agregar {
-    background-color: #0099B3;
-    color: white;
-    margin-top: 10px;
+    padding: 15px;
   }
 
-  .text-button{
-    color: white;
-    text-decoration: none;
-    font-weight: 500;
+  .user-header,
+  .user-details p {
+    font-size: 14px;
   }
+
+  .card-actions button {
+    padding: 7px 12px;
+    font-size: 14px;
+  }
+
+  .btn.agregar {
+    width: 100%;
+    max-width: 300px;
+  }
+
+  .btn.ir{
+    background-color: #6a727a;
+    color: #ffffff;
+  }
+}
+
+@media (max-width: 480px) {
+  .title-detalleConv {
+    font-size: 18px;
+    padding: 10px;
+  }
+
+  .user-header,
+  .user-details p {
+    font-size: 13px;
+  }
+
+  .card-actions button {
+    padding: 6px 10px;
+    font-size: 13px;
+  }
+
+  .btn.agregar {
+    width: 50%;
+  }
+
+  .btn.ir{
+    width: 50%
+  }
+}

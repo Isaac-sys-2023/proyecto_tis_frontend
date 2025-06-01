@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom';
 
 import ModalImagen from './ModalImage';
 
+import FullScreenSpinner from './FullScreenSpinner';
+
 const apiUrl = import.meta.env.VITE_API_URL;
 
 
@@ -19,6 +21,8 @@ const RegistroPago = () => {
   const [imagenSeleccionada, setImagenSeleccionada] = useState(null);
 
   const [tutores, setTutores] = useState([]);
+
+  const [cargando, setCargando] = useState(false);
 
   useEffect(() => {
     const obtenerRecibosAsociados = async (ordenes) => {
@@ -59,6 +63,7 @@ const RegistroPago = () => {
           );
 
           setTutores(tutoresConRecibos);
+          setCargando(true);
           console.log(tutoresConRecibos);
         } else {
           console.warn("No se encontraron órdenes");
@@ -234,194 +239,202 @@ const RegistroPago = () => {
   }
 
   return (
-    <div className="formulario-pago-container">
-      <div className="formulario-card">
-        <div className="formulario-header">Formulario de Registro de Pago</div>
+    <>
+      {
+        !cargando ? (
+          <FullScreenSpinner />
+        ) : (
+          <div className="formulario-pago-container">
+            <div className="formulario-card">
+              <div className="formulario-header">Formulario de Registro de Pago</div>
 
-        <div className="formulario-search">
-          <span className="menu-icon">☰</span>
-          <input
-            type="text"
-            placeholder="Buscar por nombre, apellido o ID del tutor"
-            value={searchText}
-            onChange={(e) => setSearchText(e.target.value)}
-            onKeyDown={(e) => e.key === 'Enter' && buscarTutor()}
-          />
-          <span className="search-icon" onClick={buscarTutor}>🔍</span>
-        </div>
+              <div className="formulario-search">
+                <span className="menu-icon">☰</span>
+                <input
+                  type="text"
+                  placeholder="Buscar por nombre, apellido o ID del tutor"
+                  value={searchText}
+                  onChange={(e) => setSearchText(e.target.value)}
+                  onKeyDown={(e) => e.key === 'Enter' && buscarTutor()}
+                />
+                <span className="search-icon" onClick={buscarTutor}>🔍</span>
+              </div>
 
-        {mensaje && (
-          <p style={{ textAlign: 'center', color: 'red' }}>{mensaje}</p>
-        )}
+              {mensaje && (
+                <p style={{ textAlign: 'center', color: 'red' }}>{mensaje}</p>
+              )}
 
-        {tutoresEncontrados.length === 0 && (searchText.trim() === '' || searchText === '') && (
-          <>
-            {console.log("Se aplico el trim")}
-            {tutores.filter(
-              tutor => tutor.ordenes_pago.length > 0 && tutor.ordenes_pago.some(orden => orden.recibido === 0)
-            ).map((tutor, i) => {
-              const ordenesVigentes = tutor.ordenes_pago.filter(op => {
-                const vigencia = new Date(op.vigencia);
-                console.log("Se aplico el filter");
-                return !op.recibido && vigencia >= ahora;
-              });
+              {tutoresEncontrados.length === 0 && (searchText.trim() === '' || searchText === '') && (
+                <>
+                  {console.log("Se aplico el trim")}
+                  {tutores.filter(
+                    tutor => tutor.ordenes_pago.length > 0 && tutor.ordenes_pago.some(orden => orden.recibido === 0)
+                  ).map((tutor, i) => {
+                    const ordenesVigentes = tutor.ordenes_pago.filter(op => {
+                      const vigencia = new Date(op.vigencia);
+                      console.log("Se aplico el filter");
+                      return !op.recibido && vigencia >= ahora;
+                    });
 
-              return (
-                <div key={i} className="tutor-result">
-                  <p style={{ textAlign: 'center', fontWeight: 'bold', marginTop: '15px' }}>
-                    {tutor.nombreTutor} {tutor.apellidoTutor} (ID: {tutor.idTutor}) tiene {ordenesVigentes.length} orden(es) de pago vigentes.
-                  </p>
+                    return (
+                      <div key={i} className="tutor-result">
+                        <p style={{ textAlign: 'center', fontWeight: 'bold', marginTop: '15px' }}>
+                          {tutor.nombreTutor} {tutor.apellidoTutor} (ID: {tutor.idTutor}) tiene {ordenesVigentes.length} orden(es) de pago vigentes.
+                        </p>
 
-                  {ordenesVigentes.length > 0 && (
-                    <>
-                      {/* Checkbox de seleccionar todo */}
-                      <div style={{ display: 'flex', justifyContent: 'flex-end', padding: '0 5px', marginBottom: '5px' }}>
-                        <label style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                          <span>Seleccionar todo</span>
-                          <input
-                            type="checkbox"
-                            onChange={(e) => handleSeleccionarTodosPorTutor(tutor, e.target.checked, ahora)}
-                          />
-                        </label>
-                      </div>
-
-                      <table className="tabla-pago">
-                        <thead>
-                          <tr>
-                            <th>Orden</th>
-                            <th>Id Ingresado</th>
-                            <th>Identificación OCR</th>
-                            <th>Verificar</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {ordenesVigentes.map((orden, index) => (
-                            <tr key={index}>
-                              <td>{orden.idOrdenPago}</td>
-                              <td>
-                                <input type="text" value={orden.recibos[0].id} disabled className="input-disabled" />
-                              </td>
-                              <td>
-                                {/* <button>Imagen</button> */}
-
-
-                                <button onClick={() => setImagenSeleccionada(orden.recibos[0].imagen_comprobante)}>
-                                  Imagen
-                                </button>
-
-                                {/* <img src={orden.recibos[0].imagen_comprobante} alt="Imagen" /> */}
-                              </td>
-                              <td style={{ textAlign: 'center' }}>
+                        {ordenesVigentes.length > 0 && (
+                          <>
+                            {/* Checkbox de seleccionar todo */}
+                            <div style={{ display: 'flex', justifyContent: 'flex-end', padding: '0 5px', marginBottom: '5px' }}>
+                              <label style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                                <span>Seleccionar todo</span>
                                 <input
                                   type="checkbox"
-                                  checked={verificaciones[orden.idOrdenPago] || false}
-                                  onChange={(e) =>
-                                    handleVerificacionChange(orden.idOrdenPago, e.target.checked)
-                                  }
+                                  onChange={(e) => handleSeleccionarTodosPorTutor(tutor, e.target.checked, ahora)}
                                 />
-                              </td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    </>
-                  )}
-                </div>
-              );
-            })}
-          </>
-        )}
+                              </label>
+                            </div>
 
-        {tutoresEncontrados.length > 0 && (
-          <>
-            {tutoresEncontrados.map((tutor, i) => {
-              const ordenesVigentes = tutor.ordenes_pago.filter(op => {
-                const vigencia = new Date(op.vigencia);
-                return !op.recibido && vigencia >= ahora;
-              });
+                            <table className="tabla-pago">
+                              <thead>
+                                <tr>
+                                  <th>Orden</th>
+                                  <th>Id Ingresado</th>
+                                  <th>Identificación OCR</th>
+                                  <th>Verificar</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {ordenesVigentes.map((orden, index) => (
+                                  <tr key={index}>
+                                    <td>{orden.idOrdenPago}</td>
+                                    <td>
+                                      <input type="text" value={orden.recibos[0].id} disabled className="input-disabled" />
+                                    </td>
+                                    <td>
+                                      {/* <button>Imagen</button> */}
 
-              return (
-                <div key={i} className="tutor-result">
-                  <p style={{ textAlign: 'center', fontWeight: 'bold', marginTop: '15px' }}>
-                    {tutor.nombreTutor} {tutor.apellidoTutor} (ID: {tutor.idTutor}) tiene {ordenesVigentes.length} orden(es) de pago vigentes.
-                  </p>
 
-                  {ordenesVigentes.length > 0 && (
-                    <>
-                      <div style={{ display: 'flex', justifyContent: 'flex-end', padding: '0 5px', marginBottom: '5px' }}>
-                        <label style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                          <span>Seleccionar todo</span>
-                          <input
-                            type="checkbox"
-                            onChange={(e) => handleSeleccionarTodosPorTutor(tutor, e.target.checked, ahora)}
-                          />
-                        </label>
+                                      <button onClick={() => setImagenSeleccionada(orden.recibos[0].imagen_comprobante)}>
+                                        Imagen
+                                      </button>
+
+                                      {/* <img src={orden.recibos[0].imagen_comprobante} alt="Imagen" /> */}
+                                    </td>
+                                    <td style={{ textAlign: 'center' }}>
+                                      <input
+                                        type="checkbox"
+                                        checked={verificaciones[orden.idOrdenPago] || false}
+                                        onChange={(e) =>
+                                          handleVerificacionChange(orden.idOrdenPago, e.target.checked)
+                                        }
+                                      />
+                                    </td>
+                                  </tr>
+                                ))}
+                              </tbody>
+                            </table>
+                          </>
+                        )}
                       </div>
-                      <table className="tabla-pago">
-                        <thead>
-                          <tr>
-                            <th>Orden</th>
-                            <th>Id Ingresado</th>
-                            <th>Identificación OCR</th>
-                            <th>Verificar</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {ordenesVigentes.map((orden, index) => (
-                            <tr key={index}>
-                              <td>{orden.idOrdenPago}</td>
-                              <td>
-                                <input type="text" value={orden.recibos[0].id} disabled className="input-disabled" />
-                              </td>
-                              <td>
-                                <button>Imagen</button>
-                              </td>
-                              <td style={{ textAlign: 'center' }}>
+                    );
+                  })}
+                </>
+              )}
+
+              {tutoresEncontrados.length > 0 && (
+                <>
+                  {tutoresEncontrados.map((tutor, i) => {
+                    const ordenesVigentes = tutor.ordenes_pago.filter(op => {
+                      const vigencia = new Date(op.vigencia);
+                      return !op.recibido && vigencia >= ahora;
+                    });
+
+                    return (
+                      <div key={i} className="tutor-result">
+                        <p style={{ textAlign: 'center', fontWeight: 'bold', marginTop: '15px' }}>
+                          {tutor.nombreTutor} {tutor.apellidoTutor} (ID: {tutor.idTutor}) tiene {ordenesVigentes.length} orden(es) de pago vigentes.
+                        </p>
+
+                        {ordenesVigentes.length > 0 && (
+                          <>
+                            <div style={{ display: 'flex', justifyContent: 'flex-end', padding: '0 5px', marginBottom: '5px' }}>
+                              <label style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                                <span>Seleccionar todo</span>
                                 <input
                                   type="checkbox"
-                                  checked={verificaciones[orden.idOrdenPago] || false}
-                                  onChange={(e) =>
-                                    handleVerificacionChange(orden.idOrdenPago, e.target.checked)
-                                  }
+                                  onChange={(e) => handleSeleccionarTodosPorTutor(tutor, e.target.checked, ahora)}
                                 />
-                              </td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    </>
-                  )}
-                </div>
-              );
-            })}
-          </>
-        )}
+                              </label>
+                            </div>
+                            <table className="tabla-pago">
+                              <thead>
+                                <tr>
+                                  <th>Orden</th>
+                                  <th>Id Ingresado</th>
+                                  <th>Identificación OCR</th>
+                                  <th>Verificar</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {ordenesVigentes.map((orden, index) => (
+                                  <tr key={index}>
+                                    <td>{orden.idOrdenPago}</td>
+                                    <td>
+                                      <input type="text" value={orden.recibos[0].id} disabled className="input-disabled" />
+                                    </td>
+                                    <td>
+                                      <button>Imagen</button>
+                                    </td>
+                                    <td style={{ textAlign: 'center' }}>
+                                      <input
+                                        type="checkbox"
+                                        checked={verificaciones[orden.idOrdenPago] || false}
+                                        onChange={(e) =>
+                                          handleVerificacionChange(orden.idOrdenPago, e.target.checked)
+                                        }
+                                      />
+                                    </td>
+                                  </tr>
+                                ))}
+                              </tbody>
+                            </table>
+                          </>
+                        )}
+                      </div>
+                    );
+                  })}
+                </>
+              )}
 
-        <div className="formulario-botones">
-          <button className="guardar-btn" onClick={(e) => handleSubmit(e)}>Guardar</button>
-          <button
-            className="cancelar-btn"
-            onClick={() => {
-              setSearchText('');
-              setTutoresEncontrados([]);
-              setMensaje('');
-              setVerificaciones({});
-            }}
-          >
-            Cancelar
-          </button>
-          <button className="cancelar-btn" onClick={(e) => navigate("/")}>Salir</button>
-        </div>
+              <div className="formulario-botones">
+                <button className="guardar-btn" onClick={(e) => handleSubmit(e)}>Guardar</button>
+                <button
+                  className="cancelar-btn"
+                  onClick={() => {
+                    setSearchText('');
+                    setTutoresEncontrados([]);
+                    setMensaje('');
+                    setVerificaciones({});
+                  }}
+                >
+                  Cancelar
+                </button>
+                <button className="cancelar-btn" onClick={(e) => navigate("/")}>Salir</button>
+              </div>
 
-        {imagenSeleccionada && (
-          <ModalImagen
-            imagenUrl={imagenSeleccionada}
-            onClose={() => setImagenSeleccionada(null)}
-          />
-        )}
+              {imagenSeleccionada && (
+                <ModalImagen
+                  imagenUrl={imagenSeleccionada}
+                  onClose={() => setImagenSeleccionada(null)}
+                />
+              )}
 
-      </div>
-    </div>
+            </div>
+          </div>
+        )
+      }
+    </>
   );
 };
 

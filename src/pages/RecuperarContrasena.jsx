@@ -138,7 +138,7 @@ const RecuperarContrasena = () => {
               <span onClick={() => setMostrar(!mostrar)}>👁️</span>
             </div>
 
-            <button type="submit">Restablecer contraseña</button>
+            <button type="submit" className='button-restablecer-c'>Restablecer contraseña</button>
           </form>
         </>
       )}

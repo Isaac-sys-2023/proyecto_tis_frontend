@@ -1,16 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Header.css";
-import Navbar from "./Navbar";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
 const Header = () => {
-    //const user = JSON.parse(localStorage.getItem('user'));
     const { user, logout } = useAuth();
     const navigate = useNavigate();
+    const [menuOpen, setMenuOpen] = useState(false);
+
+    const toggleMenu = () => setMenuOpen(!menuOpen);
+    const closeMenu = () => setMenuOpen(false);
+
+    const rol = user?.rol?.toLowerCase();
+    const isTutor = rol === "tutor";
+    const isAdmin = rol === "admin";
+    const isLoggedIn = !!user;
 
     return (
-        <div className="header">
+        <header className="header">
             <div className="logo">
                 <img src="/UmssLogo.png" alt="Umss Logo" />
                 <div className="title-container">
@@ -18,43 +25,66 @@ const Header = () => {
                     <p className="subtitle">Olimpiadas Científicas Oh SanSi</p>
                 </div>
             </div>
-            <div className="buttons">
-                <Link to="/" className="boton-header">Inicio</Link>
-                <button className="boton-header">Nosotros</button>
-                {/* <button className="boton-header">Eventos</button>
-                <Link to="/disciplinas" className="boton-header">Areas</Link> */}
-    
-                {user && (
-                    <>
-                        <Link to="/convocatorias" className="boton-header">Inscripciones</Link>
-                        <Link to="/ordenes-pago" className="boton-header">Mis Pagos</Link>
-                    </>                  
+
+            <div className={`menu-toggle ${menuOpen ? "open" : ""}`} onClick={toggleMenu}>
+                <span></span><span></span><span></span>
+            </div>
+
+            <nav className={`buttons ${menuOpen ? "active" : ""}`}>
+                {/* Siempre visibles */}
+                <Link to="/" className="boton-header" onClick={closeMenu}>Inicio</Link>
+                {!isLoggedIn && (
+                    <Link to="/nosotros" className="boton-header" onClick={closeMenu}>Nosotros</Link>
                 )}
 
-                {/* <button className="boton-header">Iniciar Sesion</button> */}
-                {user ? (
+                {/* Tutor y Administrador */}
+                {isLoggedIn && (
+                    <>
+                        <Link to="/convocatorias" className="boton-header" onClick={closeMenu}>Inscripciones</Link>
+                        <Link to="/ordenes-pago" className="boton-header" onClick={closeMenu}>Mis pagos</Link>
+                    </>
+                )}
+
+                {/* Solo Administrador */}
+                {isAdmin && (
+                    <div className="dropdown">
+                        <button className="boton-header">Gestión ▼</button>
+                        <div className="dropdown-content">
+                            <Link to="/detalle-convocatoria" onClick={closeMenu}>Convocatorias</Link>
+                            <Link to="/colegios" onClick={closeMenu}>Colegios</Link>
+                            <Link to="/addRoles" onClick={closeMenu}>Crear Rol</Link>
+                            <Link to="/addUser" onClick={closeMenu}>Registrar Usuario</Link>
+                            <Link to="/asignarRoles" onClick={closeMenu}>Asignar Roles</Link>
+                            <Link to="/tablaRoles" onClick={closeMenu}>Gestionar Roles</Link>
+                            <Link to="/tablaUsuarios" onClick={closeMenu}>Lista de Usuarios</Link>
+                            <Link to="/listaRoles" onClick={closeMenu}>Lista de Roles</Link>
+                            <Link to="/registroPago" onClick={closeMenu}>Ordenes de pago</Link>
+                            <Link to="/reportes" onClick={closeMenu}>Reportes</Link>
+                        </div>
+                    </div>
+                )}
+
+                {/* Login / Logout y nombre */}
+                {isLoggedIn ? (
                     <>
                         <span className="boton-header">Hola, {user.name}</span>
                         <button
                             className="boton-header"
                             onClick={() => {
-                                // localStorage.removeItem('token');
-                                // localStorage.removeItem('user');
-                                // localStorage.removeItem('tutor');
                                 logout();
-                                navigate('/login');
+                                navigate("/login");
+                                closeMenu();
                             }}
                         >
                             Cerrar sesión
-                        </button> 
+                        </button>
                     </>
-
                 ) : (
-                    <Link to="/login" className="boton-header">Iniciar Sesión</Link>
+                    <Link to="/login" className="boton-header" onClick={closeMenu}>Iniciar sesión</Link>
                 )}
-            </div>
-        </div>
+            </nav>
+        </header>
     );
-}
+};
 
 export default Header;

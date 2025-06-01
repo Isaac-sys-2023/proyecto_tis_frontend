@@ -1,7 +1,7 @@
 /* Recibo.css */
 .recibo-container {
   max-width: 850px; /* Aumentado de 700px a 850px */
-  margin: 40px auto;
+  margin: 40px;
   background-color: white;
   padding: 30px;
   border-radius: 10px;

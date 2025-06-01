@@ -99,7 +99,8 @@ const InscripcionExcel = () => {
 
                 // Validación de correo (solo si existe)
                 const correo = fila["correoPost"];
-                if (correo && typeof correo === "string" && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(correo)) {
+                console.log(`Validando: "{${correo}}"`);
+                if (correo && typeof correo === "string" && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(correo.trim())) {
                     errores.push(`Correo inválido en fila ${i + 2}`);
                 }
 
@@ -114,6 +115,7 @@ const InscripcionExcel = () => {
 
                 // Validación de fecha (se convierte a Date y se verifica)
                 const fecha = fila["fechaNaciPost"];
+
                 if (fecha && isNaN(new Date(fecha).getTime())) {
                     errores.push(`Fecha de nacimiento inválida en fila ${i + 2}`);
                 }
@@ -348,7 +350,7 @@ const InscripcionExcel = () => {
         <div className="excel-container">
             <div className="excel-title">
                 <h2>TODOS LOS POSTULANTES DEBEN PERTENECER AL MISMO COLEGIO Y TENER EL MISMO TUTOR</h2>
-                <h2>Descague la plantilla aqui y suba el archivo .xlsx con el formato dado</h2>
+                <h2>Descargue la plantilla aqui y suba el archivo .xlsx con el formato dado</h2>
                 <ExcelDownload />
             </div>
 

@@ -1,14 +1,12 @@
 import GestionColegios from "./pages/GestionColegio";
 import AddColegios from "./pages/AddColegios";
 import Header from "./layout/Header";
-import Navbar from "./layout/Navbar";
 import { Routes, Route, BrowserRouter, useNavigate } from 'react-router-dom';
 import React, { useContext } from 'react';
 import EditColegios from "./pages/EditColegio";
 import CrearConvForm from "./pages/CrearConvForm";
 import DetalleConv from "./pages/DetalleConv";
 import Inicio from "./views/Inicio";
-import Disciplinas from "./views/Disciplinas";
 
 import Convocatorias from "./views/Convocatorias";
 
@@ -161,8 +159,8 @@ function App() {
   return (
     //<BrowserRouter>
     <ConvocatoriaProvider>
-      <Header />
-      {user && user.rol !== 'tutor' && <Navbar />}
+      <Header/>
+      {/*user && user.rol !== 'tutor' && <Header />*/}
       <AppRoutes />
     </ConvocatoriaProvider>
     //</BrowserRouter>

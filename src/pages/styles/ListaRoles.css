@@ -1,39 +1,84 @@
-.lista-container {
+/* Vista móvil: tarjetas colapsables */
+.mobile-cards {
+  display: none;
+}
+
+.lista-container{
   padding: 20px;
-  max-width: 800px;
-  margin: auto;
+  text-align: center;
 }
 
-.lista-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-.lista-table th,
-.lista-table td {
-  padding: 10px;
-  border: 1px solid #ccc;
-  text-align: left;
-}
-
-.lista-table button {
-  margin-right: 5px;
-  padding: 4px 8px;
-  cursor: pointer;
-}
-
-.botones-container {
+.botones-container-tu{
   display: flex;
-  justify-content: flex-start; 
-  gap: 10px; 
-  margin-top: 20px; 
-  align-items: center; 
+  justify-content: center;
+  align-items: center;
 }
 
-
-.botones-container button {
+.btn-agregar-lr, .btn-cancelar-lr{
+  background-color: #0099B3;
   padding: 10px 20px;
-  font-size: 16px;
+  color: white;
+}
+
+@media (max-width: 768px) {
+  .lista-table {
+    display: none;
+  }
+
+  .mobile-cards {
+    display: block;
+    margin-top: 20px;
+  }
+
+  .role-card {
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+
+  .role-summary {
+    background-color: #007290;
+    color: white;
+    padding: 15px;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+  }
+
+  .role-details {
+    padding: 15px;
+    background-color: #f9f9f9;
+  }
+
+  .card-actions {
+    margin-top: 10px;
+  }
+
+  .card-actions button {
+    margin-right: 10px;
+    padding: 6px 12px;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+  }
+
+  .edit-btn {
+    background-color: #0099b3;
+  }
+
+  .delete-btn {
+    background-color: #dc3545;
+  }
+
+  .card-actions button:hover {
+    opacity: 0.9;
+  }
 }
 
   

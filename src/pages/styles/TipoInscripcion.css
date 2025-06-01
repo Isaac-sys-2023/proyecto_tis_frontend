@@ -1,48 +1,113 @@
-.container-tipo{
+.container-tipo {
     display: flex;
     flex-direction: column;
     width: 100%;
-    /* background-color: aqua; */
+    padding: 20px;
+    box-sizing: border-box;
 }
 
-.title-tipo{
+.title-tipo {
     width: 100%;
     text-align: center;
-    padding: 20px 20px 0 20px;
+    padding: 20px 0;
     margin: 0;
     color: black;
-    font-size: 40px;
+    font-size: 2.5rem;
 }
 
-.buttons-tipo{
+.buttons-tipo {
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
     width: 100%;
     padding: 10px;
 }
 
-.button-tipo{
+.button-tipo {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 }
 
-.button-tipo h1{
+.button-tipo h1 {
     color: black;
-    margin-bottom: 0;
+    margin-bottom: 10px;
+    font-size: 1.5rem;
+    text-align: center;
 }
 
-.image-button{
-    margin: 0 15px;
+.image-button {
+    margin: 0 10px;
     background-color: white;
-    border: 5px solid black;
+    border: 4px solid black;
+    padding: 5px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
 }
 
-.image-button img{
+.image-button:hover {
+    transform: scale(1.05);
+}
+
+.image-button img {
     user-select: none;
     -webkit-user-drag: none;
     pointer-events: none;
-    width: 300px;
+    width: 250px;
+    max-width: 90vw;
+}
+
+/* 🔁 Responsividad específica para pantallas pequeñas */
+@media (max-width: 768px) {
+    .title-tipo {
+        font-size: 2rem;
+    }
+
+    .buttons-tipo {
+        flex-direction: column;
+    }
+
+    .image-button img {
+        width: 100%;
+    }
+
+    .button-tipo h1 {
+        font-size: 1.6rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .container-tipo {
+        height: calc(100vh - 140px);
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+    }
+
+    .title-tipo {
+        font-size: 1.8rem;
+    }
+
+    .button-tipo {
+        flex-direction: row;
+        background-color: #09052C;
+        border-radius: 10px;
+        width: 100%;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .button-tipo h1 {
+        font-size: 2rem;
+        color: white;
+        margin: 20px 0;
+    }
+
+    .image-button img {
+        width: 2rem;
+    }
 }
