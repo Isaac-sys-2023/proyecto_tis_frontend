@@ -86,9 +86,21 @@ const Registro = ({ idConvocatoria, setRegistro, estudiante, areasSeleccionadas,
     }
   }, [form.departamento]);
 
+  // useEffect(() => {
+  //   // Si idCurso es distinto de vacío (o incluso si vuelve a ""), siempre limpiamos:
+  //   console.log("executing");
+  //   setMostrarArea(false);
+  //   setAreasSeleccionadas([]);
+  //   setCategoriasSeleccionadas([]);
+  // }, [form.idCurso, setAreasSeleccionadas, setCategoriasSeleccionadas]);
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+
+    console.log("Ejecuntado...");
+    
+
     if ((name === "nombrePost" || name === "apellidoPost") && value && !nombreApellidoRegex.test(value)) {
       alert("El nombre y apellido solo pueden contener letras.");
       return;
@@ -108,6 +120,15 @@ const Registro = ({ idConvocatoria, setRegistro, estudiante, areasSeleccionadas,
         return; // No actualiza el estado si la fecha es inválida
       }
     }
+
+    // if (name === "idCurso") {
+    //   console.log("executing");
+      
+    //   setMostrarArea(false);
+    //   areasSeleccionadas.forEach(area => {
+    //     handleCheckboxChange(area);
+    //   });
+    // }
 
     setForm((prevForm) => {
       if (name.includes(".")) {

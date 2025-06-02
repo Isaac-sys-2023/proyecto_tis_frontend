@@ -7,6 +7,8 @@ import "./styles/PruebaLogin.css";
 
 import { useAuth } from '../context/AuthContext';
 
+import SpinnerInsideButton from '../components/SpinnerInsideButton';
+
 const apiUrl = import.meta.env.VITE_API_URL;
 
 const PruebaLogin = () => {
@@ -21,6 +23,8 @@ const PruebaLogin = () => {
     const [error, setError] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
 
+    const [cargando, setCargando] = useState(false);
+
     const handleChange = (e) => {
         console.log('📝 [Login] Campo cambiado:', e.target.name, e.target.value);
         setFormData({
@@ -31,6 +35,8 @@ const PruebaLogin = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setCargando(true);
+
         console.log('🔐 [Login] Enviando petición con:', formData);
         setError('');
         setSuccessMessage('');
@@ -73,6 +79,8 @@ const PruebaLogin = () => {
             } else {
                 setError('Error de conexión.');
             }
+        } finally {
+            setCargando(false)
         }
     };
 
@@ -84,7 +92,7 @@ const PruebaLogin = () => {
                 {successMessage && <div className="success-message">{successMessage}</div>}
                 {error && <div className="error-message">{error}</div>}
 
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={handleSubmit} className={cargando ? "divDeshabilitado" : ""}>
                     <label>Email:</label>
                     <input  type="email" name="email" value={formData.email} onChange={handleChange} required/>
 
@@ -92,7 +100,7 @@ const PruebaLogin = () => {
                     <input type="password" name="password" value={formData.password} onChange={handleChange} required/>
 
                     <div className="button-container">
-                        <button type="submit" className="btn-iniciar">INICIAR</button>
+                        <button type="submit" className="btn-iniciar">INICIAR  {cargando ? <span><SpinnerInsideButton/></span> : ""}</button>
                     </div>
                     <p> <Link to="/recuperacionC" className="btn-contraseña">¿Olvidaste tu contraseña ?</Link></p>
                     <p>¿No tienes una cuenta? <Link to="/registro-tutor" className="btn-registro">Regístrate aquí</Link></p>

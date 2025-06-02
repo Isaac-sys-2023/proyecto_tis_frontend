@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { es } from 'date-fns/locale';
- 
+
 
 
 const nombreApellidoRegex = /^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/;
@@ -90,6 +90,14 @@ const Registro = ({ idConvocatoria, setRegistro, estudiante, areasSeleccionadas,
     }
   }, [form.departamento]);
 
+  useEffect(() => {
+    // Si idCurso es distinto de vacío (o incluso si vuelve a ""), siempre limpiamos:
+    console.log("executing");
+    setMostrarArea(false);
+    setAreasSeleccionadas([]);
+    setCategoriasSeleccionadas([]);
+  }, [form.idCurso, setAreasSeleccionadas, setCategoriasSeleccionadas]);
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -102,32 +110,32 @@ const Registro = ({ idConvocatoria, setRegistro, estudiante, areasSeleccionadas,
       alert("El carnet solo puede contener números.");
       return;
     }
-   
+
 
     if (name === "fechaNaciPost") {
       // Permitir solo números y el separador "/"
       const formattedValue = value.replace(/[^0-9/]/g, ""); // Elimina todo lo que no sea número o "/"
-      
+
 
       // Actualizamos el estado con la entrada formateada
       setForm((prevForm) => ({
         ...prevForm,
         [name]: formattedValue,
       }));
-  
+
       // Validación para que la fecha tenga el formato correcto
       const dateRegex = /^(\d{2})\/(\d{2})\/(\d{4})$/;
       const match = formattedValue.match(dateRegex);
-  
+
       if (match) {
         const day = parseInt(match[1], 10);
         const month = parseInt(match[2], 10) - 1; // Los meses en JavaScript son de 0 a 11
         const year = parseInt(match[3], 10);
-        
+
         const selectedDate = new Date(year, month, day);
         const minDate = new Date("2007-01-01");
         const maxDate = new Date("2019-12-31");
-  
+
         // Comprobamos si la fecha está dentro del rango
         if (selectedDate < minDate || selectedDate > maxDate) {
           alert("La fecha debe estar entre el 1 de enero de 1990 y el 31 de diciembre de 2019.");
@@ -135,7 +143,7 @@ const Registro = ({ idConvocatoria, setRegistro, estudiante, areasSeleccionadas,
         }
       }
     }
-    
+
 
     setForm((prevForm) => {
       if (name.includes(".")) {
@@ -301,57 +309,57 @@ const Registro = ({ idConvocatoria, setRegistro, estudiante, areasSeleccionadas,
 
   return (
     <div className="registro-container">
-      <div className="seccion-container">        
-          <div className="encabezado-postulante">Postulante</div>
-            <div className="grid-container postulante-scroll">
-            <input type="text" placeholder="Nombre(s)" name="nombrePost" onChange={handleChange} value={form.nombrePost} />
-            <input type="text" placeholder="Apellido(s)" name="apellidoPost" onChange={handleChange} value={form.apellidoPost} />
-            <input type="text" placeholder="Carnet de Identidad" name="carnet" onChange={handleChange} value={form.carnet} />
-            <input type="email" placeholder="Correo Electrónico" name="correoPost" onChange={handleChange} value={form.correoPost} />
-              <DatePicker
-              selected={form.fechaNaciPost}
-              onChange={(date) =>
-                setForm((prevForm) => ({
-                  ...prevForm,
-                  fechaNaciPost: date,
-                }))
-              }
-              dateFormat="dd/MM/yyyy"
-              placeholderText="DD/MM/AAAA"
-              minDate={new Date("2007-01-01")}
-              maxDate={new Date("2019-12-31")}
-              showMonthDropdown
-              showYearDropdown
-              dropdownMode="select"
-              locale={es}
-              calendarClassName="calendario-postulante"
-              dayClassName={date => "dia-calendario"}
-              formatWeekDay={nameOfDay => nameOfDay.substr(0, 2)} // corta a "lun", "mar", etc.
-            />
+      <div className="seccion-container">
+        <div className="encabezado-postulante">Postulante</div>
+        <div className="grid-container postulante-scroll">
+          <input type="text" placeholder="Nombre(s)" name="nombrePost" onChange={handleChange} value={form.nombrePost} />
+          <input type="text" placeholder="Apellido(s)" name="apellidoPost" onChange={handleChange} value={form.apellidoPost} />
+          <input type="text" placeholder="Carnet de Identidad" name="carnet" onChange={handleChange} value={form.carnet} />
+          <input type="email" placeholder="Correo Electrónico" name="correoPost" onChange={handleChange} value={form.correoPost} />
+          <DatePicker
+            selected={form.fechaNaciPost}
+            onChange={(date) =>
+              setForm((prevForm) => ({
+                ...prevForm,
+                fechaNaciPost: date,
+              }))
+            }
+            dateFormat="dd/MM/yyyy"
+            placeholderText="DD/MM/AAAA"
+            minDate={new Date("2007-01-01")}
+            maxDate={new Date("2019-12-31")}
+            showMonthDropdown
+            showYearDropdown
+            dropdownMode="select"
+            locale={es}
+            calendarClassName="calendario-postulante"
+            dayClassName={date => "dia-calendario"}
+            formatWeekDay={nameOfDay => nameOfDay.substr(0, 2)} // corta a "lun", "mar", etc.
+          />
 
 
-            <select name="idCurso" onChange={handleChange} value={form.idCurso}>
-              <option value="">Selecciona un curso</option>
-              {cursos.map((curso) => (
-                <option key={curso.idCurso} value={curso.Curso}>{curso.Curso}</option>
-              ))}
-            </select>
+          <select name="idCurso" onChange={handleChange} value={form.idCurso}>
+            <option value="">Selecciona un curso</option>
+            {cursos.map((curso) => (
+              <option key={curso.idCurso} value={curso.Curso}>{curso.Curso}</option>
+            ))}
+          </select>
 
-            <select name="departamento" onChange={handleChange} value={form.departamento}>
-              <option value="">Selecciona un departamento </option>
-              {departamentos.map((dep) => (
-                <option key={dep.idDepartamento} value={dep.nombreDepartamento}>{dep.nombreDepartamento}</option>
-              ))}
-            </select>
+          <select name="departamento" onChange={handleChange} value={form.departamento}>
+            <option value="">Selecciona un departamento </option>
+            {departamentos.map((dep) => (
+              <option key={dep.idDepartamento} value={dep.nombreDepartamento}>{dep.nombreDepartamento}</option>
+            ))}
+          </select>
 
-            <select name="provincia" onChange={handleChange} value={form.provincia} disabled={!form.departamento}>
-              <option value="">Selecciona una provincia</option>
-              {provincias.map((prov) => (
-                <option key={prov.idProvincia} value={prov.nombreProvincia}>{prov.nombreProvincia}</option>
-              ))}
-            </select>
-          </div>
-        
+          <select name="provincia" onChange={handleChange} value={form.provincia} disabled={!form.departamento}>
+            <option value="">Selecciona una provincia</option>
+            {provincias.map((prov) => (
+              <option key={prov.idProvincia} value={prov.nombreProvincia}>{prov.nombreProvincia}</option>
+            ))}
+          </select>
+        </div>
+
 
         <div className="recuadro-container">
           <h3> Datos del Colegio </h3>
@@ -408,14 +416,14 @@ const Registro = ({ idConvocatoria, setRegistro, estudiante, areasSeleccionadas,
           <div className="competencias">
             {areas.map((area) => (
               <div key={area.id}>
-                <label  className="checkbox-derecho area-checkbox">
-                 <span>{area.nombre}</span>
+                <label className="checkbox-derecho area-checkbox">
+                  <span>{area.nombre}</span>
                   <input type="checkbox"
                     checked={areasSeleccionadas.some((a) => a.id === area.id)}
                     onChange={() => handleCheckboxChange(area)}
                     disabled={areasSeleccionadas.length === 2 && !areasSeleccionadas.some((a) => a.id === area.id)}
                   />
-                  
+
                 </label>
                 {areasSeleccionadas.some((a) => a.id === area.id) && (
                   <div>
@@ -434,7 +442,7 @@ const Registro = ({ idConvocatoria, setRegistro, estudiante, areasSeleccionadas,
                               !categoriasSeleccionadas.some((a) => a.id === categoria.id))
                           }
                         />
-                        
+
                       </label>
                     ))}
                   </div>

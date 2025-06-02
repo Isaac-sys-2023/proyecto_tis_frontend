@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './styles/RecuperarContrasena.css';
+import SpinnerInsideButton from '../components/SpinnerInsideButton';
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
@@ -11,9 +12,12 @@ const RecuperarContrasena = () => {
   const [confirmar, setConfirmar] = useState('');
   const [mostrar, setMostrar] = useState(false);
 
+  const [cargando, setCargando] = useState(false);
+
   // Enviar correo para reset
   const handleVerificar = async (e) => {
     e.preventDefault();
+    setCargando(true);
     try {
       const response = await fetch(`${apiUrl}/forgot-password`, {
         method: 'POST',
@@ -34,14 +38,19 @@ const RecuperarContrasena = () => {
     } catch (error) {
       console.error('Error en la verificación:', error);
       alert('Error al enviar el correo. Intenta nuevamente.');
+    } finally {
+      setCargando(false);
     }
   };
 
   // Restablecer contraseña
   const handleCambio = async (e) => {
     e.preventDefault();
+    setCargando(true);
+
     if (nueva !== confirmar) {
       alert('Las contraseñas no coinciden');
+      setCargando(false);
       return;
     }
 
@@ -75,6 +84,8 @@ const RecuperarContrasena = () => {
     } catch (error) {
       console.error('Error en el cambio de contraseña:', error);
       alert('Error al actualizar la contraseña. Intenta nuevamente.');
+    } finally {
+      setCargando(false);
     }
   };
 
@@ -91,15 +102,16 @@ const RecuperarContrasena = () => {
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              disabled={cargando}
             />
             <p>Se enviará un enlace de restablecimiento a este email</p>
-            <button type="submit">Enviar</button>
+            <button type="submit" disabled={cargando}>Enviar  {cargando ? <span><SpinnerInsideButton /></span> : ""}</button>
           </form>
         </>
       ) : (
         <>
           <h2>Restablecer contraseña</h2>
-          <form onSubmit={handleCambio} className="recuperar-form">
+          <form onSubmit={handleCambio} className={cargando ? "recuperar-form divDeshabilitado" : "recuperar-form"}>
             <label>Token recibido por correo *</label>
             <input
               type="text"
@@ -138,7 +150,7 @@ const RecuperarContrasena = () => {
               <span onClick={() => setMostrar(!mostrar)}>👁️</span>
             </div>
 
-            <button type="submit" className='button-restablecer-c'>Restablecer contraseña</button>
+            <button type="submit" className='button-restablecer-c'>Restablecer contraseña  {cargando ? <span><SpinnerInsideButton /></span> : ""}</button>
           </form>
         </>
       )}

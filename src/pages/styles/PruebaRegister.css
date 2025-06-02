@@ -35,7 +35,7 @@ form {
 label {
   font-weight: bold;
   margin-bottom: 5px;
-  text-align: left !important; 
+  text-align: left !important;
   display: block;
   width: 100%;
   color: #333;
@@ -79,6 +79,9 @@ input:focus {
 
 .btn-registrarse,
 .btn-cancelar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   padding: 10px 20px;
   border: none;
   border-radius: 6spx;
@@ -90,10 +93,24 @@ input:focus {
   background-color: #007b9e;
   color: white;
 }
+.btn-registrarse:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  pointer-events: none;
+} 
 
 .btn-cancelar-register {
   background-color: #ccc;
   color: white;
 }
 
+.btn-cancelar-register:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  pointer-events: none;
+} 
 
+.divDeshabilitado {
+  pointer-events: none; /* Evita clicks, focus, etc */
+  opacity: 0.5;         /* Visualmente indica deshabilitado */
+}

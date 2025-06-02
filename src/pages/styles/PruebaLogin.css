@@ -44,4 +44,26 @@
     font-weight: bold;
 }
 
+.btn-iniciar{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 12px 20px;
+    transition: background-color 0.3s ease;
+    font-weight: 600;
+}
 
+.btn-iniciar:hover{
+    background-color: #0099B3;
+}
+
+.btn-iniciar:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  pointer-events: none;
+} 
+
+.divDeshabilitado {
+  pointer-events: none; /* Evita clicks, focus, etc */
+  opacity: 0.5;         /* Visualmente indica deshabilitado */
+}

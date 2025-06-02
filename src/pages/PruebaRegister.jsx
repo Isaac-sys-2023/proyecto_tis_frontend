@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import './styles/PruebaRegister.css';
+import SpinnerInsideButton from '../components/SpinnerInsideButton';
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
@@ -23,6 +24,8 @@ const PruebaRegister = () => {
     const [mostrarContraseña, setMostrarContraseña] = useState(false); // Estado para controlar la visibilidad de la contraseña
     const [mostrarConfirmarContraseña, setMostrarConfirmarContraseña] = useState(false); // Estado para controlar la visibilidad de la confirmación de contraseña
 
+    const [cargando, setCargando] = useState(false);
+
     const handleChange = (e) => {
         setFormData({
             ...formData,
@@ -32,8 +35,25 @@ const PruebaRegister = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setCargando(true);
+
         setErrors({});
         setSuccessMessage('');
+
+        // VALIDACIÓN DE MAYOR DE 18 AÑOS
+        const fechaNacimiento = new Date(formData.fechaNacimiento);
+        const hoy = new Date();
+        const fecha18 = new Date(
+            fechaNacimiento.getFullYear() + 18,
+            fechaNacimiento.getMonth(),
+            fechaNacimiento.getDate()
+        );
+
+        if (isNaN(fechaNacimiento.getTime()) || fecha18 > hoy) {
+            setErrors({ fechaNacimiento: ['Debes tener al menos 18 años para registrarte.'] });
+            setCargando(false);
+            return;
+        }
 
         try {
             const response = await axios.post(`${apiUrl}/register`, formData);
@@ -55,6 +75,8 @@ const PruebaRegister = () => {
             } else {
                 console.error('Error desconocido', error);
             }
+        } finally {
+            setCargando(false);
         }
     };
 
@@ -78,7 +100,7 @@ const PruebaRegister = () => {
                 <h2>REGISTRO</h2>
                 {successMessage && <div className="success-message">{successMessage}</div>}
 
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={handleSubmit} className={cargando ? "divDeshabilitado" : ""}>
                     <label htmlFor="name">Nombre</label>
                     <input type="text" name="name" value={formData.name} onChange={handleChange} />
                     {errors.name && <small className="error">{errors.name[0]}</small>}
@@ -117,13 +139,20 @@ const PruebaRegister = () => {
 
                     <div className="form-group">
                         <label htmlFor="fechaNacimiento">Fecha de nacimiento</label>
-                        <input type="date" name="fechaNacimiento" value={formData.fechaNacimiento} onChange={handleChange} />
+                        <input 
+                            type="date" 
+                            name="fechaNacimiento" 
+                            value={formData.fechaNacimiento} 
+                            onChange={handleChange} 
+                            min={new Date(new Date().setFullYear(new Date().getFullYear() - 65)).toISOString().split('T')[0]}
+                            max={new Date(new Date().setFullYear(new Date().getFullYear() - 18)).toISOString().split('T')[0]}
+                        />
                         {errors.fechaNacimiento && <small className="error">{errors.fechaNacimiento[0]}</small>}
                     </div>
 
                     <div className="button-container">
-                        <button type="submit" className="btn-registrarse">REGISTRARSE</button>
-                        <button type="button" className="btn-cancelar-register" onClick={handleCancel}>CANCELAR</button>
+                        <button type="submit" className="btn-registrarse" disabled={cargando}>REGISTRARSE  {cargando ? <span><SpinnerInsideButton /></span> : ""}</button>
+                        <button type="button" className="btn-cancelar-register" onClick={handleCancel} disabled={cargando}>CANCELAR</button>
                     </div>
                 </form>
             </div>
