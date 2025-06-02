@@ -1,23 +1,93 @@
-/* Vista móvil: tarjetas colapsables */
-.mobile-cards {
-  display: none;
-}
-
-.lista-container{
+/* Fondo general */
+.lista-container {
+ 
   padding: 20px;
+  min-height: 100vh;
+}
+.lista-titulo {
   text-align: center;
 }
 
-.botones-container-tu{
-  display: flex;
-  justify-content: center;
-  align-items: center;
+/* Tabla */
+.lista-table {
+  width: 100%;
+  border-collapse: collapse;
 }
 
-.btn-agregar-lr, .btn-cancelar-lr{
-  background-color: #0099B3;
-  padding: 10px 20px;
+.lista-table th {
+  background-color: #006d81;
   color: white;
+  padding: 12px;
+  text-align: left;
+}
+
+.lista-table td {
+  background-color: white; /* ✅ Fondo blanco en las filas */
+  color: #000;
+  padding: 12px;
+  border: 1px solid #ddd;
+}
+
+/* Vista móvil: tarjetas colapsables */
+.role-card {
+  background-color: white; /* ✅ Fondo blanco en tarjeta */
+  margin: 10px 0;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.role-summary {
+  background-color: #006d81;
+  color: white;
+  padding: 10px 15px;
+  display: flex;
+  justify-content: space-between;
+  cursor: pointer;
+}
+
+.role-details {
+  padding: 10px 15px;
+  background-color: white;
+  color: #000;
+}
+
+.role-details p strong {
+  color: #219ebc;
+}
+
+/* Botones */
+button {
+  margin: 3px;
+  padding: 6px 10px;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.edit-btn, .rol-btn {
+  background-color: #00bcd4;
+  color: white;
+}
+
+.delete-btn {
+  background-color: white;
+  color: red;
+  border: 2px solid red;
+}
+
+.botones-container-tu {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.botones-container-tu button {
+  background-color: #0097a7;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-size: 16px;
 }
 
 @media (max-width: 768px) {

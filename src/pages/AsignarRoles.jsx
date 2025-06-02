@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import "./styles/AsignarRoles.css";
+import SpinnerInsideButton from "../components/SpinnerInsideButton";
+import FullScreenSpinner from "../components/FullScreenSpinner";
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
@@ -27,23 +29,35 @@ const AsignarRoles = () => {
     convocatoria_id: location.state?.idConvocatoria || ""
   });
 
+  const [cargando, setCargando] = useState(true);
+  const [subiendo, setSubiendo] = useState(false);
+
   useEffect(() => {
-    fetch(`${apiUrl}/todosusers`)
-      .then((res) => res.json())
-      .then((data) => setPersonas(data));
+    try {
+      fetch(`${apiUrl}/todosusers`)
+        .then((res) => res.json())
+        .then((data) => setPersonas(data))
+        .catch(error => console.error("Error al obtener usuarios:", error));
 
-    fetch(`${apiUrl}/roles`)
-      .then((res) => res.json())
-      .then((data) => setRoles(data));
+      fetch(`${apiUrl}/roles`)
+        .then((res) => res.json())
+        .then((data) => setRoles(data))
+        .catch(error => console.error("Error al obtener roles:", error));
 
-    fetch(`${apiUrl}/todasconvocatorias`)
-      .then(response => response.json())
-      .then(data => {
-        // const convocatoriasHabilitadas = data.filter(conv => (conv.habilitada === 1 && conv.eliminado === 0));
-        const convocatoriasHabilitadas = data.filter(conv => ((conv.habilitada === 1 || conv.habilitada === true) && (conv.eliminado === 0 || conv.eliminado === false)));
-        setConvocatorias(convocatoriasHabilitadas);
-      })
-      .catch(error => console.error("Error al obtener convocatorias:", error));
+      fetch(`${apiUrl}/todasconvocatorias`)
+        .then(response => response.json())
+        .then(data => {
+          // const convocatoriasHabilitadas = data.filter(conv => (conv.habilitada === 1 && conv.eliminado === 0));
+          const convocatoriasHabilitadas = data.filter(conv => ((conv.habilitada === 1 || conv.habilitada === true) && (conv.eliminado === 0 || conv.eliminado === false)));
+          setConvocatorias(convocatoriasHabilitadas);
+        })
+        .catch(error => console.error("Error al obtener convocatorias:", error));
+    } catch (error) {
+      console.error("Error: ", error);
+    } finally {
+      setCargando(false);
+    }
+
   }, []);
 
   const handleNombre = (e) => {
@@ -73,8 +87,11 @@ const AsignarRoles = () => {
   };
 
   const guardarDatos = async () => {
+    setSubiendo(true);
+
     if (!formulario.user_id || !formulario.role_name || !formulario.convocatoria_id) {
       alert("Completa todos los campos antes de guardar.");
+      setSubiendo(false);
       return;
     }
 
@@ -111,6 +128,8 @@ const AsignarRoles = () => {
     } catch (error) {
       console.error("Error al asignar rol:", error);
       alert("Ocurrió un error inesperado.");
+    } finally {
+      setSubiendo(false);
     }
   };
 
@@ -121,30 +140,76 @@ const AsignarRoles = () => {
 
       <div className="roles-search">
         <label>Buscar por nombre:</label>
-        <input type="text" value={searchTerm} onChange={handleNombre} placeholder="🔍 Buscar persona por nombre" />
+        <input type="text" value={searchTerm} onChange={handleNombre} placeholder="🔍 Buscar persona por nombre" disabled={cargando || subiendo} />
       </div>
 
+      {cargando ? (
+        <FullScreenSpinner />
+      ) : (
+        <>
+          {/* Vista escritorio */}
+          <div className="desktop-view">
+            <table className="roles-table">
+              <thead>
+                <tr>
+                  <th>Nombre</th>
+                  <th>Convocatoria</th>
+                  <th>Rol</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <select name="user_id" value={formulario.user_id} onChange={handleChange}>
+                      <option value="">Seleccione</option>
+                      {personas.map((p) => (
+                        <option key={p.id} value={p.id}>{p.name} {p.apellido}</option>
+                      ))}
+                    </select>
+                  </td>
+                  <td>
+                    <select name="convocatoria_id" value={formulario.convocatoria_id} onChange={handleChange}>
+                      <option value="">Seleccione</option>
+                      {convocatorias.map((c) => (
+                        <option key={c.idConvocatoria} value={c.idConvocatoria}>
+                          {c.tituloConvocatoria}
+                        </option>
+                      ))}
+                    </select>
+                  </td>
+                  <td>
+                    <select name="role_name" value={formulario.role_name} onChange={handleChange}>
+                      <option value="">Seleccione</option>
+                      {roles.map((r) => (
+                        <option key={r.id} value={r.name}>{r.name}</option>
+                      ))}
+                    </select>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
 
-      <table className="roles-table">
-        <thead>
-          <tr>
-            <th>Nombre</th>
-            <th>Convocatoria</th>
-            <th>Rol</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>
+          {/* Vista móvil */}
+          <div className="mobile-view">
+            <div className="form-group">
+              <label>Nombre:</label>
               <select name="user_id" value={formulario.user_id} onChange={handleChange}>
                 <option value="">Seleccione</option>
                 {personas.map((p) => (
-                  <option key={p.id} value={p.id}>{p.name} {p.apellido}</option>
+                  <option key={p.id} value={p.id}>
+                    {p.name} {p.apellido}
+                  </option>
                 ))}
               </select>
-            </td>
-            <td>
-              <select name="convocatoria_id" value={formulario.convocatoria_id} onChange={handleChange}>
+            </div>
+            <div className="form-group">
+              <label>Convocatoria:</label>
+              <select
+                name="convocatoria_id"
+                value={formulario.convocatoria_id}
+                onChange={handleChange}
+              >
                 <option value="">Seleccione</option>
                 {convocatorias.map((c) => (
                   <option key={c.idConvocatoria} value={c.idConvocatoria}>
@@ -152,25 +217,29 @@ const AsignarRoles = () => {
                   </option>
                 ))}
               </select>
-            </td>
-            <td>
+            </div>
+            <div className="form-group">
+              <label>Rol:</label>
               <select name="role_name" value={formulario.role_name} onChange={handleChange}>
                 <option value="">Seleccione</option>
                 {roles.map((r) => (
-                  <option key={r.id} value={r.name}>{r.name}</option>
+                  <option key={r.id} value={r.name}>
+                    {r.name}
+                  </option>
                 ))}
               </select>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+            </div>
+          </div>
+        </>
+      )}
+
 
       <div className="roles-buttons">
         {!nombreNoEncontrado && (
-          <button className="btn-guardar" onClick={guardarDatos}>💾</button>
+          <button className="btn-guardar" onClick={guardarDatos} disabled={cargando || subiendo}>{subiendo ? <SpinnerInsideButton /> : "💾"}</button>
         )}
         {nombreNoEncontrado && (
-          <button className="btn-registrar">Registrar</button>
+          <button className="btn-registrar" onClick={() => { navigate("/addUser") }} disabled={cargando || subiendo}>Registrar Usuario</button>
         )}
       </div>
     </div>

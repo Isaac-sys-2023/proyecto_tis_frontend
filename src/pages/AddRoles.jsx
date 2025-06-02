@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import './styles/AddRoles.css';
 
+import FullScreenSpinner from '../components/FullScreenSpinner';
+import SpinnerInsideButton from '../components/SpinnerInsideButton';
+
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
@@ -24,6 +27,8 @@ const AddRoles = () => {
   const { id } = useParams();
   const [modoEdicion, setModoEdicion] = useState(!!id);
 
+  const [cargando, setCargando] = useState(true);
+  const [subiendo, setSubiendo] = useState(false);
 
   useEffect(() => {
     // const rolEditar = JSON.parse(localStorage.getItem("rolEditar"));
@@ -52,6 +57,8 @@ const AddRoles = () => {
         setPermisosDisponibles(data);
       } catch (error) {
         console.error("Error cargando permisos:", error);
+      } finally {
+        setCargando(false);
       }
     };
 
@@ -101,7 +108,12 @@ const AddRoles = () => {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ permission: permiso }),
-    });
+    }).catch(
+      error=>{
+        console.log("Error: ", error);
+    }).finally(
+      ()=> setSubiendo(false)
+    );
   };
 
   const actualizarRol = async (id, nombreRol, funciones) => {
@@ -136,11 +148,22 @@ const AddRoles = () => {
     } catch (error) {
       console.error('Error al actualizar el rol:', error);
       alert('Hubo un error al actualizar el rol. Revisa la consola.');
+    } finally {
+      setSubiendo(false);
     }
   }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setSubiendo(true);
+
+    await new Promise(resolve => setTimeout(resolve, 3000));
+
+    if (!nombreRol || funciones.length == 0) {
+      alert("Complete todos los campos y elija al menos una función");
+      setSubiendo(false);
+      return;
+    }
 
     // // 1. Crear el rol
     // const nuevoRol = await crearRol(nombreRol);
@@ -172,40 +195,41 @@ const AddRoles = () => {
 
   return (
     <div className="form-container">
-      <h2 className="form-title">{modoEdicion ? "Editar Rol" : "Añadir Rol"}</h2>
+      <h2 className="form-title">{modoEdicion ? "Editar Rol" : "Crear Rol"}</h2>
       <form onSubmit={handleSubmit}>
         <label htmlFor="nombreRol">Nombre Rol:</label>
-        <input
-          type="text"
-          id="nombreRol"
-          value={nombreRol}
-          onChange={(e) => setNombreRol(e.target.value)}
-        />
+        <input type="text" id="nombreRol" value={nombreRol} onChange={(e) => setNombreRol(e.target.value)} disabled={cargando || subiendo} />
 
         <label>Funciones:</label>
-        <div className="funciones">
-          {/* {opcionesFunciones.map((funcion, index) => ( */}
-          {permisosDisponibles.map((funcion) => (
-            // <div key={index}>
-            <div key={funcion.id}>
-              <input
-                type="checkbox"
-                // id={`funcion-${index}`}
-                id={`funcion-${funcion.id}`}
-                // checked={funciones.includes(funcion)}
-                // onChange={() => handleCheckboxChange(funcion)}
-                checked={funciones.includes(funcion.name)}
-                onChange={() => handleCheckboxChange(funcion.name)}
-              />
-              {/* <label htmlFor={`funcion-${index}`}>{funcion}</label> */}
-              <label htmlFor={`funcion-${funcion.id}`}>{funcion.name}</label>
-            </div>
-          ))}
-        </div>
+        {cargando ? (
+          <FullScreenSpinner />
+        ) : (
+          <div className="funciones">
+            {/* {opcionesFunciones.map((funcion, index) => ( */}
+            {
+              permisosDisponibles.map((funcion) => (
+                // <div key={index}>
+                <div key={funcion.id}>
+                  <input
+                    type="checkbox"
+                    // id={`funcion-${index}`}
+                    id={`funcion-${funcion.id}`}
+                    // checked={funciones.includes(funcion)}
+                    // onChange={() => handleCheckboxChange(funcion)}
+                    checked={funciones.includes(funcion.name)}
+                    onChange={() => handleCheckboxChange(funcion.name)}
+                  />
+                  {/* <label htmlFor={`funcion-${index}`}>{funcion}</label> */}
+                  <label htmlFor={`funcion-${funcion.id}`}>{funcion.name}</label>
+                </div>
+              ))
+            }
+          </div>
+        )}
 
         <div className="add-rol-buttons">
-          <button type="submit">{modoEdicion ? "Guardar Cambios" : "Registrar"}</button>
-          <button type="button" onClick={handleCancel}>Cancelar</button>
+          <button type="submit" disabled={cargando || subiendo}>{modoEdicion ? "Guardar Cambios" : "Registrar"} {subiendo && <span><SpinnerInsideButton/></span> }</button>
+          <button type="button" onClick={handleCancel} disabled={cargando || subiendo}>Cancelar</button>
         </div>
       </form>
     </div>

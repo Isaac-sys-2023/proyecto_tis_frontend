@@ -39,10 +39,10 @@
 /* Botones */
 .botones {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   gap: 10px;
   margin-top: 20px;
-  justify-content: stretch; /* Centra los botones si no ocupan todo el ancho */
+  justify-content: center; /* Centra los botones si no ocupan todo el ancho */
 }
 
 .botones button {
@@ -54,7 +54,7 @@
   cursor: pointer;
   color: white;
   text-align: center;
-  width: 100%;              /* ocupa todo el ancho del contenedor */
+  width: 100px;              /* ocupa todo el ancho del contenedor */
   max-width: 100%;
 }
 
@@ -68,9 +68,41 @@
 }
 
 .botones button:disabled {
-  background-color: #007A8F; 
+  opacity: 0.6;
   cursor: not-allowed;
+  pointer-events: none;
+} 
+
+/* Estilo base para el botón Salir */
+.botones button:last-child {
+  background-color: white;
+  color: black;
+  border: 2px solid #007A8F; /* borde que contraste */
+  width: 100px;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  text-align: center;
 }
 
+/* Estado deshabilitado del botón Salir */
+.botones button:last-child:disabled {
+  background-color: #f0f0f0;
+  color: #999999;
+  cursor: not-allowed;
+  border-color: #cccccc;
+}
+
+/* Opcional: efecto hover solo si está activo */
+.botones button:last-child:not(:disabled):hover {
+  background-color: #007A8F;
+}
+
+
+.seccion-container h1 {
+  text-align: center;
+}
 
  

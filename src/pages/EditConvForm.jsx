@@ -3,6 +3,8 @@ import "./styles/Convocatoria.css";
 import ImageUpload from "../components/ImageUpload";
 import { useNavigate, useParams } from "react-router-dom";
 
+import SpinnerInsideButton from "../components/SpinnerInsideButton";
+
 const apiUrl = import.meta.env.VITE_API_URL;
 
 
@@ -23,6 +25,7 @@ export const EditConvForm = () => {
 
   const [convocatoria, setConvocatoria] = useState({});
   const [areas, setAreas] = useState([]);
+  const [cargando, setCargando] = useState(false);
 
   useEffect(() => {
     const fetchConv = async () => {
@@ -85,6 +88,7 @@ export const EditConvForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setCargando(true);
 
     if (
       !formData.titulo ||
@@ -96,6 +100,7 @@ export const EditConvForm = () => {
       !formData.imagenPortada
     ) {
       setError("Por favor, complete todos los campos obligatorios.");
+      setCargando(false);
       return;
     }
     setError("");
@@ -126,6 +131,7 @@ export const EditConvForm = () => {
       const text = await response.text();
       if (!response.ok) {
         console.error('Error del servidor:', text); // en vez de tratar de hacer response.json() directamente
+        setCargando(false);
         return;
       }
 
@@ -134,6 +140,7 @@ export const EditConvForm = () => {
       });
     } catch (error) {
       console.error('Error al guardar la convocatoria:', error);
+      setCargando(false);
     }
 
   };
@@ -223,11 +230,11 @@ export const EditConvForm = () => {
 
 
       </form>
-      <div className="button-group">
-        <button type="submit" className="siguiente" onClick={handleSubmit}>
-          Siguiente
+      <div className="button-crearconv">
+        <button type="submit" className="siguiente-crearconv" onClick={handleSubmit}>
+          Siguiente  {cargando && (<span><SpinnerInsideButton/></span>)}
         </button>
-        <button type="button" className="cancelar" onClick={handleCancelar}>
+        <button type="button" className="cancelar-crearconv" onClick={handleCancelar}>
           Cancelar
         </button>
       </div>

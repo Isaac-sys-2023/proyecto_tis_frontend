@@ -8,9 +8,10 @@
   display: none;
 }
 
-.titulo-tabla{
+.titulo-tabla {
   text-align: center;
 }
+
 /* --- Contenedor general --- */
 .lista-usuarios {
   background-color: #d4ebf2;
@@ -27,17 +28,17 @@
 
 /* --- Botones superiores --- */
 .acciones-superiores {
-  margin-bottom: 20px;
   display: flex;
-  flex-direction: column;
-  gap: 10px;
-  align-items: flex-start;
+  justify-content: center;
+  align-items: center;
+   margin-top: 20px;
+  margin-bottom: 0; /* Elimina separación inferior */
 }
 
 .btn-registrar,
 .btn-cancelar,
 .btn-agregar {
-  width: 50%;
+  width: auto;
   max-width: 150px;
   padding: 10px 16px;
   font-size: 15px;
@@ -46,17 +47,25 @@
   border-radius: 6px;
   cursor: pointer;
   text-align: center;
+  color: white;
+  background-color: #0099b3;
+  box-sizing: border-box;
 }
 
+/* Forzar texto blanco y color para cada botón */
 .btn-registrar {
   background-color: #0099b3;
-  color: white;
+  color: white !important;
 }
 
-.btn-cancelar,
+.btn-cancelar {
+  background-color: #0099b3;
+  color: white !important;
+}
+
 .btn-agregar {
   background-color: #0099b3;
-  color: white;
+  color: white !important;
 }
 
 /* --- Línea separadora opcional --- */
@@ -104,7 +113,7 @@
 
   .user-card {
     background: #fff;
-    border: 1px solid #000;
+    border: 1px solid #fff;
     border-radius: 10px;
     margin-bottom: 15px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
@@ -153,14 +162,22 @@
     opacity: 0.9;
   }
 
-  /* Ajustes móviles para botones */
+  /* Ajustes móviles para botones superiores */
+  .acciones-superiores {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
   .btn-registrar,
   .btn-cancelar,
   .btn-agregar {
-    font-size: 14px;
-    padding: 8px 12px;
-    max-width: 50%;
+    width: 100% !important;
+    max-width: none !important;
+    padding: 12px 0;
+    font-size: 16px;
   }
 }
+
 
   

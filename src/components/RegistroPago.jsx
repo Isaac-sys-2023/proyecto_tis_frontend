@@ -249,7 +249,7 @@ const RegistroPago = () => {
               <div className="formulario-header">Formulario de Registro de Pago</div>
 
               <div className="formulario-search">
-                <span className="menu-icon">☰</span>
+                <span className="menu-icon"></span>
                 <input
                   type="text"
                   placeholder="Buscar por nombre, apellido o ID del tutor"
@@ -409,17 +409,12 @@ const RegistroPago = () => {
 
               <div className="formulario-botones">
                 <button className="guardar-btn" onClick={(e) => handleSubmit(e)}>Guardar</button>
-                <button
-                  className="cancelar-btn"
-                  onClick={() => {
+                <button className="cancelar-btn" onClick={() => {
                     setSearchText('');
                     setTutoresEncontrados([]);
                     setMensaje('');
                     setVerificaciones({});
-                  }}
-                >
-                  Cancelar
-                </button>
+                  }}>Cancelar</button>
                 <button className="cancelar-btn" onClick={(e) => navigate("/")}>Salir</button>
               </div>
 

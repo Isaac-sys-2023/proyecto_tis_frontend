@@ -148,11 +148,22 @@ input[type="date"] {
     background-color: #96AEC9;
 }
 
+.btn-rechazo:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
 .btn-aceptacion {
     background-color: #0099B3;
 }
 .btn-aceptacion:hover {
     background-color: #007A8F;
+}
+
+.btn-aceptacion:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  pointer-events: none;
 }
 
 /* Responsivo para pantallas menores a 768px (tablets y móviles) */

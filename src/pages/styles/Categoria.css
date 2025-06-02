@@ -25,22 +25,6 @@
   border: 1px solid #ccc;
 }
 
-/* Botón principal */
-.container-Area button {
-  padding: 8px 15px;
-  margin: 5px;
-  background-color: #007290;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.container-Area button:hover {
-  background-color: #007290;
-}
-
 /* Área de tarjetas */
 .area-cards-container {
   display: flex;
@@ -264,30 +248,94 @@
   gap: 5px;
   font-weight: normal;
 }
-.btn-formcov,
-.btn-salirconv {
-  background-color: #007290;
-  color: #fff;
-  padding: 12px 24px;
+.button-cat {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
+
+.siguiente-cat,
+.cancelar-cat {
+  min-height: 44px; /* estándar de accesibilidad */
+  min-width: 120px;
+  padding: 10px 20px;
   border: none;
   border-radius: 8px;
-  font-weight: bold;
-  font-size: 16px;
+  font-size: 1rem;
   cursor: pointer;
-  transition: background-color 0.3s ease;
-  margin: 8px;
+  transition: background-color 0.3s;
+  text-align: center;
 }
 
-.btn-formcov:hover,
-.btn-salirconv:hover {
-  background-color: #005f6b;
+.siguiente-cat {
+  background-color: #0093B3;
+  color: #ffffff;
 }
 
+.siguiente-cat:hover {
+  background-color: #007a96;
+}
+
+.siguiente-cat:disabled {
+  opacity: 0.5;
+  cursor: default;
+  pointer-events: none;
+}
+
+.cancelar-cat {
+  background-color: #6B7280;
+  color: #ffffff;
+}
+
+.cancelar-cat:hover {
+  background-color: #4B5563;
+}
+
+.cancelar-cat:disabled {
+  opacity: 0.5;
+  cursor: default;
+  pointer-events: none;
+}
+
+.area-cat {
+  background-color: #0093B3;
+  color: #ffffff;
+}
+
+.area-cat:hover {
+  background-color: #007a96;
+}
+
+.area-cat:disabled {
+  opacity: 0.5;
+  cursor: default;
+  pointer-events: none;
+}
+
+.cat-cat {
+  background-color: #0093B3;
+  color: #ffffff;
+}
+
+.cat-cat:hover {
+  background-color: #007a96;
+}
 /* Versión móvil */
 @media (max-width: 600px) {
-  .btn-formcov,
-  .btn-salirconv {
-    width: 100%;
-    font-size: 15px;
+
+   .siguiente-cat,
+  .cancelar-cat {
+    width: 30%;
+    font-size: 1rem;
+    padding: 10px;
   }
 }
+
+.divDeshabilitado {
+  pointer-events: none; /* Evita clicks, focus, etc */
+  opacity: 0.5;         /* Visualmente indica deshabilitado */
+}
+

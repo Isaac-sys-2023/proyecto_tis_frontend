@@ -6,6 +6,8 @@ import "../components/styles/ImageUpload.css"
 import { Link, useNavigate, useParams, useLocation } from "react-router-dom";
 import "./styles/InscripcionExcel.css";
 
+import SpinnerInsideButton from "../components/SpinnerInsideButton";
+
 const apiUrl = import.meta.env.VITE_API_URL;
 
 const InscripcionExcel = () => {
@@ -30,6 +32,11 @@ const InscripcionExcel = () => {
 
     const [cursosDisponibles, setCursosDisponibles] = useState([]);
 
+    const [cargandoCursos, setCargandoCursos] = useState(true);
+    const [cargandoDpto, setCargandoDpto] = useState(true);
+    const [cargandoProv, setCargandoProv] = useState(true);
+    const [cargandoCol, setCargandoCol] = useState(true);
+
     useEffect(() => {
         fetch(`${apiUrl}/vercursos`)
             .then(res => res.json())
@@ -37,12 +44,14 @@ const InscripcionExcel = () => {
                 console.log("Cursos recibidos:", data); // 👀 VER QUÉ LLEGA AQUÍ
                 setCursosDisponibles(data); // o data.cursos si aplica
             })
-            .catch(err => console.error("Error cargando cursos:", err));
+            .catch(err => console.error("Error cargando cursos:", err))
+            .finally(()=>setCargandoCursos(false));
 
         fetch(`${apiUrl}/verdepartamentos`)
             .then(response => response.json())
             .then(data => setDepartamentos(data))
-            .catch(error => console.error("Error al obtener departamentos:", error));
+            .catch(error => console.error("Error al obtener departamentos:", error))
+            .finally(()=>setCargandoDpto(false));
     }, []);
 
     useEffect(() => {
@@ -50,7 +59,8 @@ const InscripcionExcel = () => {
             fetch(`${apiUrl}/verprovincias/departamento/${departamentoColegio}`)
                 .then(res => res.json())
                 .then(data => setProvinciasColegio(data))
-                .catch(error => console.error("Error al obtener provincias:", error));
+                .catch(error => console.error("Error al obtener provincias:", error))
+                .finally(()=>setCargandoProv(false));
         }
     }, [departamentoColegio]);
 
@@ -59,7 +69,8 @@ const InscripcionExcel = () => {
             fetch(`${apiUrl}/departamentos/${departamentoColegio}/provincias/${provinciaColegio}/colegios`)
                 .then(res => res.json())
                 .then(data => setColegiosDisponibles(data))
-                .catch(error => console.error("Error al obtener colegios:", error));
+                .catch(error => console.error("Error al obtener colegios:", error))
+                .finally(()=>setCargandoCol(false));
         }
     }, [departamentoColegio, provinciaColegio]);
 
@@ -321,21 +332,25 @@ const InscripcionExcel = () => {
         const { name, value } = e.target;
 
         if (name === "departamentoColegio") {
+            setCargandoProv(true)
             setDepartamentoColegio(value);
             fetch(`${apiUrl}/verprovincias/departamento/${value}`)
                 .then(response => response.json())
                 .then(data => setProvinciasColegio(data))
-                .catch(error => console.error("Error al obtener provincias:", error));
+                .catch(error => console.error("Error al obtener provincias:", error))
+                .finally(()=>setCargandoProv(false));
             setColegiosDisponibles([]);
         }
 
         if (name === "provinciaColegio") {
+            setCargandoCol(true)
             setProvinciaColegio(value);
             const departamentoActual = departamentoColegio;
             fetch(`${apiUrl}/departamentos/${departamentoActual}/provincias/${value}/colegios`)
                 .then(response => response.json())
                 .then(data => setColegiosDisponibles(data))
-                .catch(error => console.error("Error al obtener colegios:", error));
+                .catch(error => console.error("Error al obtener colegios:", error))
+                .finally(()=>setCargandoCol(false));
         }
 
         if (name === "idColegio") {
@@ -369,6 +384,10 @@ const InscripcionExcel = () => {
                             <span className="upload-icon">📄</span>
                             <p>Archivo cargado: <strong>{archivoNombre}</strong></p>
                         </div>
+                    ) : cargandoCursos ? (
+                        <>
+                            Cargando... <span><SpinnerInsideButton/></span>
+                        </>
                     ) : (
                         <div className="upload-placeholder">
                             <span className="upload-icon">⬆️</span>
@@ -422,21 +441,21 @@ const InscripcionExcel = () => {
 
             <div className="recuadro-container">
                 <h3> Datos del Colegio </h3>
-                <select name="departamentoColegio" onChange={handleChange} value={departamentoColegio}>
+                <select name="departamentoColegio" onChange={handleChange} value={departamentoColegio} disabled={cargandoDpto}>
                     <option value="">Selecciona un departamento</option>
                     {departamentos.map((dep) => (
                         <option key={dep.idDepartamento} value={dep.nombreDepartamento}>{dep.nombreDepartamento}</option>
                     ))}
                 </select>
 
-                <select name="provinciaColegio" onChange={handleChange} value={provinciaColegio} disabled={!departamentoColegio}>
+                <select name="provinciaColegio" onChange={handleChange} value={provinciaColegio} disabled={!departamentoColegio && cargandoProv}>
                     <option value="">Selecciona una provincia</option>
                     {provinciasColegio.map((prov) => (
                         <option key={prov.idProvincia} value={prov.nombreProvincia}>{prov.nombreProvincia}</option>
                     ))}
                 </select>
 
-                <select name="idColegio" onChange={handleChange} value={idColegio} disabled={!provinciaColegio}>
+                <select name="idColegio" onChange={handleChange} value={idColegio} disabled={!provinciaColegio && cargandoCol}>
                     <option value="">Selecciona un colegio</option>
                     {Object.entries(colegiosDisponibles).map(([id, nombre]) => (
                         <option key={id} value={nombre}>

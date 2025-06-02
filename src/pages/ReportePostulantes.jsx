@@ -3,6 +3,8 @@ import jsPDF from 'jspdf';
 import './styles/Reporte.css';
 import PostulantesToogleResponsive from '../components/PostulantesToggleResponsive';
 
+import FullScreenSpinner from '../components/FullScreenSpinner';
+
 const apiUrl = import.meta.env.VITE_API_URL;
 
 const ReportePostulantes = () => {
@@ -30,6 +32,10 @@ const ReportePostulantes = () => {
 
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
 
+  const [cargandoCurso, setCargandoCurso] = useState(true);
+  const [cargandoConv, setCargandoConv] = useState(true);
+  const [cargandoDpto, setCargandoDpto] = useState(true);
+
   useEffect(() => {
     const mediaQuery = window.matchMedia('(max-width: 768px)');
     const updateIsMobile = () => setIsMobile(mediaQuery.matches);
@@ -45,14 +51,15 @@ const ReportePostulantes = () => {
       .then(res => res.json())
       .then(data => setCursos(data))
       .catch(err => setError('Error al cargar los cursos', err))
-      .finally(() => setCargando(false));
+      .finally(() => setCargandoCurso(false));
   }, []);
 
   useEffect(() => {
     fetch(`${apiUrl}/convocatorias/activas`)
       .then(res => res.json())
       .then(data => setConvocatorias(data))
-      .catch(err => setError('Error al cargar los cursos', err))
+      .catch(err => setError('Error al cargar las convocatorias', err))
+      .finally(() => setCargandoConv(false));
   }, [])
 
   useEffect(() => {
@@ -71,7 +78,8 @@ const ReportePostulantes = () => {
     fetch(`${apiUrl}/verdepartamentos`)
       .then(response => response.json())
       .then(data => setDepartamentos(data))
-      .catch(error => console.error("Error al obtener departamentos:", error));
+      .catch(error => console.error("Error al obtener departamentos:", error))
+      .finally(() => setCargandoDpto(false));
   }, []);
 
   useEffect(() => {
@@ -249,7 +257,7 @@ const ReportePostulantes = () => {
       <h2>Reporte de Postulantes</h2>
       <div className="select-container">
         <label>Selecciona un curso:</label>
-        <select value={cursoSeleccionado} onChange={(e) => setCursoSeleccionado(e.target.value)}>
+        <select value={cursoSeleccionado} onChange={(e) => setCursoSeleccionado(e.target.value)} disabled={cargandoCurso}>
           <option value="">-- Selecciona --</option>
           {cursos.map(c => (
             <option key={c.idCurso} value={c.Curso}>{c.Curso}</option>
@@ -269,7 +277,7 @@ const ReportePostulantes = () => {
           <>
             <div className="select-container">
               <label>Selecciona una convocatoria:</label>
-              <select value={convocatoriaSeleccionado} onChange={(e) => setConvocatoriaSeleccionado(e.target.value)}>
+              <select value={convocatoriaSeleccionado} onChange={(e) => setConvocatoriaSeleccionado(e.target.value)} disabled={cargandoConv}>
                 <option value="">-- Selecciona --</option>
                 {convocatorias.map(c => (
                   <option key={c.idConvocatoria} value={c.tituloConvocatoria}>{c.tituloConvocatoria}</option>
@@ -295,7 +303,7 @@ const ReportePostulantes = () => {
 
             <div className="select-container">
               <label>Selecciona un departamento:</label>
-              <select value={departamentoSeleccionado} onChange={(e) => setDepartamentoSeleccionado(e.target.value)}>
+              <select value={departamentoSeleccionado} onChange={(e) => setDepartamentoSeleccionado(e.target.value)} disabled={cargandoDpto}>
                 <option value="">-- Selecciona --</option>
                 {departamentos.map(d => (
                   <option key={d.idDepartamento} value={d.nombreDepartamento}>{d.nombreDepartamento}</option>
@@ -324,7 +332,7 @@ const ReportePostulantes = () => {
         )}
 
         {cargando ? (
-          <p>Cargando datos...</p>
+          <FullScreenSpinner/>
         ) : error ? (
           <p style={{ color: 'red' }}>{error}</p>
         ) : (
@@ -359,7 +367,7 @@ const ReportePostulantes = () => {
                     ))
                   ) : (
                     <tr>
-                      <td colSpan="5">No hay datos para mostrar.</td>
+                      <td colSpan="6">No hay datos para mostrar...</td>
                     </tr>
                   )}
                 </tbody>

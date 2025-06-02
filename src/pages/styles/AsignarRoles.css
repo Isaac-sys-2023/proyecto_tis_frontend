@@ -102,11 +102,29 @@
   background-color: #007b9e; /* Hover effect para el botón registrar */
 }
 
+.btn-registrar:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.btn-guardar:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
 .btn-cancelar:hover {
   background-color: #8e9ca9; /* Hover effect para el botón cancelar */
 }
+.mobile-view {
+  display: none;
+}
 
   @media (max-width: 600px) {
+    .desktop-view {
+    display: none;
+  }
   .roles-container {
     width: 95%;
     margin: 20px auto;
@@ -120,26 +138,13 @@
     margin: 10px 0;
   }
 
-  .search-input {
-    width: 100%;
-    box-sizing: border-box;
-  }
+  
 
   .add-button {
     width: 100%;
     height: 40px;
     font-size: 18px;
     margin-left: 0;
-  }
-
-  .roles-table {
-    width: 100%;
-    font-size: 14px;
-  }
-
-  .roles-table th,
-  .roles-table td {
-    padding: 6px;
   }
 
   .roles-buttons {
@@ -153,5 +158,27 @@
     width: 100%;
     padding: 12px;
     font-size: 16px;
+  }
+  .mobile-view {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 20px;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .form-group label {
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+
+  .form-group select {
+    padding: 8px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
   }
 }

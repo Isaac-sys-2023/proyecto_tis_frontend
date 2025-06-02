@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { jsPDF } from "jspdf"; // Importa jsPDF
 import "./styles/OrdenPago.css";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
+import FullScreenSpinner from "./FullScreenSpinner";
+import SpinnerInsideButton from "./SpinnerInsideButton";
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
@@ -21,6 +23,9 @@ const OrdenPago = () => {
   console.log(estudiantes);
 
   const [expandedIds, setExpandedIds] = useState([]);
+
+  const [cargando, setCargando] = useState(true);
+  const [subiendo, setSubiendo] = useState(false);
 
   const toggleExpand = (id) => {
     setExpandedIds((prevExpandedIds) =>
@@ -43,6 +48,8 @@ const OrdenPago = () => {
         setConvocatoria(datos);
       } catch (error) {
         console.error("Error:", error.message);
+      } finally {
+        setCargando(false);
       }
     };
 
@@ -60,10 +67,10 @@ const OrdenPago = () => {
     .toFixed(2)
     .replace(".", ",");
 
-  const handleAceptar = () => {
+  const handleAceptar = async() => {
+    await handleSubmit();
     setMostrarDescargar(true);
     setMostrarBotones(false);
-    handleSubmit();
   };
 
   const handleDescargarPDF = () => {
@@ -80,11 +87,11 @@ const OrdenPago = () => {
     if (tutor) {
       doc.text(
         "Tutor: " +
-          tutor.nombreTutor +
-          " " +
-          tutor.apellidoTutor +
-          "  ID Tutor: " +
-          tutor.idTutor,
+        tutor.nombreTutor +
+        " " +
+        tutor.apellidoTutor +
+        "  ID Tutor: " +
+        tutor.idTutor,
         20,
         55
       );
@@ -127,8 +134,13 @@ const OrdenPago = () => {
   };
 
   const handleSubmit = async () => {
+    setSubiendo(true);
+
+    await new Promise(resolve => setTimeout(resolve, 3000));
+
     if (!estudiantes || estudiantes.length === 0) {
       alert("No hay estudiantes para registrar.");
+      setSubiendo(false);
       return;
     }
 
@@ -227,6 +239,8 @@ const OrdenPago = () => {
       alert(
         "Algunos estudiantes no se pudieron registrar. Revisa la consola para más detalles."
       );
+      setSubiendo(false);
+      return;
     } else {
       alert("Todos los estudiantes fueron registrados correctamente.");
     }
@@ -258,11 +272,13 @@ const OrdenPago = () => {
         hayErrores = true;
       }
 
-      setMostrarBotones(false);
-      setMostrarDescargar(true);
+      // setMostrarBotones(false);
+      // setMostrarDescargar(true);
     } catch (error) {
       console.error(`Error al registrar la orden de pago:`, error);
       hayErrores = true;
+    } finally {
+      setSubiendo(false);
     }
   };
 
@@ -289,101 +305,108 @@ const OrdenPago = () => {
       <div className="seccion-container">
         <h1>Órden de Pago </h1>
 
-        <div className="seccion">
-          <table>
-            <thead>
-              <tr>
-                <th>Estudiante</th>
-                <th className="monto">Monto</th>
-                <th>Áreas</th>
-              </tr>
-            </thead>
-            <tbody>
-              {estudiantes.map((est, index) => (
-                <tr key={index}>
-                  <td>
-                    <input value={est.nombrePost} readOnly />
-                  </td>
-                  <td className="monto">
-                    <input
-                      value={est.categorias
-                        .reduce((acc, cat) => acc + parseFloat(cat.monto), 0)
-                        .toFixed(2)}
-                      readOnly
-                    />
-                  </td>
-                  <td>
-                    <input
-                      value={est.areas
-                        .map((area) => area.tituloArea)
-                        .join(" - ")}
-                      readOnly
-                    />
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+        {cargando ? (
+          <FullScreenSpinner />
+        ) : (
+          <>
+            <div className="seccion">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Estudiante</th>
+                    <th className="monto">Monto</th>
+                    <th>Áreas</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {estudiantes.map((est, index) => (
+                    <tr key={index}>
+                      <td>
+                        <input value={est.nombrePost} readOnly />
+                      </td>
+                      <td className="monto">
+                        <input
+                          value={est.categorias
+                            .reduce((acc, cat) => acc + parseFloat(cat.monto), 0)
+                            .toFixed(2)}
+                          readOnly
+                        />
+                      </td>
+                      <td>
+                        <input
+                          value={est.areas
+                            .map((area) => area.tituloArea)
+                            .join(" - ")}
+                          readOnly
+                        />
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
 
-          <div className="total">
-            <label>Monto Total:</label>
-            <input type="text" value={montoTotal} readOnly />
-          </div>
-        </div>
-
-        {/* Vista móvil */}
-        <div className="mobile-cards mobile-view">
-          {estudiantes.map((estudiante, index) => {
-            const isExpanded = expandedIds.includes(estudiante.id || index);
-            return (
-              <div className="user-card" key={estudiante.id || index}>
-                <div
-                  className="user-header"
-                  onClick={() => toggleExpand(estudiante.id || index)}
-                >
-                  <span className="user-name">
-                    {estudiante.nombrePost} {estudiante.apellidoPost}
-                  </span>
-                  <span className="toggle-icon">{isExpanded ? "▲" : "▼"}</span>
-                </div>
-                {isExpanded && (
-                  <div className="user-details">
-                    <p>
-                      <strong>Áreas:</strong>{" "}
-                      {estudiante.areas.map((area, idx) => (
-                        <span key={area.idArea}>
-                          {area.tituloArea} -{" "}
-                          {estudiante.categorias[idx]?.nombreCategoria}
-                          <br />
-                        </span>
-                      ))}
-                    </p>
-                    <p>
-                      <strong>Monto:</strong>{" "}
-                      {estudiante.categorias
-                        .reduce((acc, cat) => acc + parseFloat(cat.monto), 0)
-                        .toFixed(2)}
-                    </p>
-                  </div>
-                )}
+              <div className="total">
+                <label>Monto Total:</label>
+                <input type="text" value={montoTotal} readOnly />
               </div>
-            );
-          })}
-        </div>
+            </div>
+
+            {/* Vista móvil */}
+            <div className="mobile-cards mobile-view">
+              {estudiantes.map((estudiante, index) => {
+                const isExpanded = expandedIds.includes(estudiante.id || index);
+                return (
+                  <div className="user-card" key={estudiante.id || index}>
+                    <div
+                      className="user-header"
+                      onClick={() => toggleExpand(estudiante.id || index)}
+                    >
+                      <span className="user-name">
+                        {estudiante.nombrePost} {estudiante.apellidoPost}
+                      </span>
+                      <span className="toggle-icon">{isExpanded ? "▲" : "▼"}</span>
+                    </div>
+                    {isExpanded && (
+                      <div className="user-details">
+                        <p>
+                          <strong>Áreas:</strong>{" "}
+                          {estudiante.areas.map((area, idx) => (
+                            <span key={area.idArea}>
+                              {area.tituloArea} -{" "}
+                              {estudiante.categorias[idx]?.nombreCategoria}
+                              <br />
+                            </span>
+                          ))}
+                        </p>
+                        <p>
+                          <strong>Monto:</strong>{" "}
+                          {estudiante.categorias
+                            .reduce((acc, cat) => acc + parseFloat(cat.monto), 0)
+                            .toFixed(2)}
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          </>
+        )}
+
 
         <div className="botones">
           {mostrarBotones && (
             <>
-              <button className="btn-descargar" onClick={handleAceptar}>
-                Aceptar
+              <button className="btn-descargar" onClick={handleAceptar} disabled={cargando || subiendo}>
+                Aceptar {subiendo ? <span><SpinnerInsideButton/></span> : ""}
               </button>
-              <button className="btn-cancelar" onClick={handleCancelar}>
+              <button className="btn-cancelar" onClick={handleCancelar} disabled={cargando || subiendo}>
                 Cancelar
               </button>
             </>
           )}
 
-          {mostrarDescargar && (
+          {mostrarDescargar && !subiendo && (
             <>
               <button className="btn-descargar" onClick={handleDescargarPDF}>
                 Descargar PDF

@@ -125,7 +125,7 @@ const Registro = ({ idConvocatoria, setRegistro, estudiante, areasSeleccionadas,
         const year = parseInt(match[3], 10);
         
         const selectedDate = new Date(year, month, day);
-        const minDate = new Date("1991-01-01");
+        const minDate = new Date("2007-01-01");
         const maxDate = new Date("2019-12-31");
   
         // Comprobamos si la fecha está dentro del rango
@@ -318,8 +318,8 @@ const Registro = ({ idConvocatoria, setRegistro, estudiante, areasSeleccionadas,
               }
               dateFormat="dd/MM/yyyy"
               placeholderText="DD/MM/AAAA"
-              minDate={new Date("1991-01-01")}
-              maxDate={new Date("2007-12-31")}
+              minDate={new Date("2007-01-01")}
+              maxDate={new Date("2019-12-31")}
               showMonthDropdown
               showYearDropdown
               dropdownMode="select"
@@ -408,19 +408,20 @@ const Registro = ({ idConvocatoria, setRegistro, estudiante, areasSeleccionadas,
           <div className="competencias">
             {areas.map((area) => (
               <div key={area.id}>
-                <label>
-                  <input
-                    type="checkbox"
+                <label  className="checkbox-derecho area-checkbox">
+                 <span>{area.nombre}</span>
+                  <input type="checkbox"
                     checked={areasSeleccionadas.some((a) => a.id === area.id)}
                     onChange={() => handleCheckboxChange(area)}
                     disabled={areasSeleccionadas.length === 2 && !areasSeleccionadas.some((a) => a.id === area.id)}
                   />
-                  {area.nombre}
+                  
                 </label>
                 {areasSeleccionadas.some((a) => a.id === area.id) && (
                   <div>
                     {area.categorias.map((categoria) => (
-                      <label key={categoria.id}>
+                      <label className="checkbox-derecho categoria-checkbox" key={categoria.id}>
+                        <span>{categoria.nombre}</span>
                         <input
                           type="checkbox"
                           checked={categoriasSeleccionadas.some((a) => a.id === categoria.id)}
@@ -433,7 +434,7 @@ const Registro = ({ idConvocatoria, setRegistro, estudiante, areasSeleccionadas,
                               !categoriasSeleccionadas.some((a) => a.id === categoria.id))
                           }
                         />
-                        {categoria.nombre}
+                        
                       </label>
                     ))}
                   </div>

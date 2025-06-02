@@ -62,7 +62,7 @@ label {
   margin-bottom: 15px;
 }
 
-.button-group {
+.botones-cat {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -71,8 +71,8 @@ label {
   flex-wrap: wrap;
 }
 
-.siguiente,
-.cancelar {
+.siguiente-crearconv,
+.cancelar-crearconv {
   min-height: 44px; /* estándar de accesibilidad */
   min-width: 120px;
   padding: 10px 20px;
@@ -84,22 +84,34 @@ label {
   text-align: center;
 }
 
-.siguiente {
+.siguiente-crearconv {
   background-color: #0093B3;
   color: #ffffff;
 }
 
-.siguiente:hover {
+.siguiente-crearconv:hover {
   background-color: #007a96;
 }
 
-.cancelar {
-  background-color: #B0C4D8;
+.siguiente-crearconv:disabled {
+  opacity: 0.5;
+  cursor: default;
+  pointer-events: none;
+}
+
+.cancelar-crearconv {
+  background-color: #6B7280;
   color: #ffffff;
 }
 
-.cancelar:hover {
-  background-color: #9eb1c5;
+.cancelar-crearconv:hover {
+  background-color: #4B5563;
+}
+
+.cancelar-crearconv:disabled {
+  opacity: 0.5;
+  cursor: default;
+  pointer-events: none;
 }
 
 /* 📱 Media Query para pantallas pequeñas */
@@ -114,8 +126,8 @@ label {
     font-size: 0.95rem;
   }
 
-  .siguiente,
-  .cancelar {
+  .siguiente-crearconv,
+  .cancelar-crearconv {
     width: 30%;
     font-size: 1rem;
     padding: 10px;
@@ -125,8 +137,7 @@ label {
     flex-direction: column;
   }
 
-  .button-group {
-    flex-direction: column;
+  .button-crearconv {
     align-items: stretch;
   }
 }

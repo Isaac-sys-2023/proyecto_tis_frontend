@@ -63,6 +63,7 @@
   font-weight: bold;
   display: inline-block;
   min-width: 70px;
+  text-align: center;
 }
 
 .rojo {
@@ -76,8 +77,8 @@
 }
 
 /* Botones editar y eliminar (desktop) */
-.edit-btn,
-.delete-btn {
+.edit-btndetconv,
+.delete-btndetconv {
   border: none;
   border-radius: 4px;
   padding: 6px 12px;
@@ -88,46 +89,70 @@
   color: white;
 }
 
-.edit-btn {
+.edit-btndetconv {
   background-color: #5a7bbf; /* azul claro */
 }
 
-.edit-btn:hover {
+.edit-btndetconv:hover {
   background-color: #4665a3;
 }
 
-.delete-btn {
+.delete-btndetconv {
   background-color: #dc3545; /* rojo */
 }
 
-.delete-btn:hover {
+.delete-btndetconv:hover {
   background-color: #b32e39;
 }
 
-/* Botones agregar y salir */
-.btn.agregar {
-  background-color: #0099b3;
-  color: white;
-  font-weight: 600;
+/* Botones en la tabla alineados horizontalmente */
+.btn-groupdetconv {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px; /* Espacio entre botones */
+}
+
+.botones-detconv {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
+
+.btn-agregar-detconv,
+.btn-salir-detconv {
+  min-height: 44px; /* estándar de accesibilidad */
+  min-width: 120px;
   padding: 10px 20px;
-  margin-top: 15px;
   border: none;
-  border-radius: 6px;
+  border-radius: 8px;
+  font-size: 1rem;
   cursor: pointer;
-  width: 150px;
+  transition: background-color 0.3s;
   text-align: center;
 }
 
-.btn.agregar:hover {
-  background-color: #007a8a;
+.btn-agregar-detconv {
+  background-color: #0093B3;
+  color: #ffffff;
 }
 
-.text-button {
-  color: white;
-  text-decoration: none;
-  font-weight: 600;
-  display: block;
+.btn-agregar-detconv:hover {
+  background-color: #007a96;
 }
+
+.btn-salir-detconv {
+  background-color: #6B7280;
+  color: #ffffff;
+}
+
+.btn-salir-detconv:hover {
+  background-color: #4B5563;
+}
+
 
 /* --- Tarjetas móviles --- */
 .mobile-cards {
@@ -165,37 +190,44 @@
   font-size: 14px;
 }
 
-.card-actions {
-  margin-top: 10px;
+.card-actionsdetconv {
   display: flex;
-  justify-content: flex-start;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-top: 12px;
+  flex-wrap: nowrap;
 }
 
-.card-actions button {
-  border: none;
-  border-radius: 5px;
-  color: white;
-  cursor: pointer;
+.card-actionsdetconv button {
+  flex: 1;
+  max-width: 48%;
+  padding: 10px;
+  font-size: 14px;
   font-weight: 600;
-  padding: 8px 14px;
-  margin-right: 10px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  color: white;
   transition: background-color 0.3s ease;
+  text-align: center;
+  white-space: nowrap;
 }
 
 /* Botones editar y eliminar móviles */
-.card-actions .edit-btn {
+.card-actionsdetconv .edit-btndetconv {
   background-color: #5a7bbf;
 }
 
-.card-actions .edit-btn:hover {
+.card-actionsdetconv .edit-btndetconv:hover {
   background-color: #4665a3;
 }
 
-.card-actions .delete-btn {
+.card-actionsdetconv .delete-btndetconv {
   background-color: #dc3545;
 }
 
-.card-actions .delete-btn:hover {
+.card-actionsdetconv .delete-btndetconv:hover {
   background-color: #b32e39;
 }
 
@@ -219,20 +251,18 @@
     font-size: 14px;
   }
 
-  .card-actions button {
+  .card-actionsdetconv button {
     padding: 7px 12px;
     font-size: 14px;
   }
 
-  .btn.agregar {
-    width: 100%;
-    max-width: 300px;
+ .btn-agregar-detconv,
+  .btn-salir-detconv {
+    width: 30%;
+    font-size: 1rem;
+    padding: 10px;
   }
 
-  .btn.ir{
-    background-color: #6a727a;
-    color: #ffffff;
-  }
 }
 
 @media (max-width: 480px) {
@@ -246,16 +276,15 @@
     font-size: 13px;
   }
 
-  .card-actions button {
+  .card-actionsdetconv button {
     padding: 6px 10px;
     font-size: 13px;
   }
 
-  .btn.agregar {
-    width: 50%;
-  }
-
-  .btn.ir{
-    width: 50%
+   .btn-agregar-detconv,
+  .btn-agregar-detconv {
+    width: 30%;
+    font-size: 1rem;
+    padding: 10px;
   }
 }

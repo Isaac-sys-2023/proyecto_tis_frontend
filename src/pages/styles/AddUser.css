@@ -1,6 +1,7 @@
 /* Título del formulario */
 .form-title {
   background-color: #007b9e;
+  margin: 0 0 16px 0; 
   color: white;
   padding: 15px;
   text-align: center;
@@ -24,6 +25,12 @@
 .btn-agregar-addusr,
 .btn-cancelar-addusr {
   background-color: #007290;
+}
+
+.btn-agregar-addusr:disabled, .btn-cancelar-addusr:disabled{
+  opacity: 0.6;
+  cursor: not-allowed;
+  pointer-events: none;
 }
 
 /* ... (el resto de tus estilos se mantiene igual) ... */

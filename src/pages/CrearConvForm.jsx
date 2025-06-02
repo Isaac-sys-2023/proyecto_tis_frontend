@@ -6,6 +6,8 @@ import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { ConvocatoriaContext } from "../context/ConvocatoriaContext";
 
+import SpinnerInsideButton from "../components/SpinnerInsideButton";
+
 const apiUrl = import.meta.env.VITE_API_URL;
 
 export const CrearConvForm = () => {
@@ -29,6 +31,8 @@ export const CrearConvForm = () => {
   const today = new Date().toISOString().split("T")[0];
   const navigate = useNavigate();
 
+  const [cargando, setCargando] = useState(false);
+
   const { agregarConvocatoria } = useContext(ConvocatoriaContext);
 
   const handleChange = (e) => {
@@ -50,37 +54,9 @@ export const CrearConvForm = () => {
     }
   };
 
-  // const handleSiguiente = (e) => {
-  //   if (
-  //     !formData.titulo ||
-  //     !formData.descripcion ||
-  //     !formData.fechaInicioInscripcion ||
-  //     !formData.fechaCierreInscripcion ||
-  //     !formData.fechaInicioOlimpiada ||
-  //     !formData.fechaFinOlimpiada ||
-  //     !formData.imagenPortada
-  //   ) {
-  //     setError("Por favor, complete todos los campos obligatorios.");
-  //     return;
-  //   }
-  //   setError("");
-  //   //handleSubmit(e);
-  //   agregarConvocatoria({
-  //     titulo: formData.titulo,
-  //     fechaPublicacion: new Date().toISOString().split("T")[0],
-  //     fechaInicioInsc: formData.fechaInicioInscripcion,
-  //     fechaFinInsc: formData.fechaCierreInscripcion,
-  //     portada: formData.imagenPortada,
-  //     habilitada: 1,
-  //     fechaInicioOlimp: formData.fechaInicioOlimpiada,
-  //     fechaFinOlimp: formData.fechaFinOlimpiada,
-  //     maximoPostPorArea: formData.maxConcursantes,
-  //   });
-  //   navigate("/area"); // Asegúrate de que esta ruta coincida con tu configuración
-  // };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setCargando(true);
 
     if (
       !formData.titulo ||
@@ -92,6 +68,7 @@ export const CrearConvForm = () => {
       !formData.imagenPortada
     ) {
       setError("Por favor, complete todos los campos obligatorios.");
+      setCargando(false);
       return;
     }
     setError("");
@@ -108,30 +85,6 @@ export const CrearConvForm = () => {
     newformData.append('fechaFinOlimp', formData.fechaFinOlimpiada);
     newformData.append('maximoPostPorArea', formData.maxConcursantes);
 
-    // try {
-    //   const response = await fetch('http://localhost:8000/api/solo-convocatoria', {
-    //     method: 'POST',
-    //     body: newformData,
-    //   });
-
-    //   if (!response.ok) {
-    //     const errorData = await response.json();
-    //     console.error('Errores de validación:', errorData.errors);
-    //     return;
-    //   }
-
-    //   const data = await response.json();
-    //   console.log('ID de la convocatoria creada:', data.idConvocatoria);
-    //   const idConvocatoria = data.idConvocatoria;
-
-    //   // aquí podrías redirigir o guardar el ID
-    //   navigate(`/area`, {
-    //     state: { idConvocatoria },
-    //   });
-    // } catch (error) {
-    //   console.error('Error al guardar la convocatoria:', error);
-    // }
-
     try {
       const response = await fetch(`${apiUrl}/solo-convocatoria`, {
         method: 'POST',
@@ -141,6 +94,7 @@ export const CrearConvForm = () => {
       const text = await response.text();
       if (!response.ok) {
         console.error('Error del servidor:', text); // en vez de tratar de hacer response.json() directamente
+        setCargando(false);
         return;
       }
 
@@ -152,6 +106,7 @@ export const CrearConvForm = () => {
       });
     } catch (error) {
       console.error('Error al guardar la convocatoria:', error);
+      setCargando(false);
     }
 
   };
@@ -240,11 +195,11 @@ export const CrearConvForm = () => {
 
 
       </form>
-      <div className="button-group">
-        <button type="submit" className="siguiente" onClick={handleSubmit}>
-          Siguiente
+      <div className="button-crearconv">
+        <button type="submit" className="siguiente-crearconv" onClick={handleSubmit} disabled={cargando}>
+          Siguiente {cargando && (<span><SpinnerInsideButton/></span>)}
         </button>
-        <button type="button" className="cancelar" onClick={handleCancelar}>
+        <button type="button" className="cancelar-crearconv" onClick={handleCancelar} disabled={cargando}>
           Cancelar
         </button>
       </div>

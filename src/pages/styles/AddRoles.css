@@ -26,11 +26,14 @@ body {
 
 /* ✅ Título centrado */
 .form-title {
+background-color: #007b9e;
+  color: white;
+  padding: 15px;
   text-align: center;
-  font-size: 24px;
+  font-size: 20px;
   font-weight: bold;
-  color: #ffff;
-  margin-bottom: 20px;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
 }
 
 /* ✅ Campos del formulario */
@@ -71,6 +74,12 @@ form button {
 
 form button:hover {
   background-color: #025e70;
+}
+
+form button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  pointer-events: none;
 }
 
 .add-rol-buttons {

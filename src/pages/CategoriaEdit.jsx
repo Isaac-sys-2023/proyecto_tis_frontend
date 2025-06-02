@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import "./styles/Categoria.css";
 import { useLocation, useNavigate } from "react-router-dom";
 
+import FullScreenSpinner from "../components/FullScreenSpinner";
+import SpinnerInsideButton from "../components/SpinnerInsideButton";
+
 const iconStyle = { cursor: "pointer", marginLeft: "10px" };
 const apiUrl = import.meta.env.VITE_API_URL;
 
@@ -26,6 +29,7 @@ export default function ac() {
   const [formCategory, setFormCategory] = useState({ name: "", options: [], monto: 0, areaId: null });
   const [expandedCategories, setExpandedCategories] = useState([]); // agregar esto
 
+  const [cargando, setCargando] = useState(true);
 
   useEffect(() => {
     const fetchDatos = async () => {
@@ -69,6 +73,7 @@ export default function ac() {
 
         const areasSeleccionadas = dataTransformada.map(area => area.id);
         setSelectedAreas(areasSeleccionadas);
+        setCargando(false);
       } catch (err) {
         console.error("Error cargando datos:", err);
       }
@@ -141,7 +146,7 @@ export default function ac() {
     setAreas(updated);
   };
 
-   const handleSaveCategory = () => {
+  const handleSaveCategory = () => {
     if (!formCategory.name.trim() || selectedCategories.length === 0 || !formCategory.monto) {
       alert("Debe llenar todos los campos y seleccionar al menos una opción");
       return;
@@ -214,12 +219,15 @@ export default function ac() {
       if (res.ok) {
         alert("Estructura actualizada con éxito ✅");
         navigate(`/editar-convocatoria/${idConvocatoria}/tablaNotif`);
+        setCargando(false);
       } else {
         alert(`Error: ${data.error || data.message}`);
+        setCargando(false);
       }
     } catch (error) {
       alert("Error de red al guardar la estructura");
       console.error(error);
+      setCargando(false);
     }
   };
   const handleCancelar = () => {
@@ -231,7 +239,7 @@ export default function ac() {
       <div className="title-area">
         <h2>Áreas de competencia</h2>
       </div>
-      <select onChange={handleSelectArea}>
+      <select onChange={handleSelectArea} disabled={cargando}>
         <option value="">Seleccione un área</option>
         {areas.map((a) => (
           <option key={a.id} value={a.id}>
@@ -240,9 +248,13 @@ export default function ac() {
         ))}
       </select>
 
-      <button onClick={handleAddArea}>+ Área</button>
+      {(cargando && areas.length == 0 && categoryOptions.length == 0) && (
+        <FullScreenSpinner />
+      )}
 
-      <div className="area-cards-container">
+      <button type="button" className="area-cat" onClick={handleAddArea} disabled={cargando}>+ Área</button>
+
+      <div className={cargando ? "area-cards-container divDeshabilitado" : "area-cards-container"}>
         {selectedAreas.map((areaId) => {
           const area = areas.find((a) => a.id === areaId);
           if (!area) return null;
@@ -250,7 +262,7 @@ export default function ac() {
           return (
             <div key={area.id} className="area-card-area">
               <div className="area-name-header">
-                 <div className="area-name" onClick={() => toggleExpandArea(area.id)} style={{ cursor: "pointer" }}>
+                <div className="area-name" onClick={() => toggleExpandArea(area.id)} style={{ cursor: "pointer" }}>
                   {isExpanded ? "▼" : "▶"} Área: {area.name}
                 </div>
                 <div className="area-icons">
@@ -261,25 +273,25 @@ export default function ac() {
               {isExpanded && (
                 <>
                   <p>{area.description}</p>
-                  <button onClick={() => handleAddCategory(area.id)}>+ Categorías</button>
+                  <button type="button" className="cat-cat" onClick={() => handleAddCategory(area.id)}>+ Categorías</button>
                   {area.categories.map((cat) => {
                     const isCatExpanded = expandedCategories.includes(cat.id);
                     return (
-                    <div key={cat.id} style={{ marginLeft: "10px", marginTop: "5px" }}>
-                      <div className="category-name-header">
-                        <div className="category-name" onClick={() => toggleExpandCategory(cat.id)} style={{ cursor: "pointer" }}>
+                      <div key={cat.id} style={{ marginLeft: "10px", marginTop: "5px" }}>
+                        <div className="category-name-header">
+                          <div className="category-name" onClick={() => toggleExpandCategory(cat.id)} style={{ cursor: "pointer" }}>
                             {isCatExpanded ? "▼" : "▶"} {cat.name} Bs. {cat.monto}
+                          </div>
+                          <div className="category-icons">
+                            <span onClick={() => handleEditCategory(cat, area.id)} style={iconStyle}>✏️</span>
+                            <span onClick={() => handleDeleteCategory(cat.id, area.id)} style={iconStyle}>🗑️</span>
+                          </div>
                         </div>
-                       <div className="category-icons">
-                      <span onClick={() => handleEditCategory(cat, area.id)} style={iconStyle}>✏️</span>
-                      <span onClick={() => handleDeleteCategory(cat.id, area.id)} style={iconStyle}>🗑️</span>
+                        {isCatExpanded && <p>{cat.options.join(", ")}</p>}
                       </div>
-                      </div>
-                      {isCatExpanded && <p>{cat.options.join(", ")}</p>}
-                    </div>
-                    ); 
-                })}
-                 </>
+                    );
+                  })}
+                </>
               )}
             </div>
           );
@@ -324,11 +336,11 @@ export default function ac() {
           </div>
         </div>
       )}
-      <div className="button-group">
-        <button onClick={handlePublicar} className="publicar-btn">Siguiente</button>
-        <button type="button" className="cancelar" onClick={handleCancelar}>
+      <div className="botones-cat">
+        <button onClick={handlePublicar} className="siguiente-cat"disabled={cargando || selectedAreas.length == 0 || areas.every(area => area.categories.length === 0)}>Siguiente {cargando && (<span><SpinnerInsideButton/></span>)}</button>
+        {/* <button type="button" className="cancelar-cat" onClick={handleCancelar}>
           Cancelar
-        </button>
+        </button> */}
       </div>
     </div>
   );
